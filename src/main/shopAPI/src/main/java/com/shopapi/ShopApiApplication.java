@@ -1,19 +1,20 @@
 package com.shopapi;
 
-import com.shopapi.model.Client;
-import com.shopapi.repository.ClientRepository;
 import com.shopapi.repository.ClientRepositoryImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class ShopApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShopApiApplication.class, args);
-        Client client = new Client();
-        ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
+        ApplicationContext context = SpringApplication.run(ShopApiApplication.class, args);
+        ClientRepositoryImpl clientRepository = context.getBean(ClientRepositoryImpl.class);
         clientRepository.getAllClients();
     }
-
 }
