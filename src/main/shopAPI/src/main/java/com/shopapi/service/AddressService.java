@@ -1,12 +1,7 @@
 package com.shopapi.service;
 
-import com.shopapi.dto.AddressDTO;
-import com.shopapi.dto.ClientDTO;
-import com.shopapi.model.Address;
-import com.shopapi.model.Client;
-
-import java.util.List;
+import com.shopapi.model.*;
 
 public interface AddressService {
-//    public Address getAddressesByClientId(Client client);
+    public Address getAddressesByClientId(Client client);
 }

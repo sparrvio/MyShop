@@ -1,11 +1,12 @@
 package com.shopapi.repository;
 
-import com.shopapi.model.Client;
+import com.shopapi.model.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.List;
 

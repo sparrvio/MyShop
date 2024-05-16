@@ -2,12 +2,13 @@ package com.shopapi.service;
 
 
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.model.Client;
+import com.shopapi.model.*;
+import com.shopapi.repository.AddressRepository;
 import com.shopapi.repository.ClientRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
