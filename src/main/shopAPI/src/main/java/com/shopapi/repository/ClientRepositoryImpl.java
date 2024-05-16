@@ -19,7 +19,6 @@ public class ClientRepositoryImpl implements ClientRepository {
         Session session = entityManager.unwrap(Session.class);
         Query<Client> query = session.createQuery("from Client", Client.class);
         List<Client> clients = query.getResultList();
-        clients.forEach(client -> System.out.println(client.toString()));
         return clients;
     }
 }

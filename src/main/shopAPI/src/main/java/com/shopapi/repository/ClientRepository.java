@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ClientRepository <Client, String> {
-    public List<com.shopapi.model.Client> getAllClients();
+public interface ClientRepository {
+    public List<Client> getAllClients();
 }
