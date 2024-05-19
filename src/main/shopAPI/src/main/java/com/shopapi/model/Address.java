@@ -1,10 +1,14 @@
 package com.shopapi.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
+
 @Table(name = "address")
 public class Address {
     @Id
@@ -17,16 +21,7 @@ public class Address {
     @Column(name = "city", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
     private String city = "MOSCOW";
 
-    @Column(name = "street", length = 255, columnDefinition = "VARCHAR(255)")
-    private String street;
-
-    public Address(String country, String city, String street) {
-        this.country = country;
-        this.city = city;
-        this.street = street;
-    }
-
-    public Address() {
-    }
+    @Column(name = "street", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
+    private String street = "Tverskaya Street";
 }
 

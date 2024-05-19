@@ -4,15 +4,27 @@ import com.shopapi.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
-@AllArgsConstructor
-public class AddressDTO {
-    private Long id;
-    private String country;
-    private String city;
-    private String street;
+import java.io.Serializable;
 
-    public static AddressDTO of(Address address) {
-        return new AddressDTO(address.getId(), address.getCountry(), address.getCity(), address.getStreet());
+import static org.springframework.data.projection.EntityProjection.ProjectionType.DTO;
+
+
+public record AddressDTO(
+        String country,
+        String city,
+        String street)
+        implements Serializable {
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getStreet() {
+        return street;
     }
 }
+

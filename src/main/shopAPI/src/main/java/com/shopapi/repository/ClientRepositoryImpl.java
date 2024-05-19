@@ -10,16 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public class ClientRepositoryImpl implements ClientRepository {
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public List<Client> getAllClients() {
-        Session session = entityManager.unwrap(Session.class);
-        Query<Client> query = session.createQuery("from Client", Client.class);
-        List<Client> clients = query.getResultList();
-        return clients;
-    }
-}
+//@Repository
+//public class ClientRepositoryImpl implements ClientRepository {
+//    @PersistenceContext
+//    private EntityManager entityManager;
+//
+//    @Override
+//    public List<Client> getAllClients() {
+//        Session session = entityManager.unwrap(Session.class);
+//        Query<Client> query = session.createQuery("from Client", Client.class);
+//        List<Client> clients = query.getResultList();
+//        return clients;
+//    }
+//}

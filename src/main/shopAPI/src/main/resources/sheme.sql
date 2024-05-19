@@ -2,18 +2,18 @@ CREATE TABLE IF NOT EXISTS address (
     id SERIAL PRIMARY KEY NOT NULL,
     country VARCHAR(255) NOT NULL DEFAULT 'RUSSIA',
     city VARCHAR(255)  NOT NULL DEFAULT 'MOSCOW',
-    street VARCHAR(255)
+    street VARCHAR(255) NOT NULL DEFAULT 'Tverskaya Street'
 );
 
 CREATE TABLE IF NOT EXISTS client (
     id SERIAL PRIMARY KEY,
     client_name VARCHAR(255) NOT NULL,
-    client_surname VARCHAR(255) NOT NULL,
-    birthday DATE NOT NULL DEFAULT '1900-01-01',
+    client_surname VARCHAR(255),
+    birthday DATE,
     gender CHAR(1) CHECK (gender IN ('M', 'F')),
-    registration_date DATE DEFAULT CURRENT_DATE,
+    registration_date DATE, NOT NULL, DEFAULT CURRENT_DATE,
     address_id BIGINT,
-    FOREIGN KEY (address_id) REFERENCES address(id)
+    FOREIGN KEY (address_id), NOT NULL, REFERENCES address(id)
 );
 
 CREATE TABLE IF NOT EXISTS images (
