@@ -1,30 +1,23 @@
 package com.shopapi.dto;
 
-import com.shopapi.model.Client;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
-
-public record ClientDTO(
-        String clientName,
-        Date registrationDate,
-        AddressDTO addressDto)
-        implements Serializable {
-
-    public String getClientName() {
-        return clientName;
-    }
-
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-
-    public AddressDTO addressDto() {
-        return addressDto;
-    }
+@Data
+@Builder
+//@AllArgsConstructor
+//@RequiredArgsConstructor
+public class ClientDTO {
+//    private Long id;
+    private String clientName;
+    private String clientSurname;
+    private Date birthday;
+    private char gender;
+    private Date registrationDate;
+    private String address;
 }
+

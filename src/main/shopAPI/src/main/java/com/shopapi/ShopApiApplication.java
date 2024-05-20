@@ -2,6 +2,7 @@ package com.shopapi;
 
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
+import com.shopapi.mapper.ClientMapperImpl;
 import com.shopapi.model.Address;
 import com.shopapi.model.Client;
 import com.shopapi.repository.ClientRepository;
@@ -19,17 +20,24 @@ import java.util.Date;
 public class ShopApiApplication {
     public static void main(String[] args) throws ParseException {
         ApplicationContext context = SpringApplication.run(ShopApiApplication.class, args);
-
         AddressService addressService = context.getBean(AddressService.class);
-        AddressDTO addressDTO = new AddressDTO("Street", "City", "Country");
-        Address address = addressService.createAddress(addressDTO);
-        System.out.println(address);
+        Address address = addressService.createAddress();
 
+//        Client client = new Client();
+//        ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
+//        ClientDTO clientDTO = clientMapper.toClientDTO(client);
 
-//        ClientService clientService = context.getBean(ClientService.class);
-//        ClientDTO clientDTO = new ClientDTO("Name", new Date(), addressDTO);
-//        Client client = clientService.createClient(clientDTO);
-//        System.out.println(client);
+//        System.out.println(clientDTO);
+        ClientDTO clientDTO = ClientDTO.builder()
+                .clientName("John")
+                .clientSurname("Doerrr")
+                .birthday(new Date())
+                .gender('M')
+                .registrationDate(new Date())
+                .build();
+
+        ClientService clientService = context.getBean(ClientService.class);
+        clientService.createClient(clientDTO);
     }
 }
 

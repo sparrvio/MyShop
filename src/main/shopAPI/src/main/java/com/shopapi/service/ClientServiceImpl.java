@@ -2,12 +2,15 @@ package com.shopapi.service;
 
 
 import com.shopapi.dto.ClientDTO;
+import com.shopapi.mapper.ClientMapper;
 import com.shopapi.model.*;
 import com.shopapi.repository.AddressRepository;
 import com.shopapi.repository.ClientRepository;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,26 +20,41 @@ import java.util.stream.Collectors;
 @Service
 //@RequiredArgsConstructor
 @AllArgsConstructor
-public class ClientServiceImpl implements ClientService{
-    @Autowired
+//@NoArgsConstructor
+@Transactional
+public class ClientServiceImpl implements ClientService {
+//    @Autowired
     private final ClientRepository clientRepository;
-    @Autowired
+//    @Autowired
     private final AddressRepository addressRepository;
+//    @Autowired
+    private final ClientMapper clientMapper;
+
+//    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository, ClientMapper clientMapper) {
+//        this.clientRepository = clientRepository;
+//        this.addressRepository = addressRepository;
+//        this.clientMapper = clientMapper;
+//    }
 
 
     public Client createClient(ClientDTO clientDTO) {
-        Address address = new Address();
 
-        Client client = Client.builder()
-                .clientName(clientDTO.getClientName())
-                .registrationDate(clientDTO.getRegistrationDate())
-                .address_id(address)
-                .build();
+        Client client = clientMapper.toClient(clientDTO);
+        Address address = new Address();
+        addressRepository.save(address);
+        client.setAddress_id(address);
+//        Client savedClient = clientRepository.save(client);
+//        address.setId(savedClient.getAddress_id().getId());
+//        savedClient.setAddress_id(address);
+//        client.setAddress_id(address);
         return clientRepository.save(client);
     }
 
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
+    public List<ClientDTO> getAllClients() {
+        List<Client> clients = clientRepository.findAll();
+        return clients.stream()
+                .map(clientMapper::toClientDTO)
+                .collect(Collectors.toList());
     }
 
     public Client getClientById(Long id) {

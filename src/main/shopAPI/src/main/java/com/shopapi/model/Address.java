@@ -8,20 +8,20 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-
+//@NoArgsConstructor
 @Table(name = "address")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "country", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
-    private String country = "RUSSIA";
+    @Column(name = "country", length = 255, columnDefinition = "VARCHAR(255)")
+    private String country;
 
-    @Column(name = "city", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
-    private String city = "MOSCOW";
+    @Column(name = "city", length = 255, columnDefinition = "VARCHAR(255)")
+    private String city;
 
-    @Column(name = "street", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
-    private String street = "Tverskaya Street";
+    @Column(name = "street", length = 255, columnDefinition = "VARCHAR(255)")
+    private String street;
 }
 
