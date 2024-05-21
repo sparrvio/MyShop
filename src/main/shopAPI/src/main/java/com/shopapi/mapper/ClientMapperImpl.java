@@ -27,9 +27,7 @@ public class ClientMapperImpl implements ClientMapper{
                 .birthday(formattedBirthday)
                 .gender(client.getGender())
                 .registrationDate(client.getRegistrationDate())
-                .address("Country: " + client.getAddress_id().getCountry() + '\n' +
-                        "City: " + client.getAddress_id().getCity() + '\n' +
-                        "Street: " + client.getAddress_id().getStreet())
+                .address(client.getAddress_id().toString())
                 .build();
 
         return clientDTO;

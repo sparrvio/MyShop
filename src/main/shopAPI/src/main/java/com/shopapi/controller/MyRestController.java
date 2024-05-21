@@ -16,7 +16,7 @@ public class MyRestController {
 
     @GetMapping("/client")
     public ResponseEntity<ClientDTO> getClient(){
-        ClientDTO client = clientService.getClientById(1L);
+        ClientDTO client = clientService.getClientById(5L);
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
