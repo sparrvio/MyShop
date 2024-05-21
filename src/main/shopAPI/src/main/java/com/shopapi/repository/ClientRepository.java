@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 
-public interface ClientRepository extends JpaRepository<Client,Long>{}
+public interface ClientRepository extends JpaRepository<Client,Long>{
+    List<Client> findByClientNameAndClientSurname(String clientName, String clientSurname);
+}

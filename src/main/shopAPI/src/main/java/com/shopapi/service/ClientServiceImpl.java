@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,20 @@ public class ClientServiceImpl implements ClientService {
             System.out.println(e.getMessage());
         }
         return clientDTO;
+    }
+
+    @Override
+    public List<ClientDTO> getClientByNameAndSurname(String fullName) {
+        String [] parts = fullName.split(" ");
+       if (parts.length == 2) {
+           String clientName = parts[0];
+           String clientSurname = parts[1];
+           List<Client> clients = clientRepository.findByClientNameAndClientSurname(clientName, clientSurname);
+           return clients.stream()
+                   .map(clientMapper::toClientDTO)
+                   .collect(Collectors.toList());
+       }
+       return Collections.emptyList();
     }
 
     public Client updateClient(Client client) {
