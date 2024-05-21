@@ -46,13 +46,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     public ClientDTO getClientById(Long id) {
+        ClientDTO clientDTO = null;
         try {
             Client client = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found"));
-            return clientMapper.toClientDTO(client);
+            clientDTO = clientMapper.toClientDTO(client);
         } catch (EntityNotFoundException e) {
             System.out.println(e.getMessage());
         }
-return null;
+        return clientDTO;
     }
 
     public Client updateClient(Client client) {
