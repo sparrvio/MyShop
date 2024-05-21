@@ -12,8 +12,14 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +52,13 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
+    public List<ClientDTO> getAllClients(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")); // По умолчанию сортировка по возрастанию id
+        Page<Client> clientPage = clientRepository.findAll(pageable);
+        return clientPage.getContent().stream()
+                .map(clientMapper::toClientDTO)
+                .collect(Collectors.toList());
+    }
     public ClientDTO getClientById(Long id) {
         ClientDTO clientDTO = null;
         try {

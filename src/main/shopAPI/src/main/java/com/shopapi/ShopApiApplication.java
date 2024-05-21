@@ -29,26 +29,26 @@ public class ShopApiApplication {
 //        Client client = clientService.createClient(clientDTO);
 //        ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
 
-//        List<ClientDTO> list = clientService.getAllClients();
+//        List<ClientDTO> list = clientService.getAllClients(1, 5);
 //        list.forEach(System.out::println);
 
 
 
-        Client client2 = Client.builder()
-                .id(3L)
-                .clientName("Irina")
-                .clientSurname("Ivanova")
-                .birthday(new Date())
-                .gender('F')
-                .registrationDate(new Date())
-                .build();
-
-        clientService.updateClient(client2);
-        System.out.println(clientService.getClientById(3L));
-
-        clientService.getClientByNameAndSurname("Bill Doer")
-                .stream()
-                .forEach(System.out::println);
+//        Client client2 = Client.builder()
+//                .id(3L)
+//                .clientName("Irina")
+//                .clientSurname("Ivanova")
+//                .birthday(new Date())
+//                .gender('F')
+//                .registrationDate(new Date())
+//                .build();
+//
+//        clientService.updateClient(client2);
+//        System.out.println(clientService.getClientById(3L));
+//
+//        clientService.getClientByNameAndSurname("Bill Doer")
+//                .stream()
+//                .forEach(System.out::println);
 
     }
 }
