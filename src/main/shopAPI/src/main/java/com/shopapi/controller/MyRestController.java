@@ -8,13 +8,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api")
 public class MyRestController {
     @Autowired
     private ClientServiceImpl clientService;
+
+    @GetMapping("/client")
+    public ResponseEntity<ClientDTO> getClient(){
+        ClientDTO client = clientService.getClientById(1L);
+        return new ResponseEntity<>(client, HttpStatus.OK);
+    }
 
     @PostMapping("/clients")
     public ResponseEntity<Client> createClient(@RequestBody ClientDTO clientDTO){

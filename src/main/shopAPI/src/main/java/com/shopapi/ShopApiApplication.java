@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 //@Sql(scripts = "/schema.sql")
@@ -21,7 +22,7 @@ public class ShopApiApplication {
         ClientDTO clientDTO = ClientDTO.builder()
                 .clientName("John")
                 .clientSurname("Doer")
-                .birthday(new Date())
+                .birthday("12-12-1990")
                 .gender('M')
                 .registrationDate(new Date())
                 .build();
