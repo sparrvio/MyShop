@@ -61,5 +61,33 @@ CREATE TRIGGER image_id_generator
     FOR EACH ROW
     EXECUTE FUNCTION generate_image_id();
 
+-- Создание таблиц
+CREATE TABLE IF NOT EXISTS address (
+                                       id SERIAL PRIMARY KEY,
+                                       country VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    street VARCHAR(255) NOT NULL
+    );
+
+CREATE TABLE IF NOT EXISTS client (
+                                      id SERIAL PRIMARY KEY,
+                                      client_name VARCHAR(255) NOT NULL,
+    client_surname VARCHAR(255),
+    birthday DATE,
+    gender CHAR(1) CHECK (gender IN ('M', 'F')),
+    registration_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    address_id BIGINT,
+    FOREIGN KEY (address_id) REFERENCES address(id) ON DELETE CASCADE
+    );
+
+-- Создание хранимой процедуры для удаления адреса при удалении клиента
+CREATE OR REPLACE FUNCTION delete_client_with_address(p_client_id bigint)
+RETURNS VOID AS $$
+BEGIN
+DELETE FROM address WHERE id = p_client_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
 -- SELECT rolname FROM pg_roles;
 -- CREATE USER user WITH PASSWORD 'your_password';

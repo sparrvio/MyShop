@@ -7,10 +7,11 @@ import com.shopapi.service.ClientService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Date;
 import java.util.List;
-
+//@Sql(scripts = "/schema.sql")
 @SpringBootApplication
 public class ShopApiApplication {
     public static void main(String[] args) {
@@ -27,11 +28,11 @@ public class ShopApiApplication {
         ClientService clientService = context.getBean(ClientService.class);
         Client client = clientService.createClient(clientDTO);
         ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
-        ClientDTO clientDTO2 = clientMapper.toClientDTO(client);
-        System.out.println(clientDTO2);
+
         List<ClientDTO> list = clientService.getAllClients();
         list.forEach(System.out::println);
-        clientService.deleteClientById(2L);
+
+        System.out.println(clientService.getClientById(1L));
 
 
     }

@@ -45,8 +45,9 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
-    public Client getClientById(Long id) {
-        return clientRepository.findById(id).get();
+    public ClientDTO getClientById(Long id) {
+        Client client = clientRepository.findById(id).get();
+        return clientMapper.toClientDTO(client);
     }
 
     public Client updateClient(Client client) {

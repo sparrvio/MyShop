@@ -31,8 +31,8 @@ public class Client {
     @Column(name = "registration_date", nullable = false, columnDefinition = "DATE")
     private Date registrationDate;
 
-    @OneToOne
-    @JoinColumn(name = "address_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address_id;
 }
 
