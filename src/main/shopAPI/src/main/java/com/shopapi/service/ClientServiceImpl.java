@@ -23,18 +23,10 @@ import java.util.stream.Collectors;
 //@NoArgsConstructor
 @Transactional
 public class ClientServiceImpl implements ClientService {
-//    @Autowired
     private final ClientRepository clientRepository;
-//    @Autowired
     private final AddressRepository addressRepository;
-//    @Autowired
     private final ClientMapper clientMapper;
 
-//    public ClientServiceImpl(ClientRepository clientRepository, AddressRepository addressRepository, ClientMapper clientMapper) {
-//        this.clientRepository = clientRepository;
-//        this.addressRepository = addressRepository;
-//        this.clientMapper = clientMapper;
-//    }
 
 
     public Client createClient(ClientDTO clientDTO) {
@@ -43,10 +35,6 @@ public class ClientServiceImpl implements ClientService {
         Address address = new Address();
         addressRepository.save(address);
         client.setAddress_id(address);
-//        Client savedClient = clientRepository.save(client);
-//        address.setId(savedClient.getAddress_id().getId());
-//        savedClient.setAddress_id(address);
-//        client.setAddress_id(address);
         return clientRepository.save(client);
     }
 

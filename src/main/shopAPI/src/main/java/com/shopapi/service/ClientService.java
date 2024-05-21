@@ -6,6 +6,11 @@ import com.shopapi.model.Client;
 import java.util.List;
 
 public interface ClientService {
-    public Client createClient(ClientDTO clientDTO);
-//    public List<ClientDTO> getAllClients();
+    Client createClient(ClientDTO clientDTO);
+    List<ClientDTO> getAllClients();
+    Client getClientById(Long id);
+
+    Client updateClient(Client client);
+
+    void deleteClientById(Long id);
 }

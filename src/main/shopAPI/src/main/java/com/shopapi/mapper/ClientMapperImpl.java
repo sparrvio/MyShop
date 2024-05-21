@@ -1,14 +1,12 @@
 package com.shopapi.mapper;
 
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.model.Address;
 import com.shopapi.model.Client;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
-//@Component
 public class ClientMapperImpl implements ClientMapper{
+
     @Override
     public ClientDTO toClientDTO(Client client) {
         if (client == null) {
@@ -20,10 +18,10 @@ public class ClientMapperImpl implements ClientMapper{
                 .birthday(client.getBirthday())
                 .gender(client.getGender())
                 .registrationDate(client.getRegistrationDate())
-//                .address(client.getAddress_id().getId().toString() + " " +
-//                        client.getAddress_id().getCity() + " " +
-//                        client.getAddress_id().getCountry() + " " +
-//                        client.getAddress_id().getStreet())
+                .address(client.getAddress_id().getId().toString() + " " +
+                        client.getAddress_id().getCity() + " " +
+                        client.getAddress_id().getCountry() + " " +
+                        client.getAddress_id().getStreet())
                 .build();
 
         return clientDTO;
@@ -34,7 +32,7 @@ public class ClientMapperImpl implements ClientMapper{
         if (clientDTO == null) {
             throw new IllegalArgumentException("ClientDTO cannot be null");
         }
-        Address address = new Address();
+
         Client client = Client.builder()
                 .clientName(clientDTO.getClientName())
                 .clientSurname(clientDTO.getClientSurname())
@@ -42,7 +40,6 @@ public class ClientMapperImpl implements ClientMapper{
                 .gender(clientDTO.getGender())
                 .registrationDate(clientDTO.getRegistrationDate())
                 .build();
-        client.setAddress_id(address);
-        return client;
+        return client; // Клиеет возвращается без поля address_id
     }
 }
