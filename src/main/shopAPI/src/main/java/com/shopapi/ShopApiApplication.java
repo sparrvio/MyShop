@@ -18,20 +18,32 @@ public class ShopApiApplication {
         ApplicationContext context = SpringApplication.run(ShopApiApplication.class, args);
 
         ClientDTO clientDTO = ClientDTO.builder()
-                .clientName("Johnnnn")
-                .clientSurname("Doerrr")
+                .clientName("John")
+                .clientSurname("Doer")
                 .birthday(new Date())
                 .gender('M')
                 .registrationDate(new Date())
                 .build();
 
         ClientService clientService = context.getBean(ClientService.class);
-        Client client = clientService.createClient(clientDTO);
-        ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
+//        Client client = clientService.createClient(clientDTO);
+//        ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
 
         List<ClientDTO> list = clientService.getAllClients();
         list.forEach(System.out::println);
 
+        System.out.println(clientService.getClientById(2L));
+
+        Client client2 = Client.builder()
+                .id(22L)
+                .clientName("Bill")
+                .clientSurname("Doer")
+                .birthday(new Date())
+                .gender('M')
+                .registrationDate(new Date())
+                .build();
+
+        clientService.updateClient(client2);
         System.out.println(clientService.getClientById(1L));
 
 

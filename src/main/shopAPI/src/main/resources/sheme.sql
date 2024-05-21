@@ -88,6 +88,21 @@ DELETE FROM address WHERE id = p_client_id;
 END;
 $$ LANGUAGE plpgsql;
 
+-- Триггер для создания адреса при создании клиента
+CREATE OR REPLACE FUNCTION after_insert_client()
+RETURNS TRIGGER AS $$
+BEGIN
+INSERT INTO address (country, city, street)
+VALUES ('Russia', 'Moscow', 'Tverskaya Street');
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER after_insert_client_trigger
+    AFTER INSERT ON client
+    FOR EACH ROW EXECUTE PROCEDURE after_insert_client();
+
+
 
 -- SELECT rolname FROM pg_roles;
 -- CREATE USER user WITH PASSWORD 'your_password';

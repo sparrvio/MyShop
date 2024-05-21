@@ -6,6 +6,7 @@ import com.shopapi.mapper.ClientMapper;
 import com.shopapi.model.*;
 import com.shopapi.repository.AddressRepository;
 import com.shopapi.repository.ClientRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,6 @@ public class ClientServiceImpl implements ClientService {
     private final ClientMapper clientMapper;
 
 
-
     public Client createClient(ClientDTO clientDTO) {
 
         Client client = clientMapper.toClient(clientDTO);
@@ -46,12 +46,30 @@ public class ClientServiceImpl implements ClientService {
     }
 
     public ClientDTO getClientById(Long id) {
-        Client client = clientRepository.findById(id).get();
-        return clientMapper.toClientDTO(client);
+        try {
+            Client client = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found"));
+            return clientMapper.toClientDTO(client);
+        } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+return null;
     }
 
     public Client updateClient(Client client) {
-        return clientRepository.save(client);
+        if (getClientById(client.getId()) == null) {
+            Address address = new Address();
+            addressRepository.save(address);
+            client.setAddress_id(address);
+            return clientRepository.save(client);
+        } else {
+            Client oldClient = clientRepository.findById(client.getId()).get();
+            oldClient.setClientName(client.getClientName());
+            oldClient.setClientSurname(client.getClientSurname());
+            oldClient.setGender(client.getGender());
+            oldClient.setBirthday(client.getBirthday());
+            oldClient.setRegistrationDate(client.getRegistrationDate());
+            return clientRepository.save(oldClient);
+        }
     }
 
     public void deleteClientById(Long id) {
