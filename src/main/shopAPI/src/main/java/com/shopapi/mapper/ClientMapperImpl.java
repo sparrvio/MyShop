@@ -20,13 +20,14 @@ public class ClientMapperImpl implements ClientMapper{
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String formattedBirthday = dateFormat.format(client.getBirthday());
+        String formattedRegistrationDate = dateFormat.format(client.getRegistrationDate());
 
         ClientDTO clientDTO = ClientDTO.builder()
                 .clientName(client.getClientName())
                 .clientSurname(client.getClientSurname())
                 .birthday(formattedBirthday)
                 .gender(client.getGender())
-                .registrationDate(client.getRegistrationDate())
+                .registrationDate(formattedRegistrationDate)
                 .address(client.getAddress_id().toString())
                 .build();
 
@@ -40,8 +41,10 @@ public class ClientMapperImpl implements ClientMapper{
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date birthday = null;
+        Date registrationDate = null;
         try {
             birthday = dateFormat.parse(clientDTO.getBirthday());
+            registrationDate = dateFormat.parse(clientDTO.getRegistrationDate());
         } catch (ParseException e) {
             throw new CustomParseException(e);
         }
@@ -50,7 +53,7 @@ public class ClientMapperImpl implements ClientMapper{
                 .clientSurname(clientDTO.getClientSurname())
                 .birthday(birthday)
                 .gender(clientDTO.getGender())
-                .registrationDate(clientDTO.getRegistrationDate())
+                .registrationDate(registrationDate)
                 .build();
         return client; // Клиеет возвращается без поля address_id
     }

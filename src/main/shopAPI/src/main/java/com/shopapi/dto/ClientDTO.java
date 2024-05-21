@@ -14,7 +14,7 @@ public class ClientDTO {
     private String clientSurname;
     private String birthday;
     private char gender;
-    private Date registrationDate;
+    private String registrationDate;
     private String address;
 }
 

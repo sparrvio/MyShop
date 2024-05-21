@@ -24,7 +24,7 @@ public class ShopApiApplication {
                 .clientSurname("Doer")
                 .birthday("12-12-1990")
                 .gender('M')
-                .registrationDate(new Date())
+                .registrationDate("10-01-2002")
                 .build();
 
         ClientService clientService = context.getBean(ClientService.class);
