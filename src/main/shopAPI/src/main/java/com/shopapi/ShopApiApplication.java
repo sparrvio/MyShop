@@ -1,5 +1,6 @@
 package com.shopapi;
 
+import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
 import com.shopapi.mapper.ClientMapperImpl;
 import com.shopapi.model.Client;
@@ -26,30 +27,34 @@ public class ShopApiApplication {
                 .build();
 
         ClientService clientService = context.getBean(ClientService.class);
-//        Client client = clientService.createClient(clientDTO);
-//        ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
+        Client client = clientService.createClient(clientDTO);
+        ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
 
-//        List<ClientDTO> list = clientService.getAllClients(1, 5);
-//        list.forEach(System.out::println);
+        List<ClientDTO> list = clientService.getAllClients();
+        list.forEach(System.out::println);
 
 
+        AddressDTO addressDTO = AddressDTO.builder()
+                .country("Russia")
+                .city("Saratov")
+                .street("Lenina")
+                .build();
+        clientService.changeClientAddress(2L, addressDTO);
+        list.forEach(System.out::println);
 
-//        Client client2 = Client.builder()
-//                .id(3L)
-//                .clientName("Irina")
-//                .clientSurname("Ivanova")
-//                .birthday(new Date())
-//                .gender('F')
-//                .registrationDate(new Date())
-//                .build();
-//
-//        clientService.updateClient(client2);
-//        System.out.println(clientService.getClientById(3L));
-//
-//        clientService.getClientByNameAndSurname("Bill Doer")
-//                .stream()
-//                .forEach(System.out::println);
+        Client client2 = Client.builder()
+                .id(2L)
+                .clientName("Petr")
+                .clientSurname("Markov")
+                .birthday(new Date())
+                .gender('M')
+                .registrationDate(new Date())
+                .build();
+        clientService.updateClient(client2);
 
+        clientService.getClientByNameAndSurname("Bill Doer")
+                .stream()
+                .forEach(System.out::println);
     }
 }
 

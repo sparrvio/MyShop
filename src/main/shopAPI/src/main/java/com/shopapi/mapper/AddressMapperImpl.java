@@ -27,7 +27,7 @@ public class AddressMapperImpl implements AddressMapper{
             throw new IllegalArgumentException("Address cannot be null");
         }
         AddressDTO addressDTO = AddressDTO.builder()
-                .id(address.getId())
+//                .id(address.getId())
                 .country(address.getCountry())
                 .city(address.getCity())
                 .street(address.getStreet())

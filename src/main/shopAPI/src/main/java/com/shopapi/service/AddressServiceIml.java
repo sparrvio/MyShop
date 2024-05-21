@@ -1,36 +1,41 @@
 package com.shopapi.service;
 
-import com.shopapi.mapper.ClientMapper;
-import com.shopapi.model.*;
+import com.shopapi.dto.AddressDTO;
+import com.shopapi.model.Address;
 import com.shopapi.repository.AddressRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Transactional
-public class AddressServiceIml implements AddressService{
-    @Autowired
+public class AddressServiceIml implements AddressService {
     private final AddressRepository addressRepository;
 
-//    @Autowired
-    private final ClientMapper clientMapper;
-    @Override
-    public Address createAddress() {
-        return addressRepository.save(new Address());
-    }
+//    private final ClientMapper clientMapper;
 
+//    @Override
+//    public Address createAddress() {
+//        return addressRepository.save(new Address());
+//    }
+//
+//    @Override
+//    public List<Address> getAllAddresses() {
+//        return StreamSupport.stream(addressRepository.findAll().spliterator(), false)
+//                .collect(Collectors.toList());
+//    }
 
     @Override
-    public List<Address> getAllAddresses() {
-        return StreamSupport.stream(addressRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+    public void updateAddress(Long id, AddressDTO addressDTO) {
+        try {
+            Address address = addressRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Address not found"));
+            address.setCountry(addressDTO.getCountry());
+            address.setCity(addressDTO.getCity());
+            address.setStreet(addressDTO.getStreet());
+        } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

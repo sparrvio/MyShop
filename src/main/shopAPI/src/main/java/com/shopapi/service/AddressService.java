@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 public interface AddressService {
 //    Address createAddress(AddressDTO addressDTO);
+//
+//    Address createAddress();
+//
+//    List<Address> getAllAddresses();
 
-    Address createAddress();
-
-    List<Address> getAllAddresses();
+    void updateAddress(Long id, AddressDTO addressDTO);
 }

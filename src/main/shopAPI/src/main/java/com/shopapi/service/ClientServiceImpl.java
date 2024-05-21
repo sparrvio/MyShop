@@ -1,18 +1,15 @@
 package com.shopapi.service;
 
 
+import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
 import com.shopapi.mapper.ClientMapper;
-import com.shopapi.model.*;
+import com.shopapi.model.Address;
+import com.shopapi.model.Client;
 import com.shopapi.repository.AddressRepository;
 import com.shopapi.repository.ClientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,20 +17,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-//@RequiredArgsConstructor
 @AllArgsConstructor
-//@NoArgsConstructor
 @Transactional
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final AddressRepository addressRepository;
     private final ClientMapper clientMapper;
+    private final AddressService addressService;
 
 
     public Client createClient(ClientDTO clientDTO) {
@@ -97,11 +92,16 @@ public class ClientServiceImpl implements ClientService {
             oldClient.setGender(client.getGender());
             oldClient.setBirthday(client.getBirthday());
             oldClient.setRegistrationDate(client.getRegistrationDate());
-            return clientRepository.save(oldClient);
+            return oldClient;
         }
     }
 
     public void deleteClientById(Long id) {
         clientRepository.deleteById(id);
+    }
+
+    @Override
+    public void changeClientAddress(Long id, AddressDTO addressDTO) {
+        addressService.updateAddress(id, addressDTO);
     }
 }

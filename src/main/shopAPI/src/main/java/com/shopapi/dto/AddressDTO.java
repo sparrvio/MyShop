@@ -8,7 +8,7 @@ import lombok.*;
 //@RequiredArgsConstructor
 @NoArgsConstructor
 public class AddressDTO {
-    private Long id;
+//    private Long id;
     private String country;
     private String city;
     private String street;
