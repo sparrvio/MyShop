@@ -101,7 +101,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void changeClientAddress(Long id, AddressDTO addressDTO) {
+    public void updateAddress(Long id, AddressDTO addressDTO) {
         addressService.updateAddress(id, addressDTO);
     }
 }

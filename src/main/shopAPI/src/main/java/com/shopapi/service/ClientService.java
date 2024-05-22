@@ -14,5 +14,5 @@ public interface ClientService {
     List<ClientDTO> getClientByNameAndSurname(String fullName);
     Client updateClient(Client client);
     void deleteClientById(Long id);
-    void changeClientAddress(Long id, AddressDTO addressDTO);
+    void updateAddress(Long id, AddressDTO addressDTO);
 }

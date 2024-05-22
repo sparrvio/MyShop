@@ -13,12 +13,14 @@ import org.springframework.test.context.jdbc.Sql;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 //@Sql(scripts = "/schema.sql")
 @SpringBootApplication
 public class ShopApiApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(ShopApiApplication.class, args);
 
+        ClientService clientService = context.getBean(ClientService.class);
         ClientDTO clientDTO = ClientDTO.builder()
                 .clientName("John")
                 .clientSurname("Doer")
@@ -27,7 +29,6 @@ public class ShopApiApplication {
                 .registrationDate("10-01-2002")
                 .build();
 
-        ClientService clientService = context.getBean(ClientService.class);
         Client client = clientService.createClient(clientDTO);
         ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
 
@@ -40,7 +41,7 @@ public class ShopApiApplication {
                 .city("Saratov")
                 .street("Lenina")
                 .build();
-        clientService.changeClientAddress(2L, addressDTO);
+        clientService.updateAddress(2L, addressDTO);
         list.forEach(System.out::println);
 
         Client client2 = Client.builder()
