@@ -2,19 +2,19 @@ package com.shopapi.controller;
 
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.model.Address;
 import com.shopapi.model.Client;
 import com.shopapi.service.ClientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api")
-public class MyRestController {
+@Controller
+@RequestMapping("/api/v1")
+public class RestController {
     @Autowired
     private ClientServiceImpl clientService;
 
@@ -24,11 +24,18 @@ public class MyRestController {
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
-    @GetMapping("/client/search/{fullName}")
-    public ResponseEntity<List<ClientDTO>> getClientByFullName(@PathVariable String fullName) {
-        List<ClientDTO> clientDTO = clientService.getClientByNameAndSurname(fullName);
-        return new ResponseEntity<>(clientDTO, HttpStatus.OK);
+//    @GetMapping("/client/search/{fullName}")
+//    public ResponseEntity<List<ClientDTO>> getClientByFullName(@PathVariable String fullName) {
+//        List<ClientDTO> clientDTO = clientService.getClientByNameAndSurname(fullName);
+//        return new ResponseEntity<>(clientDTO, HttpStatus.OK);
+//    }
+
+    @GetMapping("/client/search")
+    public ResponseEntity<List<ClientDTO>> getClientByFullName(@RequestParam String fullName) {
+        List<ClientDTO> clientDTOs = clientService.getClientByNameAndSurname(fullName);
+        return new ResponseEntity<>(clientDTOs, HttpStatus.OK);
     }
+
 
     @GetMapping("/allClients")
     public ResponseEntity<List<ClientDTO>> getAllClients() {
@@ -58,11 +65,4 @@ public class MyRestController {
     public void deleteClient(@PathVariable Long id) {
         clientService.deleteClientById(id);
     }
-
-
-//    @GetMapping("/clients")
-//    public List<ClientDTO> getClients(){
-//        List<ClientDTO> allClients = clientService.;
-//        return allClients;
-//    }
 }
