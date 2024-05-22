@@ -14,11 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,15 +57,26 @@ public class ClientServiceImpl implements ClientService {
                 .map(clientMapper::toClientDTO)
                 .collect(Collectors.toList());
     }
-    public ClientDTO getClientById(Long id) {
-        ClientDTO clientDTO = null;
-        try {
-            Client client = clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found"));
-            clientDTO = clientMapper.toClientDTO(client);
-        } catch (EntityNotFoundException e) {
-            System.out.println(e.getMessage());
+    public Optional<ClientDTO> getClientById(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (!client.isPresent()) {
+            return Optional.empty();
         }
+        Optional<ClientDTO> clientDTO = Optional.ofNullable(clientMapper.toClientDTO(client.get()));
         return clientDTO;
+
+//        if (clientID == null || clientID <= 0) {
+//            // Если ID не был предоставлен или равно 0, возвращаем ошибку
+//            return new ResponseEntity<>("ID клиента не может быть пустым или равно 0.", HttpStatus.BAD_REQUEST);
+//        }
+//
+//        ClientDTO client = clientService.getClientById(clientID);
+//        if (client == null) {
+//            // Если клиент не найден, возвращаем сообщение об ошибке
+//            return new ResponseEntity<>("Клиент с указанным ID не найден.", HttpStatus.NOT_FOUND);
+//        }
+//
+//        return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
     @Override

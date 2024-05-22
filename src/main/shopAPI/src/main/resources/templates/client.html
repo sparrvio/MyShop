@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>REST Controller</title>
+    <link rel="stylesheet" href="../css/client.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Все клиенты</h1>
+    <form action="http://localhost:8081/api/v1/client/allClients" method="get">
+        <button type="submit">Получить всех клиентов</button>
+    </form>
+    <ul id="clientsList"></ul>
+
+    <h1>Поиск клиента</h1>
+    <form action="http://localhost:8081/api/v1/client/search" method="get">
+        <label for="fullName">по имени и фамилии:</label>
+        <br>
+        <input type="text" id="fullName" name="fullName">
+        <br>
+        <button type="submit">Поиск</button>
+    </form>
+
+    <form action="http://localhost:8081/api/v1/client/id" method="get">
+        <label for="clientID">по идентификатору:</label>
+        <br>
+        <input type="text" id="clientID" name="clientID">
+        <br>
+        <button type="submit">Поиск</button>
+    </form>
+
+    <h1>Создать клиента</h1>
+    <form action="http://localhost:8081/api/v1/client/create" method="post">
+        <!-- Здесь должны быть поля для ввода данных клиента -->
+        <button type="submit">Создать</button>
+    </form>
+
+    <!-- Аналогично, можно добавить форму для обновления адреса и удаления клиента -->
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
