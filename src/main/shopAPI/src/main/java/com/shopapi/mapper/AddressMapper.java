@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 
-public interface AddressMapper {
+public interface AddressMapper{
     Address toAddress(AddressDTO addressDTO);
     AddressDTO toAddressDTO(Address address);
 }

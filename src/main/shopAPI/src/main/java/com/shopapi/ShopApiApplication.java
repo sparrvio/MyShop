@@ -2,7 +2,8 @@ package com.shopapi;
 
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.mapper.ClientMapperImpl;
+import com.shopapi.mapper.ClientMapper;
+
 import com.shopapi.model.Client;
 import com.shopapi.service.ClientService;
 import org.springframework.boot.SpringApplication;
@@ -112,7 +113,7 @@ public class ShopApiApplication {
         clientService.createClient(client9);
         clientService.createClient(client10);
 
-        ClientMapperImpl clientMapper = context.getBean(ClientMapperImpl.class);
+        ClientMapper clientMapper = context.getBean(ClientMapper.class);
 
         List<ClientDTO> list = clientService.getAllClients();
         list.forEach(System.out::println);

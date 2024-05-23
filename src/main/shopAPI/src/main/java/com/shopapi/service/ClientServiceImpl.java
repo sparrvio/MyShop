@@ -36,17 +36,17 @@ public class ClientServiceImpl implements ClientService {
 
     public Client createClient(ClientDTO clientDTO) {
 
-        Client client = clientMapper.toClient(clientDTO);
+        Client client = clientMapper.clientDtoToClient(clientDTO);
         Address address = new Address();
         addressRepository.save(address);
-        client.setAddress_id(address);
+        client.setAddressId(address.getId());
         return clientRepository.save(client);
     }
 
     public List<ClientDTO> getAllClients() {
         List<Client> clients = clientRepository.findAll();
         return clients.stream()
-                .map(clientMapper::toClientDTO)
+                .map(clientMapper::clientToClientDto)
                 .collect(Collectors.toList());
     }
 
@@ -54,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id")); // По умолчанию сортировка по возрастанию id
         Page<Client> clientPage = clientRepository.findAll(pageable);
         return clientPage.getContent().stream()
-                .map(clientMapper::toClientDTO)
+                .map(clientMapper::clientToClientDto)
                 .collect(Collectors.toList());
     }
     public Optional<ClientDTO> getClientById(Long id) {
@@ -62,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
         if (!client.isPresent()) {
             return Optional.empty();
         }
-        Optional<ClientDTO> clientDTO = Optional.ofNullable(clientMapper.toClientDTO(client.get()));
+        Optional<ClientDTO> clientDTO = Optional.ofNullable(clientMapper.clientToClientDto(client.get()));
         return clientDTO;
 
 //        if (clientID == null || clientID <= 0) {
@@ -87,7 +87,7 @@ public class ClientServiceImpl implements ClientService {
            String clientSurname = parts[1];
            List<Client> clients = clientRepository.findByClientNameAndClientSurname(clientName, clientSurname);
            return clients.stream()
-                   .map(clientMapper::toClientDTO)
+                   .map(clientMapper::clientToClientDto)
                    .collect(Collectors.toList());
        }
        return Collections.emptyList();
