@@ -42,6 +42,7 @@ public class ShopApiApplication {
                 .street("Lenina")
                 .build();
         clientService.updateAddress(2L, addressDTO);
+        
         list.forEach(System.out::println);
 
         Client client2 = Client.builder()
