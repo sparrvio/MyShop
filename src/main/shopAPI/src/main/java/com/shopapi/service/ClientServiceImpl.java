@@ -39,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
         Client client = clientMapper.clientDtoToClient(clientDTO);
         Address address = new Address();
         addressRepository.save(address);
-        client.setAddressId(address.getId());
+        client.setAddress_id(address);
         return clientRepository.save(client);
     }
 
