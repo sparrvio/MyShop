@@ -1,6 +1,16 @@
 # Проект "MyShop" (проект в работе)
 
-## Реализация модели онлайн магазина на основе Spring Boot
+## Реализация модели онлайн магазина на основе Spring Boot  
+
+### Технологии
+- Java 17
+- Spring Boot 3.2.5
+- Spring Data JPA
+- Spring Web
+- Springdoc OpenAPI
+- MapStruct
+- Lombok
+
 (В текущей версии нужна запущенная СУБД Postgress c DB lightShopAPI. В дальнейшем будет реалицация через Docker)
 
 Будут созданы следующие сущности:
