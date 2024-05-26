@@ -38,27 +38,13 @@ public class ClientServiceImpl implements ClientService {
     private final ClientMapper clientMapper;
     private final AddressService addressService;
 
-    private static Date stringToDate(String dateString) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            return sdf.parse(dateString);
-        } catch (ParseException e) {
-            throw new IllegalArgumentException("Неверный формат даты", e);
-        }
-    }
     public Client createClient(ClientDTO clientDTO) {
         Client client = clientMapper.convertToEntity(clientDTO);
         Address address = new Address();
         addressRepository.save(address);
         client.setAddress_id(address);
-
-        if (clientDTO.getBirthday() instanceof String) {
-            client.setBirthday(stringToDate((String) clientDTO.getBirthday()));
-        }
-        
-        if (clientDTO.getRegistrationDate() instanceof String) {
-            client.setRegistrationDate(stringToDate((String) clientDTO.getRegistrationDate()));
-        }
+        client.setBirthday(clientDTO.getBirthday());
+        client.setRegistrationDate(clientDTO.getRegistrationDate());
         return clientRepository.save(client);
     }
 
@@ -76,6 +62,7 @@ public class ClientServiceImpl implements ClientService {
                 .map(clientMapper::convertToDTO)
                 .collect(Collectors.toList());
     }
+
     public Optional<ClientDTO> getClientById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
         if (!client.isPresent()) {
@@ -100,16 +87,16 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ClientDTO> getClientByNameAndSurname(String fullName) {
-        String [] parts = fullName.split(" ");
-       if (parts.length == 2) {
-           String clientName = parts[0];
-           String clientSurname = parts[1];
-           List<Client> clients = clientRepository.findByClientNameAndClientSurname(clientName, clientSurname);
-           return clients.stream()
-                   .map(clientMapper::convertToDTO)
-                   .collect(Collectors.toList());
-       }
-       return Collections.emptyList();
+        String[] parts = fullName.split(" ");
+        if (parts.length == 2) {
+            String clientName = parts[0];
+            String clientSurname = parts[1];
+            List<Client> clients = clientRepository.findByClientNameAndClientSurname(clientName, clientSurname);
+            return clients.stream()
+                    .map(clientMapper::convertToDTO)
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     public Client updateClient(Client client) {
