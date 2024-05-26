@@ -9,12 +9,13 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ClientDTO {
-//    private Long id;
+    private Long id;
     private String clientName;
     private String clientSurname;
     private LocalDate birthday;
     private char gender;
-    private LocalDate registrationDate;
+    @Builder.Default
+    private LocalDate registrationDate = LocalDate.now();
     private AddressDTO address;
 }
 

@@ -2,7 +2,6 @@ package com.shopapi.controller;
 
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.model.Client;
 import com.shopapi.service.ClientServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,13 +50,28 @@ public class RestController {
     }
 
     @PostMapping("/client/create")
-    public ResponseEntity<Client> createClient(@RequestBody ClientDTO clientDTO) {
-        return new ResponseEntity<>(clientService.createClient(clientDTO), HttpStatus.OK);
+    public ResponseEntity<String> createClient(@RequestParam String name, @RequestParam String surname, @RequestParam String birthDate, @RequestParam char gender) {
+        if (gender!= 'M' && gender!= 'F') {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(birthDate, inputFormatter);
+
+        ClientDTO clientDTO = ClientDTO.builder()
+                .clientName(name)
+                .clientSurname(surname)
+                .birthday(date)
+                .gender(gender)
+                .build();
+
+        clientService.createClient(clientDTO);
+        return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
+
     @PutMapping("/client/{id}/address")
-    public ResponseEntity<?> updateAddress(
-            @PathVariable Long id, @RequestBody AddressDTO newAddress) {
+    public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
         clientService.updateAddress(id, newAddress);
         return new ResponseEntity<>(HttpStatus.OK);
     }

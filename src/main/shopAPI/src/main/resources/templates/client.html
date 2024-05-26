@@ -33,13 +33,28 @@
 
     <h1>Создать клиента</h1>
     <form action="http://localhost:8081/api/v1/client/create" method="post">
-        <!-- Здесь должны быть поля для ввода данных клиента -->
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="surname">Фамилия:</label><br>
+        <input type="text" id="surname" name="surname"><br>
+        <label for="birthDate">Дата рождения:</label><br>
+        <input type="date" id="birthDate" name="birthDate"><br>
+        <label for="gender">Пол:</label><br>
+        <input type="char" id="gender" name="gender"><br>
         <button type="submit">Создать</button>
     </form>
 
-    <!-- Аналогично, можно добавить форму для обновления адреса и удаления клиента -->
-</div>
+    <h1>Изменить адрес</h1>
+    <form action="http://localhost:8081/api/v1/client/updateAddress" method="post">
+        <label for="country">Страна:</label><br>
+        <input type="text" id="country" name="country"><br>
+        <label for="city">Город:</label><br>
+        <input type="text" id="city" name="city"><br>
+        <label for="street">Улица:</label><br>
+        <input type="text" id="street" name="street"><br>
+        <button type="submit">Изменить</button>
+    </form>
 
-<script src="script.js"></script>
+</div>
 </body>
 </html>

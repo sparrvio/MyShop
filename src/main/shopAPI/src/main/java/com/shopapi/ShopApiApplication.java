@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import java.lang.reflect.Modifier;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -21,13 +22,14 @@ public class ShopApiApplication {
 
         ClientService clientService = context.getBean(ClientService.class);
 
-        ClientDTO client1 = ClientDTO.builder()
-                .clientName("John")
-                .clientSurname("Doe")
-                .birthday(LocalDate.of(1985, 2, 15))
-                .gender('M')
-                .registrationDate(LocalDate.of(2002, 10, 15))
-                .build();
+//        ClientDTO client1 = ClientDTO.builder()
+//                .clientName("Johnааа")
+//                .clientSurname("Doe")
+//                .birthday(LocalDate.of(1985, 2, 15))
+//                .gender('M')
+//                .registrationDate(LocalDate.of(2002, 10, 15))
+//                .build();
+//        clientService.createClient(client1);
 
 //        ClientDTO client2 = ClientDTO.builder()
 //                .clientName("Jane")
@@ -121,7 +123,7 @@ public class ShopApiApplication {
         AddressMapper addressMapper = context.getBean(AddressMapper.class);
 
         Optional<ClientDTO> client = clientService.getClientById(1L);
-        System.out.println(client);
+
 
 
 //        list.forEach(System.out::println);
