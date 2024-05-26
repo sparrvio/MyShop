@@ -2,6 +2,9 @@ package com.shopapi.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Check;
+import org.hibernate.annotations.ColumnDefault;
+
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -27,9 +30,11 @@ public class Client {
     private LocalDate birthday; // Default to 1900-01-01
 
     @Column(name = "gender", length = 1, columnDefinition = "CHAR(1)")
+    @Check(constraints = "gender in ('M', 'F')")
     private char gender;
 
     @Column(name = "registration_date", nullable = false, columnDefinition = "DATE")
+    @ColumnDefault(value = "CURRENT_DATE")
     private LocalDate registrationDate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
