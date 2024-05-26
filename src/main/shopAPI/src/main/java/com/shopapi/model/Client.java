@@ -3,6 +3,7 @@ package com.shopapi.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,13 +24,13 @@ public class Client {
     private String clientSurname;
 
     @Column(name = "birthday", columnDefinition = "DATE")
-    private Date birthday = new Date(0); // Default to 1900-01-01
+    private LocalDate birthday; // Default to 1900-01-01
 
     @Column(name = "gender", length = 1, columnDefinition = "CHAR(1)")
     private char gender;
 
     @Column(name = "registration_date", nullable = false, columnDefinition = "DATE")
-    private Date registrationDate;
+    private LocalDate registrationDate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)

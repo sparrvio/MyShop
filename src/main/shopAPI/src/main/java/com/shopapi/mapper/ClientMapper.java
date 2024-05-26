@@ -3,9 +3,14 @@ package com.shopapi.mapper;
 import com.shopapi.dto.ClientDTO;
 import com.shopapi.model.Client;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapping;
 
+
+@Mapper(componentModel = "spring", uses = {AddressMapper.class})
 public interface ClientMapper {
-    ClientDTO toClientDTO(Client client);
-    Client toClient(ClientDTO clientDto);
+    @Mapping(source = "address_id", target = "address")
+    ClientDTO convertToDTO(Client client);
+
+    @Mapping(source = "address", target = "address_id")
+    Client convertToEntity(ClientDTO clientDTO);
 }
