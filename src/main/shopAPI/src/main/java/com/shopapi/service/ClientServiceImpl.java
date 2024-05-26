@@ -10,6 +10,7 @@ import com.shopapi.repository.AddressRepository;
 import com.shopapi.repository.ClientRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,19 +31,33 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Transactional
+@Data
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final AddressRepository addressRepository;
     private final ClientMapper clientMapper;
     private final AddressService addressService;
 
-
+    private static Date stringToDate(String dateString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return sdf.parse(dateString);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Неверный формат даты", e);
+        }
+    }
     public Client createClient(ClientDTO clientDTO) {
-
         Client client = clientMapper.convertToEntity(clientDTO);
         Address address = new Address();
         addressRepository.save(address);
         client.setAddress_id(address);
+
+        if (clientDTO.getBirthday() instanceof String) {
+            client.setBirthday(stringToDate((String) clientDTO.getBirthday()));
+        }
+        if (clientDTO.getRegistrationDate() instanceof String) {
+            client.setRegistrationDate(stringToDate((String) clientDTO.getRegistrationDate()));
+        }
         return clientRepository.save(client);
     }
 

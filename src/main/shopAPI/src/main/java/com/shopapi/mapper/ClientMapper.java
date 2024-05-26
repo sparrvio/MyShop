@@ -10,6 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring", uses = DateConverter.class)
 public interface ClientMapper {
+    @Named("mapAddressToString")
+    default String mapAddressToString(Address address) {
+        if (address!= null) {
+            return address.toString(); // Используйте любую логику преобразования, например, address.toString()
+        } else {
+            return null;
+        }
+    }
     @Mapping(source = "birthday", target = "birthday", qualifiedByName = "convertToDatabaseColumn")
     @Mapping(source = "registrationDate", target = "registrationDate", qualifiedByName = "convertToDatabaseColumn")
     ClientDTO convertToDTO(Client client);

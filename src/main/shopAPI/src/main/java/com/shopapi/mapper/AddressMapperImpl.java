@@ -5,7 +5,7 @@ import com.shopapi.model.Address;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
+//@Mapper(componentModel = "spring")
 //@Component
 public class AddressMapperImpl implements AddressMapper{
     @Override

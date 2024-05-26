@@ -2,6 +2,7 @@ package com.shopapi.mapper;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.mapstruct.Named;
 import org.mapstruct.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Converter(autoApply = true)
 public class DateConverter implements AttributeConverter<Date, String> {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    @Named("convertToDatabaseColumn")
 
     @Override
     public String convertToDatabaseColumn(Date attribute) {
@@ -25,6 +27,7 @@ public class DateConverter implements AttributeConverter<Date, String> {
         }
     }
 
+    @Named("convertToEntityAttribute")
     @Override
     public Date convertToEntityAttribute(String dbData) {
         if (dbData == null) {
