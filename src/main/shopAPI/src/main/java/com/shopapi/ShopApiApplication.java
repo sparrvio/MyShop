@@ -2,21 +2,16 @@ package com.shopapi;
 
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
+import com.shopapi.mapper.AddressMapper;
 import com.shopapi.mapper.ClientMapper;
 
-import com.shopapi.model.Client;
 import com.shopapi.service.ClientService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.jdbc.Sql;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.Optional;
 
 //@Sql(scripts = "/schema.sql")
 @SpringBootApplication
@@ -99,7 +94,7 @@ public class ShopApiApplication {
 //                .build();
 
 
-        clientService.createClient(client1);
+//        clientService.createClient(client1);
 //        clientService.createClient(client2);
 //        clientService.createClient(client3);
 //        clientService.createClient(client4);
@@ -109,18 +104,26 @@ public class ShopApiApplication {
 //        clientService.createClient(client8);
 //        clientService.createClient(client9);
 
-//        ClientMapper clientMapper = context.getBean(ClientMapper.class);
+
 //
 //        List<ClientDTO> list = clientService.getAllClients();
 //        list.forEach(System.out::println);
 //
 //
+        ClientMapper clientMapper = context.getBean(ClientMapper.class);
+//
         AddressDTO addressDTO = AddressDTO.builder()
                 .country("Russia")
-                .city("Saratov")
+                .city("Klin")
                 .street("Lenina")
                 .build();
-        clientService.updateAddress(2L, addressDTO);
+//        clientService.updateAddress(7L, addressDTO);
+        AddressMapper addressMapper = context.getBean(AddressMapper.class);
+
+        Optional<ClientDTO> client = clientService.getClientById(1L);
+        System.out.println(client);
+
+
 //        list.forEach(System.out::println);
 
 //        Client client2 = Client.builder()

@@ -15,6 +15,6 @@ public class ClientDTO {
     private LocalDate birthday;
     private char gender;
     private LocalDate registrationDate;
-    private String address;
+    private AddressDTO address;
 }
 

@@ -43,8 +43,6 @@ public class ClientServiceImpl implements ClientService {
         Address address = new Address();
         addressRepository.save(address);
         client.setAddress_id(address);
-        client.setBirthday(clientDTO.getBirthday());
-        client.setRegistrationDate(clientDTO.getRegistrationDate());
         return clientRepository.save(client);
     }
 
@@ -64,26 +62,17 @@ public class ClientServiceImpl implements ClientService {
     }
 
     public Optional<ClientDTO> getClientById(Long id) {
-        Optional<Client> client = clientRepository.findById(id);
-        if (!client.isPresent()) {
+        Optional<Client> clientOpt = clientRepository.findById(id);
+
+        if (!clientOpt.isPresent()) {
             return Optional.empty();
         }
-        Optional<ClientDTO> clientDTO = Optional.ofNullable(clientMapper.convertToDTO(client.get()));
-        return clientDTO;
 
-//        if (clientID == null || clientID <= 0) {
-//            // Если ID не был предоставлен или равно 0, возвращаем ошибку
-//            return new ResponseEntity<>("ID клиента не может быть пустым или равно 0.", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        ClientDTO client = clientService.getClientById(clientID);
-//        if (client == null) {
-//            // Если клиент не найден, возвращаем сообщение об ошибке
-//            return new ResponseEntity<>("Клиент с указанным ID не найден.", HttpStatus.NOT_FOUND);
-//        }
-//
-//        return new ResponseEntity<>(client, HttpStatus.OK);
+        Client client = clientOpt.get();
+        ClientDTO clientDTO = clientMapper.convertToDTO(client);
+        return Optional.ofNullable(clientDTO);
     }
+
 
     @Override
     public List<ClientDTO> getClientByNameAndSurname(String fullName) {
