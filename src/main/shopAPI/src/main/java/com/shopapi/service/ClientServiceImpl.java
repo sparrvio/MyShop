@@ -55,6 +55,7 @@ public class ClientServiceImpl implements ClientService {
         if (clientDTO.getBirthday() instanceof String) {
             client.setBirthday(stringToDate((String) clientDTO.getBirthday()));
         }
+        
         if (clientDTO.getRegistrationDate() instanceof String) {
             client.setRegistrationDate(stringToDate((String) clientDTO.getRegistrationDate()));
         }
