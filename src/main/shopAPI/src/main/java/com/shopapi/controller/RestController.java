@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +51,7 @@ public class RestController {
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/client/create")
+    @PostMapping("/client/create") // для отправки данных формы в теле запроса (POST)
     public ResponseEntity<String> createClient(@RequestParam String name, @RequestParam String surname, @RequestParam String birthDate, @RequestParam char gender) {
         if (gender!= 'M' && gender!= 'F') {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -69,6 +71,23 @@ public class RestController {
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
+//    @PostMapping("/client/create") // для отправки json объекта
+//    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO) {
+//        if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        try {
+//            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//            LocalDate date = LocalDate.parse(clientDTO.getBirthday().toString(), inputFormatter);
+//            clientDTO.setRegistrationDate(LocalDate.now());
+//
+//            clientService.createClient(clientDTO);
+//            return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
+//        } catch (DateTimeParseException e) {
+//            return new ResponseEntity<>("Invalid date format", HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     @PutMapping("/client/{id}/address")
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
@@ -76,8 +95,13 @@ public class RestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/client/{id}")
-    public void deleteClient(@PathVariable Long id) {
-        clientService.deleteClientById(id);
+    @GetMapping(value = "/client/delete")
+    public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
+        Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
+        if(!clientDTO.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        clientService.deleteClientById(idDelete);
+        return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
     }
 }

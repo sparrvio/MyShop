@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>REST Controller</title>
-    <link rel="stylesheet" href="../css/client.css">
+    <link rel="stylesheet" href="../static/css/client.css">
 </head>
 <body>
 
@@ -31,7 +31,7 @@
         <button type="submit">Поиск</button>
     </form>
 
-    <h1>Создать клиента</h1>
+    <h1>Создать/Удалить клиента</h1>
     <form action="http://localhost:8081/api/v1/client/create" method="post">
         <label for="name">Имя:</label><br>
         <input type="text" id="name" name="name"><br>
@@ -44,8 +44,19 @@
         <button type="submit">Создать</button>
     </form>
 
+    <form action="http://localhost:8081/api/v1/client/delete/" method="get">
+        <label for="idDelete">ID клиента для удаления</label>
+        <br>
+        <input type="text" id="idDelete" name="idDelete">
+        <br>
+        <button type="submit">Удалить</button>
+    </form>
+
+
     <h1>Изменить адрес</h1>
     <form action="http://localhost:8081/api/v1/client/updateAddress" method="post">
+        <label for="id">ID клиента:</label><br>
+        <input type="text" id="id" name="id"><br>
         <label for="country">Страна:</label><br>
         <input type="text" id="country" name="country"><br>
         <label for="city">Город:</label><br>

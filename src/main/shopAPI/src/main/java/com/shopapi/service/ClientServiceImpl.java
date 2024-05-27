@@ -64,6 +64,7 @@ public class ClientServiceImpl implements ClientService {
 
         Client client = clientOpt.get();
         ClientDTO clientDTO = clientMapper.convertToDTO(client);
+        clientDTO.setId(id);
         return Optional.ofNullable(clientDTO);
     }
 

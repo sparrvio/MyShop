@@ -21,6 +21,7 @@ public class ShopApiApplication {
         ApplicationContext context = SpringApplication.run(ShopApiApplication.class, args);
 
         ClientService clientService = context.getBean(ClientService.class);
+        clientService.deleteClientById(22L);
 
 //        ClientDTO client1 = ClientDTO.builder()
 //                .clientName("Johnааа")
