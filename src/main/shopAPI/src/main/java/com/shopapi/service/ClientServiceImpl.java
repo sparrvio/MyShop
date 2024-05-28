@@ -35,6 +35,7 @@ public class ClientServiceImpl implements ClientService {
     public Client createClient(ClientDTO clientDTO) {
         Client client = clientMapper.convertToEntity(clientDTO);
         Address address = new Address();
+        client.setAddress_id(address);
         addressRepository.save(address);
         return clientRepository.save(client);
     }
