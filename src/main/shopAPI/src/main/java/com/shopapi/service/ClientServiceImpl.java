@@ -36,7 +36,6 @@ public class ClientServiceImpl implements ClientService {
         Client client = clientMapper.convertToEntity(clientDTO);
         Address address = new Address();
         addressRepository.save(address);
-        client.setAddress_id(address);
         return clientRepository.save(client);
     }
 
@@ -58,14 +57,14 @@ public class ClientServiceImpl implements ClientService {
     public Optional<ClientDTO> getClientById(Long id) {
         Optional<Client> clientOpt = clientRepository.findById(id);
 
-        if (!clientOpt.isPresent()) {
+        if (clientOpt.isEmpty()) {
             return Optional.empty();
         }
 
         Client client = clientOpt.get();
         ClientDTO clientDTO = clientMapper.convertToDTO(client);
         clientDTO.setId(id);
-        return Optional.ofNullable(clientDTO);
+        return Optional.of(clientDTO);
     }
 
 
@@ -84,7 +83,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     public Client updateClient(Client client) {
-        if (getClientById(client.getId()) == null) {
+        if (getClientById(client.getId()).isEmpty()) {
             Address address = new Address();
             addressRepository.save(address);
             client.setAddress_id(address);
