@@ -26,7 +26,7 @@ public class RestController {
     @GetMapping("/client/id")
     public ResponseEntity<?> getClient(@RequestParam @Valid Long clientID) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(clientID);
-        if(!clientDTO.isPresent()) {
+        if(clientDTO.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(clientDTO.get(), HttpStatus.OK);
@@ -71,7 +71,7 @@ public class RestController {
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
-//    @PostMapping("/client/create") // для отправки json объекта
+//    @PostMapping("/client/create") // для Postman отправка json объекта
 //    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO) {
 //        if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -95,10 +95,20 @@ public class RestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/client/delete")
-    public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
+//    @GetMapping(value = "/client/delete") //удаление клиента по id через GET запрос
+//    public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
+//        Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
+//        if(!clientDTO.isPresent()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        clientService.deleteClientById(idDelete);
+//        return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
+//    }
+
+    @DeleteMapping("/client/delete/{idDelete}")  //для Postman удаление клиента через DELETE запрос
+    public ResponseEntity<?> delete(@PathVariable Long idDelete)  {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
-        if(!clientDTO.isPresent()) {
+        if(clientDTO.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         clientService.deleteClientById(idDelete);
