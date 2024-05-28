@@ -51,46 +51,50 @@ public class RestController {
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/client/create") // для отправки данных формы в теле запроса (POST)
-    public ResponseEntity<String> createClient(@RequestParam String name, @RequestParam String surname, @RequestParam String birthDate, @RequestParam char gender) {
-        if (gender!= 'M' && gender!= 'F') {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(birthDate, inputFormatter);
-
-        ClientDTO clientDTO = ClientDTO.builder()
-                .clientName(name)
-                .clientSurname(surname)
-                .birthday(date)
-                .gender(gender)
-                .build();
-
-        clientService.createClient(clientDTO);
-        return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
-    }
-
-//    @PostMapping("/client/create") // для Postman отправка json объекта
-//    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO) {
-//        if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
+//    @PostMapping("/client/create") // для отправки данных через HTML форму в теле запроса (POST)
+//    public ResponseEntity<String> createClient(@RequestParam String name, @RequestParam String surname, @RequestParam String birthDate, @RequestParam char gender) {
+//        if (gender!= 'M' && gender!= 'F') {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        }
 //
-//        try {
-//            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//            LocalDate date = LocalDate.parse(clientDTO.getBirthday().toString(), inputFormatter);
-//            clientDTO.setRegistrationDate(LocalDate.now());
+//        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate date = LocalDate.parse(birthDate, inputFormatter);
 //
-//            clientService.createClient(clientDTO);
-//            return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
-//        } catch (DateTimeParseException e) {
-//            return new ResponseEntity<>("Invalid date format", HttpStatus.BAD_REQUEST);
-//        }
+//        ClientDTO clientDTO = ClientDTO.builder()
+//                .clientName(name)
+//                .clientSurname(surname)
+//                .birthday(date)
+//                .gender(gender)
+//                .build();
+//
+//        clientService.createClient(clientDTO);
+//        return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
 //    }
+
+    @PostMapping("/client/create") // для отправки данных через Postman в теле запроса (POST) json объект
+    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO) {
+        if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(clientDTO.getBirthday().toString(), inputFormatter);
+            clientDTO.setRegistrationDate(LocalDate.now());
+
+            clientService.createClient(clientDTO);
+            return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
+        } catch (DateTimeParseException e) {
+            return new ResponseEntity<>("Invalid date format", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PutMapping("/client/{id}/address")
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
+        Optional<ClientDTO> client = clientService.getClientById(id);
+        if (client.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         clientService.updateAddress(id, newAddress);
         return new ResponseEntity<>(HttpStatus.OK);
     }
