@@ -26,4 +26,13 @@ public class AddressServiceIml implements AddressService {
             System.out.println(e.getMessage());
         }
     }
+
+    public void updateAddressForHtml(long id, String country, String city, String street)  {
+        Address address = Address.builder()
+                .country(country)
+                .city(city)
+                .street(street)
+                .build();
+        addressRepository.save(address);
+    }
 }

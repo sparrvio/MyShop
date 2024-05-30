@@ -54,16 +54,18 @@
 
 
     <h1>Изменить адрес</h1>
-    <form action="http://localhost:8081/api/v1/client/updateAddress" method="post">
-        <label for="id">ID клиента:</label><br>
-        <input type="text" id="id" name="id"><br>
-        <label for="country">Страна:</label><br>
-        <input type="text" id="country" name="country"><br>
-        <label for="city">Город:</label><br>
-        <input type="text" id="city" name="city"><br>
-        <label for="street">Улица:</label><br>
-        <input type="text" id="street" name="street"><br>
-        <button type="submit">Изменить</button>
+    <form action="http://localhost:8081/api/v1/client/updateAddressForHtml" method="get">
+<!--            <input type="hidden" name="_method" value="PUT">-->
+            <label for="id">ID клиента:</label><br>
+            <input type="text" id="id" name="id"><br>
+            <label for="country">Страна:</label><br>
+            <input type="text" id="country" name="country"><br>
+            <label for="city">Город:</label><br>
+            <input type="text" id="city" name="city"><br>
+            <label for="street">Улица:</label><br>
+            <input type="text" id="street" name="street"><br>
+            <button type="submit">Изменить</button>
+        </form>
     </form>
 
 </div>

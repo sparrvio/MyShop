@@ -26,7 +26,7 @@ public class RestController {
     @GetMapping("/client/id")
     public ResponseEntity<?> getClient(@RequestParam @Valid Long clientID) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(clientID);
-        if(clientDTO.isEmpty()) {
+        if (clientDTO.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return new ResponseEntity<>(clientDTO.get(), HttpStatus.OK);
@@ -53,7 +53,7 @@ public class RestController {
 
     @PostMapping("/client/create") // для отправки данных через HTML форму в теле запроса (POST)
     public ResponseEntity<String> createClient(@RequestParam String name, @RequestParam String surname, @RequestParam String birthDate, @RequestParam char gender) {
-        if (gender!= 'M' && gender!= 'F') {
+        if (gender != 'M' && gender != 'F') {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -89,8 +89,25 @@ public class RestController {
         }
     }
 
-    @PutMapping("/client/{id}/address") // // для отправки данных через HTML форму в теле запроса
-    public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
+    // для отправки данных через HTML форму в теле запроса. Да, я знаю, что здесь должен быть другой тип запроса, но я пока не знаю JavaScript
+    @GetMapping("/client/updateAddressForHtml")
+    public ResponseEntity<?> updateAddressForHtml(@RequestParam Long id, @RequestParam String country, @RequestParam String city, @RequestParam String street) {
+        System.out.println("id" + id);
+        Optional<ClientDTO> client = clientService.getClientById(id);
+        if (client.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        AddressDTO newAddress = AddressDTO.builder()
+                .country(country)
+                .city(city)
+                .street(street)
+                .build();
+        clientService.updateAddress(id, newAddress);
+        return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
+    }
+
+    @PutMapping("/client/{id}/address") // для отправки данных через Postman в теле запроса (PUT) json объект
+    public ResponseEntity<?> updateAddressForPostman(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
         Optional<ClientDTO> client = clientService.getClientById(id);
         if (client.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -99,20 +116,11 @@ public class RestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PutMapping("/client/{id}/address") // для отправки данных через Postman в теле запроса (PUT) json объект
-//    public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
-//        Optional<ClientDTO> client = clientService.getClientById(id);
-//        if (client.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        clientService.updateAddress(id, newAddress);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
-    @GetMapping(value = "/client/delete") //удаление клиента по id через GET запрос
+    //  Да, я знаю, что здесь должен быть другой тип запроса, но я пока не знаю JavaScript
+    @GetMapping(value = "/client/delete") //для отправки данных через HTML форму в теле запроса. Удаление клиента по id через GET запрос
     public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
-        if(clientDTO.isEmpty())  {
+        if (clientDTO.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         clientService.deleteClientById(idDelete);
@@ -120,9 +128,9 @@ public class RestController {
     }
 
     @DeleteMapping("/client/deleteForPostman/{idDelete}")  //для Postman удаление клиента через DELETE запрос
-    public ResponseEntity<?> deleteForPostman(@PathVariable Long idDelete)  {
+    public ResponseEntity<?> deleteForPostman(@PathVariable Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
-        if(clientDTO.isEmpty()) {
+        if (clientDTO.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         clientService.deleteClientById(idDelete);
