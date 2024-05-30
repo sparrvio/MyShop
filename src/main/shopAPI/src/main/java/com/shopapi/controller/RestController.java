@@ -91,7 +91,6 @@ public class RestController {
 
     @PutMapping("/client/{id}/address")
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
-        System.out.println(id);
         Optional<ClientDTO> client = clientService.getClientById(id);
         if (client.isEmpty()) {
             return ResponseEntity.notFound().build();
