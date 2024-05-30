@@ -71,25 +71,25 @@ public class RestController {
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
-//    @PostMapping("/client/create") // для отправки данных через Postman в теле запроса (POST) json объект
-//    public ResponseEntity<String> createClient(@RequestBody ClientDTO clientDTO) {
-//        if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        try {
-//            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//            LocalDate date = LocalDate.parse(clientDTO.getBirthday().toString(), inputFormatter);
-//            clientDTO.setRegistrationDate(LocalDate.now());
-//
-//            clientService.createClient(clientDTO);
-//            return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
-//        } catch (DateTimeParseException e) {
-//            return new ResponseEntity<>("Invalid date format", HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @PostMapping("/client/createClientForPostman") // для отправки данных через Postman в теле запроса (POST) json объект
+    public ResponseEntity<String> createClientForPostman(@RequestBody ClientDTO clientDTO) {
+        if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-    @PutMapping("/client/{id}/address")
+        try {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(clientDTO.getBirthday().toString(), inputFormatter);
+            clientDTO.setRegistrationDate(LocalDate.now());
+
+            clientService.createClient(clientDTO);
+            return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
+        } catch (DateTimeParseException e) {
+            return new ResponseEntity<>("Invalid date format", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/client/{id}/address") // // для отправки данных через HTML форму в теле запроса
     public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
         Optional<ClientDTO> client = clientService.getClientById(id);
         if (client.isEmpty()) {
@@ -98,6 +98,16 @@ public class RestController {
         clientService.updateAddress(id, newAddress);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+//    @PutMapping("/client/{id}/address") // для отправки данных через Postman в теле запроса (PUT) json объект
+//    public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
+//        Optional<ClientDTO> client = clientService.getClientById(id);
+//        if (client.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        clientService.updateAddress(id, newAddress);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/client/delete") //удаление клиента по id через GET запрос
     public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
@@ -109,13 +119,13 @@ public class RestController {
         return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
     }
 
-//    @DeleteMapping("/client/delete/{idDelete}")  //для Postman удаление клиента через DELETE запрос
-//    public ResponseEntity<?> delete(@PathVariable Long idDelete)  {
-//        Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
-//        if(clientDTO.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        clientService.deleteClientById(idDelete);
-//        return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
-//    }
+    @DeleteMapping("/client/deleteForPostman/{idDelete}")  //для Postman удаление клиента через DELETE запрос
+    public ResponseEntity<?> deleteForPostman(@PathVariable Long idDelete)  {
+        Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
+        if(clientDTO.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        clientService.deleteClientById(idDelete);
+        return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
+    }
 }
