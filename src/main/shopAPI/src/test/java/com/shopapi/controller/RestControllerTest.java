@@ -30,34 +30,39 @@ public class RestControllerTest {
     private RestController restController;
     private MockMvc mockMvc;
 
-    @BeforeEach()
-        void setUp(){
-            mockMvc = MockMvcBuilders.standaloneSetup(restController).build();
-        }
+    private ClientDTO clientDTO;
 
-    @Test
-    void getClientTest() throws Exception {
-        ClientDTO clientDTO1 = ClientDTO.builder()
+    @BeforeEach()
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(restController).build();
+        clientDTO = ClientDTO.builder()
                 .clientName("Ivan")
                 .clientSurname("Petrov")
-                .birthday(LocalDate.of(2000,  1,  01))
+                .birthday(LocalDate.of(2000, 1, 1))
                 .gender('M')
-                .registrationDate(LocalDate.of(2002,  2,  02))
+                .registrationDate(LocalDate.of(2002, 2, 2))
                 .build();
+    }
 
-        ClientDTO clientDTO2 = ClientDTO.builder()
-                .clientName("Marina")
-                .clientSurname("Ivanova")
-                .birthday(LocalDate.of(2000,  1,  01))
-                .gender('F')
-                .registrationDate(LocalDate.of(2002,  2,  02))
-                .build();
+    @Test
+    void getClientIsTrueTest() throws Exception {
 
-        Optional<ClientDTO> clientDTOOptional = Optional.of(clientDTO1);
+        Optional<ClientDTO> clientDTOOptional = Optional.of(clientDTO);
         when(clientService.getClientById(1L)).thenReturn(clientDTOOptional);
 
-        mockMvc.perform(get("/api/v1/client/id)"))
+        mockMvc.perform(get("/api/v1/client/id").param("clientID", "1"))
                 .andExpect(status().isOk());
+
+        verify(clientService).getClientById(1L);
+    }
+
+    @Test
+    void getClientIsFalseTest() throws Exception {
+        Optional<ClientDTO> clientDTOOptional = Optional.empty();
+        when(clientService.getClientById(1L)).thenReturn(clientDTOOptional);
+
+        mockMvc.perform(get("/api/v1/client/id").param("clientID", "1"))
+                .andExpect(status().isNotFound());
 
         verify(clientService).getClientById(1L);
     }

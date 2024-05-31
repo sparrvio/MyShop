@@ -2,7 +2,7 @@ package com.shopapi.controller;
 
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.service.ClientServiceImpl;
+import com.shopapi.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 public class RestController {
     @Autowired
-    private ClientServiceImpl clientService;
+    private ClientService clientService;
 
     @GetMapping("/client/id")
     public ResponseEntity<?> getClient(@RequestParam @Valid Long clientID) {
