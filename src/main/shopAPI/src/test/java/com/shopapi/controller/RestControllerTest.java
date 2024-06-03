@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.mapper.ClientMapper;
 import com.shopapi.service.ClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +44,6 @@ public class RestControllerTest {
     private ClientDTO clientDTO1;
     private ClientDTO clientDTO2;
     private AddressDTO addressDTO;
-
-    private ClientMapper clientMapper;
     private List<ClientDTO> clientDTOList;
 
     @BeforeEach()
@@ -158,7 +155,6 @@ public class RestControllerTest {
     @Test
     void createClientIsFalseGenderTest() throws Exception  {
         clientDTO.setGender('X');
-        System.out.println(clientDTO);
         ObjectMapper objectMapper  = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         String clientDTOJson  = objectMapper.writeValueAsString(clientDTO);
