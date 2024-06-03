@@ -1,16 +1,20 @@
 package com.shopapi.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.model.Client;
+import com.shopapi.mapper.ClientMapper;
 import com.shopapi.service.ClientService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -20,12 +24,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
+
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class RestControllerTest {
     @Mock
     private ClientService clientService;
@@ -37,6 +45,8 @@ public class RestControllerTest {
     private ClientDTO clientDTO1;
     private ClientDTO clientDTO2;
     private AddressDTO addressDTO;
+
+    private ClientMapper clientMapper;
     private List<ClientDTO> clientDTOList;
 
     @BeforeEach()
@@ -130,5 +140,32 @@ public class RestControllerTest {
         when(clientService.getClientByNameAndSurname("Name Surname")).thenReturn(Collections.emptyList());
         mockMvc.perform(get("/api/v1/client/search?fullName=Name Surname"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void createClientIsTrueTest() throws Exception {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        String clientDTOJson = objectMapper.writeValueAsString(clientDTO1);
+        mockMvc.perform(post("/api/v1/client/createClientForPostman")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(clientDTOJson))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Data received successfully")));
+    }
+
+    @Test
+    void createClientIsFalseGenderTest() throws Exception  {
+        clientDTO.setGender('X');
+        System.out.println(clientDTO);
+        ObjectMapper objectMapper  = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        String clientDTOJson  = objectMapper.writeValueAsString(clientDTO);
+
+        mockMvc.perform(post("/api/v1/client/createClientForPostman")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(clientDTOJson))
+                .andExpect(status().isBadRequest());
     }
 }
