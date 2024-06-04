@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>REST Controller</title>
+    <link rel="stylesheet" href="../static/css/client.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Все клиенты</h1>
+    <form action="http://localhost:8081/api/v1/client/allClients" method="get">
+        <button type="submit">Получить всех клиентов</button>
+    </form>
+    <ul id="clientsList"></ul>
+
+    <h1>Поиск клиента</h1>
+    <form action="http://localhost:8081/api/v1/client/search" method="get">
+        <label for="fullName">по имени и фамилии:</label>
+        <br>
+        <input type="text" id="fullName" name="fullName">
+        <br>
+        <button type="submit">Поиск</button>
+    </form>
+
+    <form action="http://localhost:8081/api/v1/client/id" method="get">
+        <label for="clientID">по идентификатору:</label>
+        <br>
+        <input type="text" id="clientID" name="clientID">
+        <br>
+        <button type="submit">Поиск</button>
+    </form>
+
+    <h1>Создать/Удалить клиента</h1>
+    <form action="http://localhost:8081/api/v1/client/create" method="post">
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="surname">Фамилия:</label><br>
+        <input type="text" id="surname" name="surname"><br>
+        <label for="birthDate">Дата рождения:</label><br>
+        <input type="date" id="birthDate" name="birthDate"><br>
+        <label for="gender">Пол:</label><br>
+        <input type="char" id="gender" name="gender"><br>
+        <button type="submit">Создать</button>
+    </form>
+
+    <form action="http://localhost:8081/api/v1/client/delete" method="get">
+        <label for="idDelete">ID клиента для удаления</label>
+        <br>
+        <input type="text" id="idDelete" name="idDelete">
+        <br>
+        <button type="submit">Удалить</button>
+    </form>
+
+
+    <h1>Изменить адрес</h1>
+    <form action="http://localhost:8081/api/v1/client/updateAddressForHtml" method="get">
+<!--            <input type="hidden" name="_method" value="PUT">-->
+            <label for="id">ID клиента:</label><br>
+            <input type="text" id="id" name="id"><br>
+            <label for="country">Страна:</label><br>
+            <input type="text" id="country" name="country"><br>
+            <label for="city">Город:</label><br>
+            <input type="text" id="city" name="city"><br>
+            <label for="street">Улица:</label><br>
+            <input type="text" id="street" name="street"><br>
+            <button type="submit">Изменить</button>
+        </form>
+    </form>
+
+</div>
+</body>
+</html>
