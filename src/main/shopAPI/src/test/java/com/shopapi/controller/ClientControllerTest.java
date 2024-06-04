@@ -33,11 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RestControllerTest {
+public class ClientControllerTest {
     @Mock
     private ClientService clientService;
     @InjectMocks
-    private RestController restController;
+    private ClientController clientController;
     private MockMvc mockMvc;
 
     private ClientDTO clientDTO;
@@ -48,7 +48,7 @@ public class RestControllerTest {
 
     @BeforeEach()
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(restController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(clientController).build();
         addressDTO  = AddressDTO.builder()
                 .country("Russia")
                 .city("Moscow")

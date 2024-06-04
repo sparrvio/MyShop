@@ -1,5 +1,6 @@
 package com.shopapi;
 
+import com.shopapi.config.OpenApiConfig;
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
 import com.shopapi.mapper.AddressMapper;
@@ -9,19 +10,23 @@ import com.shopapi.service.ClientService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.lang.reflect.Modifier;
 import java.time.LocalDate;
 import java.util.Optional;
 
 //@Sql(scripts = "/schema.sql")
+
 @SpringBootApplication
 public class ShopApiApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(ShopApiApplication.class, args);
+        OpenApiConfig openApiConfig  = context.getBean(OpenApiConfig.class);
+        openApiConfig.publicApi();
 
-        ClientService clientService = context.getBean(ClientService.class);
-        clientService.deleteClientById(22L);
+//        ClientService clientService = context.getBean(ClientService.class);
+//        clientService.deleteClientById(22L);
 
 //        ClientDTO client1 = ClientDTO.builder()
 //                .clientName("Johnааа")
@@ -113,17 +118,17 @@ public class ShopApiApplication {
 //        list.forEach(System.out::println);
 //
 //
-        ClientMapper clientMapper = context.getBean(ClientMapper.class);
+//        ClientMapper clientMapper = context.getBean(ClientMapper.class);
 //
-        AddressDTO addressDTO = AddressDTO.builder()
-                .country("Russia")
-                .city("Klin")
-                .street("Lenina")
-                .build();
+//        AddressDTO addressDTO = AddressDTO.builder()
+//                .country("Russia")
+//                .city("Klin")
+//                .street("Lenina")
+//                .build();
 //        clientService.updateAddress(7L, addressDTO);
-        AddressMapper addressMapper = context.getBean(AddressMapper.class);
+//        AddressMapper addressMapper = context.getBean(AddressMapper.class);
 
-        Optional<ClientDTO> client = clientService.getClientById(1L);
+//        Optional<ClientDTO> client = clientService.getClientById(1L);
 
 
 
