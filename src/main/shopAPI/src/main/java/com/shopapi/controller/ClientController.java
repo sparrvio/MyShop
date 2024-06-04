@@ -3,14 +3,16 @@ package com.shopapi.controller;
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
 import com.shopapi.service.ClientService;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,31 +29,56 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
+    @Operation(summary = "Get client by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "404", description = "Client not found")
+    })
     @GetMapping("/client/id")
     public ResponseEntity<?> getClient(@RequestParam @Valid Long clientID) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(clientID);
         if (clientDTO.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(clientDTO.get(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get client by full name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "404", description = "Client not found")
+    })
     @GetMapping("/client/search")
-    public ResponseEntity<List<ClientDTO>> getClientByFullName(@RequestParam String fullName) {
+    public ResponseEntity<?> getClientByFullName(@RequestParam String fullName) {
         List<ClientDTO> clientDTOs = clientService.getClientByNameAndSurname(fullName);
+        if (clientDTOs.isEmpty()) {
+            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(clientDTOs, HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "Retrieve all clients with pagination parameters", response = ClientDTO.class, responseContainer = "List")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of clients"),
+            @ApiResponse(responseCode = "400", description = "Bad request - invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/client/allClients")
-    public ResponseEntity<List<ClientDTO>> getAllClients() {
-        List<ClientDTO> clientDTO = clientService.getAllClients();
-        return new ResponseEntity<>(clientDTO, HttpStatus.OK);
-    }
-
-    @GetMapping("/client/allClientsWithParams")
-    public ResponseEntity<List<ClientDTO>> getAllClients(@RequestParam int page, @RequestParam int size) {
-        List<ClientDTO> clientDTO = clientService.getAllClients(page, size);
+    public ResponseEntity<?> getAllClients(@RequestParam(required = false) Integer limit,
+                                           @RequestParam(required = false) Integer offset) {
+        if((limit != null && limit < 0) || (offset != null && offset < 1)){
+            return new ResponseEntity<>("Bad request - invalid page or size parameters",
+                    HttpStatus.BAD_REQUEST);
+        }
+        List<ClientDTO> clientDTO;
+        if (limit!= null && offset!= null) {
+            clientDTO = clientService.getAllClients(limit, offset);
+        } else {
+            clientDTO = clientService.getAllClients();
+        }
+        if (clientDTO.isEmpty()) {
+            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
     }
 
@@ -75,7 +102,8 @@ public class ClientController {
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
-    @PostMapping("/client/createClientForPostman") // для отправки данных через Postman в теле запроса (POST) json объект
+    @PostMapping("/client/createClientForPostman")
+    // для отправки данных через Postman в теле запроса (POST) json объект
     public ResponseEntity<String> createClientForPostman(@RequestBody ClientDTO clientDTO) {
         if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -121,7 +149,8 @@ public class ClientController {
     }
 
     //  Да, я знаю, что здесь должен быть другой тип запроса, но я пока не знаю JavaScript
-    @GetMapping(value = "/client/delete") //для отправки данных через HTML форму в теле запроса. Удаление клиента по id через GET запрос
+    @GetMapping(value = "/client/delete")
+    //для отправки данных через HTML форму в теле запроса. Удаление клиента по id через GET запрос
     public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
         if (clientDTO.isEmpty()) {
