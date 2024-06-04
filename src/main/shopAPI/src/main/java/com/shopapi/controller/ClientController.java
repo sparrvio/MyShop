@@ -3,6 +3,9 @@ package com.shopapi.controller;
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
 import com.shopapi.service.ClientService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +20,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@OpenAPIDefinition(info = @Info(title = "Client API", version = "v1"))
+@RestController
 @RequestMapping("/api/v1")
-public class RestController {
+public class ClientController {
     @Autowired
     private ClientService clientService;
 
