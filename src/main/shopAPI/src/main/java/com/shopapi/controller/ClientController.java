@@ -57,6 +57,7 @@ public class ClientController {
         return new ResponseEntity<>(clientDTOs, HttpStatus.OK);
     }
 
+    @Operation(summary = "Retrieve all clients with pagination parameters")
     @ApiOperation(value = "Retrieve all clients with pagination parameters", response = ClientDTO.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of clients"),
