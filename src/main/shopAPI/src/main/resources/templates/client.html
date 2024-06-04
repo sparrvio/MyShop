@@ -10,9 +10,15 @@
 <div class="container">
     <h1>Все клиенты</h1>
     <form action="http://localhost:8080/api/v1/client/allClients" method="get">
-        <button type="submit">Получить всех клиентов</button>
+        <label for="limit">Количество записей</label>
+        <input type="number" id="limit" name="limit">
+        <br>
+        <label for="offset">Начать со строки</label>
+        <input type="number" id="offset" name="offset">
+        <button type="submit">Получить список клиентов</button>
     </form>
-    <ul id="clientsList"></ul>
+
+<!--    <ul id="clientsList"></ul>-->
 
     <h1>Поиск клиента</h1>
     <form action="http://localhost:8080/api/v1/client/search" method="get">
