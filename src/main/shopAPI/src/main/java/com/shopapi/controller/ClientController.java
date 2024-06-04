@@ -161,7 +161,12 @@ public class ClientController {
         return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
     }
 
-    @DeleteMapping("/client/deleteForPostman/{idDelete}")  //для Postman удаление клиента через DELETE запрос
+    @Operation(summary  =  "Delete client by id")
+    @ApiResponses(value  =  {
+            @ApiResponse(responseCode = "200", description = "Client deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Client not found")
+    })
+    @DeleteMapping("/client/deleteForPostman/{idDelete}")  // удаление клиента через DELETE запрос
     public ResponseEntity<?> deleteForPostman(@PathVariable Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
         if (clientDTO.isEmpty()) {
