@@ -32,10 +32,14 @@ public class ClientController {
     @Operation(summary = "Get client by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation"),
+            @ApiResponse(responseCode = "400", description = "Bad request - invalid page or size parameters"),
             @ApiResponse(responseCode = "404", description = "Client not found")
     })
     @GetMapping("/client/id")
-    public ResponseEntity<?> getClient(@RequestParam @Valid Long clientID) {
+    public ResponseEntity<?> getClient(@RequestParam (required = false) Long clientID) {
+        if(clientID ==  null ||  clientID  <  1)  {
+            return new ResponseEntity<>("Invalid client ID", HttpStatus.BAD_REQUEST);
+        }
         Optional<ClientDTO> clientDTO = clientService.getClientById(clientID);
         if (clientDTO.isEmpty()) {
             return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
@@ -58,7 +62,7 @@ public class ClientController {
     }
 
     @Operation(summary = "Retrieve all clients with pagination parameters")
-    @ApiOperation(value = "Retrieve all clients with pagination parameters", response = ClientDTO.class, responseContainer = "List")
+//    @ApiOperation(value = "Retrieve all clients with pagination parameters", response = ClientDTO.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of clients"),
             @ApiResponse(responseCode = "400", description = "Bad request - invalid page or size parameters"),
@@ -103,8 +107,7 @@ public class ClientController {
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
-    @PostMapping("/client/createClientForPostman")
-    // для отправки данных через Postman в теле запроса (POST) json объект
+    @PostMapping("/client/createClientForPostman") // для отправки данных в теле запроса json объект
     public ResponseEntity<String> createClientForPostman(@RequestBody ClientDTO clientDTO) {
         if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -122,8 +125,8 @@ public class ClientController {
         }
     }
 
-    // для отправки данных через HTML форму в теле запроса. Да, я знаю, что здесь должен быть другой тип запроса, но я пока не знаю JavaScript
-    @GetMapping("/client/updateAddressForHtml")
+
+    @GetMapping("/client/updateAddressForHtml") // PUT через GET для отправки данных через HTML форму в теле запроса
     public ResponseEntity<?> updateAddressForHtml(@RequestParam Long id, @RequestParam String country, @RequestParam String city, @RequestParam String street) {
         System.out.println("id" + id);
         Optional<ClientDTO> client = clientService.getClientById(id);
@@ -139,7 +142,7 @@ public class ClientController {
         return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
     }
 
-    @PutMapping("/client/{id}/address") // для отправки данных через Postman в теле запроса (PUT) json объект
+    @PutMapping("/client/{id}/address") // для отправки данных в теле запроса (PUT) json объект
     public ResponseEntity<?> updateAddressForPostman(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
         Optional<ClientDTO> client = clientService.getClientById(id);
         if (client.isEmpty()) {
@@ -149,9 +152,7 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //  Да, я знаю, что здесь должен быть другой тип запроса, но я пока не знаю JavaScript
-    @GetMapping(value = "/client/delete")
-    //для отправки данных через HTML форму в теле запроса. Удаление клиента по id через GET запрос
+    @GetMapping(value = "/client/delete")  //DELETE через GET  отправка данных через HTML форму в теле запроса. Удаление клиента по id через GET запрос
     public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
         if (clientDTO.isEmpty()) {
@@ -170,7 +171,7 @@ public class ClientController {
     public ResponseEntity<?> deleteForPostman(@PathVariable Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
         if (clientDTO.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
         }
         clientService.deleteClientById(idDelete);
         return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
