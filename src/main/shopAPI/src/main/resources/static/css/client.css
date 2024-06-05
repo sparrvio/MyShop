@@ -14,13 +14,30 @@ body {
     padding: 20px;
 }
 
+nav  {
+    width: 100%;
+}
+
+.menu {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: white;
+}
+
 h1 {
     margin-bottom: 20px;
     text-align: left;
     width: 100%;
 }
 
-/* Формы теперь имеют фиксированную ширину, но с адаптивными отступами */
 form {
     flex-basis: calc(23% - 40px); /* Базовая ширина, учитывающая отступы */
     box-sizing: border-box;
@@ -29,13 +46,16 @@ form {
     width: 100%; /* Переключается на 100%, когда необходимо */
 }
 
-/*@media (max-width: 768px) {*/
-/*    form {*/
-/*        flex-basis: 100%; !* На мобильных устройствах формы занимают всю ширину *!*/
-/*    }*/
-/*}*/
-
 input[type="text"], button {
+    width: 100%;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+input[type="number"], button {
     width: 100%;
     height: 30px;
     padding: 5px;
@@ -61,3 +81,4 @@ ul {
     display: flex;
     justify-content: center;
 }
+

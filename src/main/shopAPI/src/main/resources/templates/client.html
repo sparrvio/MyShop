@@ -6,16 +6,32 @@
     <link rel="stylesheet" href="../static/css/client.css">
 </head>
 <body>
+<header>
+    <div class="container">
+        <nav>
+            <ul class="menu">
+                <li><a href="http://localhost:63343/shopAPI/templates/index.html">Главная страница</a></li>
+                <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
 <div class="container">
-    <h1>Все клиенты</h1>
-    <form action="http://localhost:8081/api/v1/client/allClients" method="get">
-        <button type="submit">Получить всех клиентов</button>
+    <h1>Список клиентов</h1>
+    <form action="http://localhost:8080/api/v1/client/allClients" method="get">
+        <label for="limit">Номер страницы</label>
+        <input type="number" id="limit" name="limit">
+        <br>
+        <label for="offset">Количество клиентов</label>
+        <input type="number" id="offset" name="offset">
+        <button type="submit">Получить список клиентов</button>
     </form>
-    <ul id="clientsList"></ul>
+
+<!--    <ul id="clientsList"></ul>-->
 
     <h1>Поиск клиента</h1>
-    <form action="http://localhost:8081/api/v1/client/search" method="get">
+    <form action="http://localhost:8080/api/v1/client/search" method="get">
         <label for="fullName">по имени и фамилии:</label>
         <br>
         <input type="text" id="fullName" name="fullName">
@@ -23,7 +39,7 @@
         <button type="submit">Поиск</button>
     </form>
 
-    <form action="http://localhost:8081/api/v1/client/id" method="get">
+    <form action="http://localhost:8080/api/v1/client/id" method="get">
         <label for="clientID">по идентификатору:</label>
         <br>
         <input type="text" id="clientID" name="clientID">
@@ -32,7 +48,7 @@
     </form>
 
     <h1>Создать/Удалить клиента</h1>
-    <form action="http://localhost:8081/api/v1/client/create" method="post">
+    <form action="http://localhost:8080/api/v1/client/create" method="post">
         <label for="name">Имя:</label><br>
         <input type="text" id="name" name="name"><br>
         <label for="surname">Фамилия:</label><br>
@@ -44,7 +60,7 @@
         <button type="submit">Создать</button>
     </form>
 
-    <form action="http://localhost:8081/api/v1/client/delete" method="get">
+    <form action="http://localhost:8080/api/v1/client/delete" method="get">
         <label for="idDelete">ID клиента для удаления</label>
         <br>
         <input type="text" id="idDelete" name="idDelete">
@@ -54,7 +70,7 @@
 
 
     <h1>Изменить адрес</h1>
-    <form action="http://localhost:8081/api/v1/client/updateAddressForHtml" method="get">
+    <form action="http://localhost:8080/api/v1/client/updateAddressForHtml" method="get">
 <!--            <input type="hidden" name="_method" value="PUT">-->
             <label for="id">ID клиента:</label><br>
             <input type="text" id="id" name="id"><br>
@@ -65,7 +81,6 @@
             <label for="street">Улица:</label><br>
             <input type="text" id="street" name="street"><br>
             <button type="submit">Изменить</button>
-        </form>
     </form>
 
 </div>

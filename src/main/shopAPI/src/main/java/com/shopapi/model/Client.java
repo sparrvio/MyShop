@@ -1,20 +1,24 @@
 package com.shopapi.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ColumnDefault;
 
-
 import java.time.LocalDate;
-import java.util.Date;
-
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "client")
+
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
