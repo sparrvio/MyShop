@@ -21,14 +21,13 @@
     <h1>Список клиентов</h1>
     <form action="http://localhost:8080/api/v1/client/allClients" method="get">
         <label for="limit">Номер страницы</label>
-        <input type="number" id="limit" name="limit">
+        <input type="number" min="0" id="limit" name="limit">
         <br>
         <label for="offset">Количество клиентов</label>
-        <input type="number" id="offset" name="offset">
+        <input type="number" min="1" id="offset" name="offset">
         <button type="submit">Получить список клиентов</button>
     </form>
 
-<!--    <ul id="clientsList"></ul>-->
 
     <h1>Поиск клиента</h1>
     <form action="http://localhost:8080/api/v1/client/search" method="get">
@@ -42,7 +41,7 @@
     <form action="http://localhost:8080/api/v1/client/id" method="get">
         <label for="clientID">по идентификатору:</label>
         <br>
-        <input type="text" id="clientID" name="clientID">
+        <input type="number" min="1" id="clientID" name="clientID">
         <br>
         <button type="submit">Поиск</button>
     </form>
@@ -56,14 +55,14 @@
         <label for="birthDate">Дата рождения:</label><br>
         <input type="date" id="birthDate" name="birthDate"><br>
         <label for="gender">Пол:</label><br>
-        <input type="char" id="gender" name="gender"><br>
+        <input type="text" id="gender" name="gender"><br>
         <button type="submit">Создать</button>
     </form>
 
     <form action="http://localhost:8080/api/v1/client/delete" method="get">
         <label for="idDelete">ID клиента для удаления</label>
         <br>
-        <input type="text" id="idDelete" name="idDelete">
+        <input type="number" min="1" id="idDelete" name="idDelete">
         <br>
         <button type="submit">Удалить</button>
     </form>
@@ -71,9 +70,8 @@
 
     <h1>Изменить адрес</h1>
     <form action="http://localhost:8080/api/v1/client/updateAddressForHtml" method="get">
-<!--            <input type="hidden" name="_method" value="PUT">-->
             <label for="id">ID клиента:</label><br>
-            <input type="text" id="id" name="id"><br>
+            <input type="number" min="1" id="id" name="id"><br>
             <label for="country">Страна:</label><br>
             <input type="text" id="country" name="country"><br>
             <label for="city">Город:</label><br>
