@@ -1,14 +1,17 @@
 package com.shopapi.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ColumnDefault;
 
-
 import java.time.LocalDate;
-import java.util.Date;
-
+@ApiModel(description = "Client details")
 @Entity
 @Data
 @Builder
@@ -19,7 +22,7 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @ApiModelProperty(notes = "name", example = "Jonn", required  =  true)
     @Column(name = "client_name", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
     private String clientName;
 
