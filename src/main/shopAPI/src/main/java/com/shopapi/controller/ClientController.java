@@ -36,8 +36,8 @@ public class ClientController {
             @ApiResponse(responseCode = "404", description = "Client not found")
     })
     @GetMapping("/client/id")
-    public ResponseEntity<?> getClient(@RequestParam (required = false) Long clientID) {
-        if(clientID ==  null ||  clientID  <  1)  {
+    public ResponseEntity<?> getClient(@RequestParam(required = false) Long clientID) {
+        if (clientID == null || clientID < 1) {
             return new ResponseEntity<>("Invalid client ID", HttpStatus.BAD_REQUEST);
         }
         Optional<ClientDTO> clientDTO = clientService.getClientById(clientID);
@@ -62,7 +62,6 @@ public class ClientController {
     }
 
     @Operation(summary = "Retrieve all clients with pagination parameters")
-//    @ApiOperation(value = "Retrieve all clients with pagination parameters", response = ClientDTO.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of clients"),
             @ApiResponse(responseCode = "400", description = "Bad request - invalid page or size parameters"),
@@ -71,12 +70,12 @@ public class ClientController {
     @GetMapping("/client/allClients")
     public ResponseEntity<?> getAllClients(@RequestParam(required = false) Integer limit,
                                            @RequestParam(required = false) Integer offset) {
-        if((limit != null && limit < 0) || (offset != null && offset < 1)){
+        if ((limit != null && limit < 0) || (offset != null && offset < 1)) {
             return new ResponseEntity<>("Bad request - invalid page or size parameters",
                     HttpStatus.BAD_REQUEST);
         }
         List<ClientDTO> clientDTO;
-        if (limit!= null && offset!= null) {
+        if (limit != null && offset != null) {
             clientDTO = clientService.getAllClients(limit, offset);
         } else {
             clientDTO = clientService.getAllClients();
@@ -87,10 +86,16 @@ public class ClientController {
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
     }
 
+    @Operation(summary = "Create new client")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "222", description = "Client created successfully"),
+            @ApiResponse(responseCode = "404", description = "Bad request - invalid client data or gender"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping("/client/create") // для отправки данных через HTML форму в теле запроса (POST)
     public ResponseEntity<String> createClient(@RequestParam String name, @RequestParam String surname, @RequestParam String birthDate, @RequestParam char gender) {
         if (gender != 'M' && gender != 'F') {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Invalid client gender", HttpStatus.BAD_REQUEST);
         }
 
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -107,6 +112,13 @@ public class ClientController {
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
+    @Operation(summary =  "Create new client for postman")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "222", description = "Client created successfully"),
+            @ApiResponse(responseCode = "404", description = "Bad request - invalid client data or gender"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+
     @PostMapping("/client/createClientForPostman") // для отправки данных в теле запроса json объект
     public ResponseEntity<String> createClientForPostman(@RequestBody ClientDTO clientDTO) {
         if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
@@ -115,9 +127,7 @@ public class ClientController {
 
         try {
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.parse(clientDTO.getBirthday().toString(), inputFormatter);
             clientDTO.setRegistrationDate(LocalDate.now());
-
             clientService.createClient(clientDTO);
             return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
         } catch (DateTimeParseException e) {
@@ -126,12 +136,16 @@ public class ClientController {
     }
 
 
+    @Operation(summary  =  "Update address")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Address updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Client not found")
+    })
     @GetMapping("/client/updateAddressForHtml") // PUT через GET для отправки данных через HTML форму в теле запроса
     public ResponseEntity<?> updateAddressForHtml(@RequestParam Long id, @RequestParam String country, @RequestParam String city, @RequestParam String street) {
-        System.out.println("id" + id);
         Optional<ClientDTO> client = clientService.getClientById(id);
         if (client.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
         }
         AddressDTO newAddress = AddressDTO.builder()
                 .country(country)
@@ -142,32 +156,44 @@ public class ClientController {
         return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
     }
 
+    @Operation(summary  =  "Update address")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Address updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Client not found")
+    })
     @PutMapping("/client/{id}/address") // для отправки данных в теле запроса (PUT) json объект
     public ResponseEntity<?> updateAddressForPostman(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
         Optional<ClientDTO> client = clientService.getClientById(id);
         if (client.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
         }
         clientService.updateAddress(id, newAddress);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
     }
 
-    @GetMapping(value = "/client/delete")  //DELETE через GET  отправка данных через HTML форму в теле запроса. Удаление клиента по id через GET запрос
+    @Operation(summary  =  "Delete client by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Client deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Client not found")
+    })
+    @GetMapping(value = "/client/delete")
+    //DELETE через GET  отправка данных через HTML форму в теле запроса. Удаление клиента по id через GET запрос
     public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
         if (clientDTO.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
         }
         clientService.deleteClientById(idDelete);
         return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
     }
 
-    @Operation(summary  =  "Delete client by id")
-    @ApiResponses(value  =  {
+    @Operation(summary = "Delete for Postman client by id")
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Client deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Client not found")
     })
     @DeleteMapping("/client/deleteForPostman/{idDelete}")  // удаление клиента через DELETE запрос
+
     public ResponseEntity<?> deleteForPostman(@PathVariable Long idDelete) {
         Optional<ClientDTO> clientDTO = clientService.getClientById(idDelete);
         if (clientDTO.isEmpty()) {
