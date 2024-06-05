@@ -2,6 +2,7 @@ package com.shopapi.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,18 +12,18 @@ import org.hibernate.annotations.Check;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-@ApiModel(description = "Client details")
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "client")
+
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ApiModelProperty(notes = "name", example = "Jonn", required  =  true)
+
     @Column(name = "client_name", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
     private String clientName;
 
