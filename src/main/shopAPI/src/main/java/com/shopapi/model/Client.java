@@ -1,8 +1,5 @@
 package com.shopapi.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,10 +21,10 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "client_name", nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
+    @Column(name = "client_name", nullable = false, columnDefinition = "VARCHAR(255)")
     private String clientName;
 
-    @Column(name = "client_surname", length = 255, columnDefinition = "VARCHAR(255)")
+    @Column(name = "client_surname", columnDefinition = "VARCHAR(255)")
     private String clientSurname;
 
     @Column(name = "birthday", columnDefinition = "DATE")
