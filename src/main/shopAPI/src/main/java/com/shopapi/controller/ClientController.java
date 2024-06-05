@@ -101,6 +101,12 @@ public class ClientController {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(birthDate, inputFormatter);
 
+        int age  = LocalDate.now().getYear()  -  date.getYear();
+
+        if(age < 18 || age > 100) {
+            return new ResponseEntity<>("Invalid age", HttpStatus.BAD_REQUEST);
+        }
+
         ClientDTO clientDTO = ClientDTO.builder()
                 .clientName(name)
                 .clientSurname(surname)
@@ -122,7 +128,12 @@ public class ClientController {
     @PostMapping("/client/createClientForPostman") // для отправки данных в теле запроса json объект
     public ResponseEntity<String> createClientForPostman(@RequestBody ClientDTO clientDTO) {
         if (!Arrays.asList('M', 'F').contains(clientDTO.getGender())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Invalid client gender", HttpStatus.BAD_REQUEST);
+        }
+
+        int age  = LocalDate.now().getYear()  -  clientDTO.getBirthday().getYear();
+        if(age < 18 || age > 100) {
+            return new ResponseEntity<>("Invalid age", HttpStatus.BAD_REQUEST);
         }
 
         try {
