@@ -21,6 +21,6 @@ public class Supplier {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address_id;
-    @Column(name = "phone_number", nullable  = false, columnDefinition  =  "VARCHAR(255)")
+    @Column(name = "phone_number", nullable  = false, columnDefinition  =  "VARCHAR(255) DEFAULT 'default_value'")
     private String phone_number;
 }
