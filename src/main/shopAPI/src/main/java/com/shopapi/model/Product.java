@@ -38,7 +38,6 @@ public class Product {
     @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false)
     private Supplier supplier_id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", referencedColumnName = "id", nullable = false)
-    private Images image_id;
+    @OneToMany(mappedBy = "product_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Images> images = new HashSet<>();
 }
