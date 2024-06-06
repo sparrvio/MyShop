@@ -1,20 +1,21 @@
 package com.shopapi;
 
 import com.shopapi.config.OpenApiConfig;
-import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.mapper.AddressMapper;
-import com.shopapi.mapper.ClientMapper;
+import com.shopapi.dto.ProductDTO;
 
+import com.shopapi.model.Address;
+import com.shopapi.model.Images;
+import com.shopapi.model.Product;
+import com.shopapi.model.Supplier;
 import com.shopapi.service.ClientService;
+import com.shopapi.service.ProductServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
-import java.lang.reflect.Modifier;
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.HashSet;
 
 //@Sql(scripts = "/schema.sql")
 
@@ -113,6 +114,37 @@ public class ShopApiApplication {
         clientService.createClient(client9);
 
 
+        Address address = Address.builder()
+                        .country("Russia")
+                        .city("Klin")
+                        .street("Lenina")
+                        .build();
+
+        Supplier supplier = Supplier.builder()
+                .name("Mango")
+                .address_id(address)
+                .phone_number("+7(999)999-99-99")
+                .build();
+
+        HashSet<Images> images = new HashSet<>();// удалить !!! заменить !!!
+//        product1.setImages(images);  // удалить !!! заменить !!!
+//        product1.setSupplier_id(supplier);// удалить !!! заменить !!!
+
+        ProductDTO productDTO1  = ProductDTO.builder()
+                .name("Apple")
+                .category("Fruit")
+                .price(1090.0)
+                .supplier_id(supplier)
+                .available_stock(100)
+                .build();
+
+
+        ProductServiceImpl productServiceImpl = context.getBean(ProductServiceImpl.class);
+        productServiceImpl.save(productDTO1);
+
+        System.out.println(productServiceImpl.getById(1L));
+
+
 //
 //        List<ClientDTO> list = clientService.getAllClients();
 //        list.forEach(System.out::println);
@@ -120,11 +152,7 @@ public class ShopApiApplication {
 //
 //        ClientMapper clientMapper = context.getBean(ClientMapper.class);
 //
-//        AddressDTO addressDTO = AddressDTO.builder()
-//                .country("Russia")
-//                .city("Klin")
-//                .street("Lenina")
-//                .build();
+
 //        clientService.updateAddress(7L, addressDTO);
 //        AddressMapper addressMapper = context.getBean(AddressMapper.class);
 
