@@ -8,7 +8,7 @@ body {
 .container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around; /* Используем space-around для более равномерного распределения */
+    /*justify-content: space-around; !* Используем space-around для более равномерного распределения *!*/
     max-width: 1200px;
     margin: auto;
     padding: 20px;
@@ -39,11 +39,14 @@ h1 {
 }
 
 form {
+    display: flex;
+    flex-direction: column;
     flex-basis: calc(23% - 40px); /* Базовая ширина, учитывающая отступы */
     box-sizing: border-box;
     margin-bottom: 20px;
     padding: 10px;
     width: 100%; /* Переключается на 100%, когда необходимо */
+    min-width: 280px
 }
 
 input[type="text"], button {
@@ -82,3 +85,19 @@ ul {
     justify-content: center;
 }
 
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    gap: 60px;
+    width: 100%;
+    justify-content: center;
+}
+
+.inputBox {
+    min-height: 100px;
+    /*display: none;*/
+}

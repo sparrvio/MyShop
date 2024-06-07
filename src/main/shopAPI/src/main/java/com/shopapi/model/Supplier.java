@@ -18,7 +18,7 @@ public class Supplier {
     private Long id;
     @Column(name = "name", nullable = false, columnDefinition = "VARCHAR(255)")
     private String name;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address_id;
     @Column(name = "phone_number", nullable  = false, columnDefinition  =  "VARCHAR(255) DEFAULT 'default_value'")

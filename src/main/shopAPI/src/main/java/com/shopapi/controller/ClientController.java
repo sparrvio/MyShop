@@ -3,7 +3,6 @@ package com.shopapi.controller;
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
 import com.shopapi.service.ClientService;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -114,7 +113,7 @@ public class ClientController {
                 .gender(gender)
                 .build();
 
-        clientService.createClient(clientDTO);
+        clientService.save(clientDTO);
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
@@ -139,7 +138,7 @@ public class ClientController {
         try {
             DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             clientDTO.setRegistrationDate(LocalDate.now());
-            clientService.createClient(clientDTO);
+            clientService.save(clientDTO);
             return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
         } catch (DateTimeParseException e) {
             return new ResponseEntity<>("Invalid date format", HttpStatus.BAD_REQUEST);

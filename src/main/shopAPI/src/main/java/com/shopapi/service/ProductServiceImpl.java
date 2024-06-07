@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
@@ -40,6 +42,14 @@ public class ProductServiceImpl implements ProductService{
     public  Product save(ProductDTO productDTO)  {
         Product product = productMapper.toEntity(productDTO);
         return productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductDTO> getAll() {
+        List<Product> products= productRepository.findAll();
+        return products.stream()
+                .map(productMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 }

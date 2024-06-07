@@ -19,12 +19,12 @@
 
 <div class="container">
     <h1>Получение всех доступных товаров</h1>
-    <form action="http://localhost:8080/api/v1/client/allClients" method="get">
-        <button type="submit">Получить список товаров</button>
+    <form action="http://localhost:8080/api/v1/product/all" method="get">
+        <button type="submit">Получить список всех товаров</button>
     </form>
 
     <h1>Получить товар по идентификатору</h1>
-    <form action="http://localhost:8080/api/v1/client/id" method="get">
+    <form action="http://localhost:8080/api/v1/product/id" method="get">
         <label for="productID">Идентификатор товара:</label>
         <br>
         <input type="number" min="1" id="productID" name="productID">

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClientService {
-    Client createClient(ClientDTO clientDTO);
+    Client save(ClientDTO clientDTO);
     List<ClientDTO> getAllClients();
     List<ClientDTO> getAllClients(int page, int size);
     Optional<ClientDTO> getClientById(Long id);

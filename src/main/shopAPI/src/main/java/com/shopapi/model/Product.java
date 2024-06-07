@@ -34,7 +34,7 @@ public class Product {
     @Column(name = "last_update_date", columnDefinition = "DATE")
     @ColumnDefault(value = "CURRENT_DATE")
     private LocalDate last_update_date;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false)
     private Supplier supplier_id;
 
