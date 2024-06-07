@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -108,6 +109,11 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void updateAddress(Long id, AddressDTO addressDTO) {
-        addressService.updateAddress(id, addressDTO);
+
+        long addressId  = clientRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Client with id " + id + " not found"))
+                .getAddress_id()
+                .getId();
+        addressService.updateAddress(addressId, addressDTO);
     }
 }
