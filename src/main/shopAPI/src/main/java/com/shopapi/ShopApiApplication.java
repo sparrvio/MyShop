@@ -6,7 +6,6 @@ import com.shopapi.dto.ProductDTO;
 
 import com.shopapi.model.Address;
 import com.shopapi.model.Images;
-import com.shopapi.model.Product;
 import com.shopapi.model.Supplier;
 import com.shopapi.service.ClientService;
 import com.shopapi.service.ProductServiceImpl;
@@ -36,7 +35,7 @@ public class ShopApiApplication {
                 .gender('M')
                 .registrationDate(LocalDate.of(2002, 10, 15))
                 .build();
-        clientService.createClient(client1);
+        clientService.save(client1);
 
         ClientDTO client2 = ClientDTO.builder()
                 .clientName("Jane")
@@ -103,15 +102,15 @@ public class ShopApiApplication {
                 .build();
 
 
-        clientService.createClient(client1);
-        clientService.createClient(client2);
-        clientService.createClient(client3);
-        clientService.createClient(client4);
-        clientService.createClient(client5);
-        clientService.createClient(client6);
-        clientService.createClient(client7);
-        clientService.createClient(client8);
-        clientService.createClient(client9);
+        clientService.save(client1);
+        clientService.save(client2);
+        clientService.save(client3);
+        clientService.save(client4);
+        clientService.save(client5);
+        clientService.save(client6);
+        clientService.save(client7);
+        clientService.save(client8);
+        clientService.save(client9);
 
 
         Address address = Address.builder()
@@ -120,9 +119,21 @@ public class ShopApiApplication {
                         .street("Lenina")
                         .build();
 
-        Supplier supplier = Supplier.builder()
+        Address address2 = Address.builder()
+                .country("Russia")
+                .city("Klin")
+                .street("Lenina")
+                .build();
+
+        Supplier supplier1 = Supplier.builder()
                 .name("Mango")
                 .address_id(address)
+                .phone_number("+7(999)999-99-99")
+                .build();
+
+        Supplier supplier2  = Supplier.builder()
+                .name("Banana")
+                .address_id(address2)
                 .phone_number("+7(999)999-99-99")
                 .build();
 
@@ -132,15 +143,24 @@ public class ShopApiApplication {
 
         ProductDTO productDTO1  = ProductDTO.builder()
                 .name("Apple")
-                .category("Fruit")
+                .category("Fruits")
                 .price(1090.0)
-                .supplier_id(supplier)
+                .supplier_id(supplier1)
                 .available_stock(100)
+                .build();
+
+        ProductDTO productDTO2   = ProductDTO.builder()
+                .name("Banana")
+                .category("Fruit")
+                .price(10.0)
+                .supplier_id(supplier2)
+                .available_stock(1)
                 .build();
 
 
         ProductServiceImpl productServiceImpl = context.getBean(ProductServiceImpl.class);
         productServiceImpl.save(productDTO1);
+        productServiceImpl.save(productDTO2);
 
         System.out.println(productServiceImpl.getById(1L));
 
