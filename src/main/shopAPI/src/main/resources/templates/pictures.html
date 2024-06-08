@@ -19,53 +19,47 @@
 
 <div class="container">
     <h1>Добавить/изменить изображение</h1>
-    <form action="http://localhost:8080/api/v1/images/addImage" method="post" enctype="multipart/form-data">
+    <form action="http://localhost:8080/api/v1/" method="post" enctype="multipart/form-data">
         <label for="IDProduct">Идентификатор товара:</label>
         <input type="number" min="1" id="IDProduct" name="IDProduct" required>
         <label for="imageFile">Выберите файл изображения:</label>
         <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
         <button type="submit">Добавить</button>
     </form>
+    <form action="http://localhost:8080/api/v1/" method="post" enctype="multipart/form-data">
+        <label for="IDImage">Идентификатор изображения:</label>
+        <input type="number" min="1" id="IDImage" name="IDImage" required>
+        <label for="FileImage">Выберите файл изображения:</label>
+        <input type="file" id="FileImage" name="FileImage" accept="image/*" required>
+        <button type="submit">Добавить</button>
+    </form>
 
     <h1>Получить изображение по идентификатору</h1>
-    <form action="http://localhost:8080/api/v1/client/id" method="get">
+    <form action="http://localhost:8080/api/v1/" method="get">
         <label for="productID">Идентификатор товара:</label>
         <br>
         <input type="number" min="1" id="productID" name="productID" required>
         <br>
         <button type="submit">Поиск</button>
-    </form>
-
-    <h1>Добавить товар/Удалить товар</h1>
-    <form action="http://localhost:8080/api/v1/client/create" method="post">
-        <label for="name">Наименование:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="category">Категория:</label><br>
-        <input type="text" id="category" name="category"><br>
-        <label for="price">Цена:</label><br>
-        <input type="number" step="any" min="0" id="price" name="price"><br>
-        <label for="available_stock">Количество товара:</label><br>
-        <input type="number" id="available_stock" name="available_stock"><br>
-        <button type="submit">Создать</button>
-    </form>
-
-    <form action="http://localhost:8080/api/v1/client/delete" method="get">
-        <label for="idDelete">ID товара для удаления</label>
         <br>
-        <input type="number" min="1" id="idDelete" name="idDelete">
+    </form>
+    <form action="http://localhost:8080/api/v1/" method="get">
+        <label for="imageID">Идентификатор изображения:</label>
         <br>
-        <button type="submit">Удалить</button>
+        <input type="number" min="1" id="imageID" name="imageID" required>
+        <br>
+        <button type="submit">Поиск</button>
     </form>
 
-
-    <h1>Уменьшить количество товара</h1>
-    <form action="http://localhost:8080/api/v1/client/updateAddressForHtml" method="get">
-        <label for="id">Идентификатор товара:</label><br>
-        <input type="number" min="1" id="id" name="id"><br>
-        <label for="quantity">На сколько уменьшить:</label><br>
-        <input type="number" min="1" id="quantity" name="quantity"><br>
-        <button type="submit">Изменить</button>
+    <h1>Удалить изображение по идентификатору</h1>
+    <form action="http://localhost:8080/api/v1/" method="get">
+        <label for="imageIDForDelete">Идентификатор изображения:</label>
+        <br>
+        <input type="number" min="1" id="imageIDForDelete" name="imageIDForDelete" required>
+        <br>
+        <button type="submit">Поиск</button>
     </form>
+
 
 </div>
 </body>
