@@ -21,11 +21,11 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id",  nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private Product product_id;
+
 
     @Column(name = "image", nullable = false)
     private byte[] bytes;
-
 }

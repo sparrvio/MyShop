@@ -162,8 +162,6 @@ public class ShopApiApplication {
         productServiceImpl.save(productDTO1);
         productServiceImpl.save(productDTO2);
 
-        System.out.println(productServiceImpl.getById(1L));
-
 
 //
 //        List<ClientDTO> list = clientService.getAllClients();
