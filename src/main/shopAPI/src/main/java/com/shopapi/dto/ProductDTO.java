@@ -1,5 +1,6 @@
 package com.shopapi.dto;
 
+import com.shopapi.model.Images;
 import com.shopapi.model.Supplier;
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Builder
@@ -30,4 +32,6 @@ public class ProductDTO {
     private LocalDate last_update_date;
     @Schema(description  =  "Supplier ID of the product", example  =  "1")
     private Supplier supplier_id;
+    @Schema(description = "Image of the product", example  =  "https://www.google.com")
+    private Set<ImagesDTO> images;
 }
