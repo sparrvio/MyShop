@@ -2,11 +2,15 @@ package com.shopapi;
 
 import com.shopapi.config.OpenApiConfig;
 import com.shopapi.dto.ClientDTO;
+import com.shopapi.dto.ImagesDTO;
 import com.shopapi.dto.ProductDTO;
 
+import com.shopapi.mapper.ProductMapper;
 import com.shopapi.model.Address;
 import com.shopapi.model.Images;
+import com.shopapi.model.Product;
 import com.shopapi.model.Supplier;
+import com.shopapi.repository.ProductRepository;
 import com.shopapi.service.ClientService;
 import com.shopapi.service.ProductServiceImpl;
 import org.springframework.boot.SpringApplication;
@@ -15,6 +19,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Set;
 
 //@Sql(scripts = "/schema.sql")
 
@@ -25,6 +30,7 @@ public class ShopApiApplication {
         OpenApiConfig openApiConfig  = context.getBean(OpenApiConfig.class);
         openApiConfig.publicApi();
 
+        ProductMapper productMapper  = context.getBean(ProductMapper.class);
         ClientService clientService = context.getBean(ClientService.class);
 //        clientService.deleteClientById(22L);
 
@@ -137,7 +143,7 @@ public class ShopApiApplication {
                 .phone_number("+7(999)999-99-99")
                 .build();
 
-        HashSet<Images> images = new HashSet<>();// удалить !!! заменить !!!
+        Set<ImagesDTO> images = new HashSet<>();// удалить !!! заменить !!!
 //        product1.setImages(images);  // удалить !!! заменить !!!
 //        product1.setSupplier_id(supplier);// удалить !!! заменить !!!
 
@@ -147,7 +153,10 @@ public class ShopApiApplication {
                 .price(1090.0)
                 .supplier_id(supplier1)
                 .available_stock(100)
+                .images(images)
                 .build();
+
+        productDTO1.setImages(images);
 
         ProductDTO productDTO2   = ProductDTO.builder()
                 .name("Banana")
@@ -162,6 +171,12 @@ public class ShopApiApplication {
         productServiceImpl.save(productDTO1);
         productServiceImpl.save(productDTO2);
 
+        ProductRepository productRepository  = context.getBean(ProductRepository.class);
+        Product product1   = productRepository.findById(1L).get();
+
+
+        Product product = productMapper.toEntity(productDTO1);
+        System.out.println(product.getImages());
 
 //
 //        List<ClientDTO> list = clientService.getAllClients();

@@ -26,7 +26,6 @@ public class ImageServiceImpl implements ImageService{
 
     private ImageRepository imagesRepository;
     private ImageMapper imageMapper;
-
     private ProductService productService;
     private ProductMapper productMapper;
 
@@ -48,7 +47,7 @@ public class ImageServiceImpl implements ImageService{
 
     @Override
     public void deleteImage(Long imageId) {
-
+        imagesRepository.deleteById(imageId);
     }
 
     @Override

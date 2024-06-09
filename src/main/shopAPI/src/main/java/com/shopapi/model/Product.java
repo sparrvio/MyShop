@@ -7,10 +7,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.awt.*;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.List;
 
 
 @Entity
@@ -38,7 +36,9 @@ public class Product {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false)
     private Supplier supplier_id;
-
-    @OneToMany(mappedBy = "product_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Images> images = new HashSet<>();
+    public Set<Images> getImages() {
+        return this.images;
+    }
 }
