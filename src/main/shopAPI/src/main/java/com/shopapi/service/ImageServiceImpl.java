@@ -10,6 +10,7 @@ import com.shopapi.repository.ImageRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,6 @@ import java.util.Optional;
 @Component
 @Service
 public class ImageServiceImpl implements ImageService{
-
     private ImageRepository imagesRepository;
     private ImageMapper imageMapper;
     private ProductService productService;
