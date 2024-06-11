@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>REST Controller</title>
+    <link rel="stylesheet" href="../static/css/client.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <ul class="menu">
+                <li><a href="index.html">Главная страница</a></li>
+                <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="content">
+            <h1>Список всех поставщиков</h1>
+            <form action="http://localhost:8080/api/v1/supplier/getAll" method="get" class="searchForm">
+                <br>
+                <div class="inputBox"> </div>
+                <button type="submit">Все поставщики</button>
+            </form>
+        </div>
+        <div class="content">
+            <h1>Поиск поставщика по идентификатору</h1>
+            <div class="row">
+                <form action="http://localhost:8080/api/v1/supplier/supplierId" method="get">
+                    <div class="inputBox">
+                        <label for="supplierId">по идентификатору:</label>
+                        <br>
+                        <input type="number" min="1" id="supplierId" name="supplierId">
+                    </div>
+                    <br>
+                    <button type="submit">Поиск</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="content">
+            <h1>Создать поставщика</h1>
+            <form action="http://localhost:8080/api/v1/supplier/create" method="post">
+                <div class="inputBox">
+                    <label for="name">Имя:</label>
+                    <br>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div class="inputBox">
+                    <label for="phone">Телефон: +79998887766 или +7-999-888-77-66</label>
+                    <br>
+                    <input type="text" id="phone" name="phone">
+                </div>
+                <br>
+                <div class="inputBox"> </div>
+                <div class="inputBox"> </div>
+                <button type="submit">Создать</button>
+            </form>
+        </div>
+        <div class="content">
+            <h1>Удалить поставщика</h1>
+            <form action="http://localhost:8080/api/v1/supplier/delete" method="get">
+                <div class="inputBox">
+                    <label for="idDelete">ID поставщика:</label>
+                    <br>
+                    <input type="number" min="1" id="idDelete" name="idDelete">
+                </div>
+                <div class="inputBox"> </div>
+                <div class="inputBox"> </div>
+                <div class="inputBox"> </div>
+                <br>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+        <div class="content">
+            <h1>Изменить адрес</h1>
+            <form action="http://localhost:8080/api/v1/supplier/updateAddress" method="get">
+                <div class="inputBox">
+                    <label for="id">ID поставщика:</label><br>
+                    <input type="number" min="1" id="id" name="id">
+                </div>
+                <div class="inputBox">
+                    <label for="country">Страна:</label><br>
+                    <input type="text" id="country" name="country">
+                </div>
+                <div class="inputBox">
+                    <label for="city">Город:</label><br>
+                    <input type="text" id="city" name="city">
+                </div>
+                <div class="inputBox">
+                    <label for="street">Улица:</label><br>
+                    <input type="text" id="street" name="street">
+                </div>
+                <br>
+                <button type="submit">Изменить</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
