@@ -33,12 +33,29 @@ public class Product {
     @ColumnDefault(value = "CURRENT_DATE")
     private LocalDate last_update_date;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false)
-    private Supplier supplier_id;
-    @OneToMany(mappedBy = "product_id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<Images> images = new HashSet<>();
-    public Set<Images> getImages() {
-        return this.images;
+    @PrePersist
+    protected void setLastUpdateDateToYesterday() {
+        this.last_update_date = getPreviousDay(LocalDate.now());
     }
+    @PreUpdate
+    protected void setLastUpdateDateToCurrent() {
+        this.last_update_date = LocalDate.now();
+    }
+    private LocalDate getPreviousDay(LocalDate date) {
+        return date.minusDays(1);
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "product_supplier",
+            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "supplier_id", referencedColumnName = "id"))
+    private Set<Supplier> suppliers = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "product_id",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Set<Images> images = new HashSet<>();
 }

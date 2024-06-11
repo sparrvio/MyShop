@@ -11,6 +11,7 @@ import com.shopapi.model.Images;
 import com.shopapi.model.Product;
 import com.shopapi.model.Supplier;
 import com.shopapi.repository.ProductRepository;
+import com.shopapi.repository.SupplierRepository;
 import com.shopapi.service.ClientService;
 import com.shopapi.service.ProductServiceImpl;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +33,7 @@ public class ShopApiApplication {
 
         ProductMapper productMapper  = context.getBean(ProductMapper.class);
         ClientService clientService = context.getBean(ClientService.class);
-//        clientService.deleteClientById(22L);
+        clientService.deleteClientById(22L);
 
         ClientDTO client1 = ClientDTO.builder()
                 .clientName("Johnааа")
@@ -166,10 +167,16 @@ public class ShopApiApplication {
                 .available_stock(1)
                 .build();
 
-
+        SupplierRepository supplierRepository = context.getBean(SupplierRepository.class);
+        supplierRepository.save(supplier1);
+        supplierRepository.save(supplier2);
+        productDTO1.setSupplier_id(supplier1);
+        productDTO2.setSupplier_id(supplier2);
         ProductServiceImpl productServiceImpl = context.getBean(ProductServiceImpl.class);
+        System.out.println(supplier1);
+        System.out.println(productDTO1);
         productServiceImpl.save(productDTO1);
-        productServiceImpl.save(productDTO2);
+//        productServiceImpl.save(productDTO2);
 
         ProductRepository productRepository  = context.getBean(ProductRepository.class);
         Product product1   = productRepository.findById(1L).get();

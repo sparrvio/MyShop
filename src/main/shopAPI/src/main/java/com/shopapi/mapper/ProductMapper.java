@@ -35,13 +35,11 @@ public interface ProductMapper {
         return dto;
     }
 
-
-    // Метод для преобразования Images в ImagesDTO
     default ImagesDTO toDto(Images image) {
         ImagesDTO dto = new ImagesDTO();
-        dto.setId(image.getId()); // Предполагая, что у Images есть поле id
-        dto.setProductId(image.getProduct_id().getId()); // Получаем id продукта из связанной сущности
-        dto.setImageBytes(image.getBytes()); // Предполагая, что у Images есть поле imageBytes
+        dto.setId(image.getId());
+        dto.setProductId(image.getProduct_id().getId());
+        dto.setImageBytes(image.getBytes());
         return dto;
     }
 }

@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Set;
 
+@ApiModel(description = "Product details")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "Product details")
 public class ProductDTO {
     @Schema(description = "Unique identifier of the product", example = "1")
     private Long id;

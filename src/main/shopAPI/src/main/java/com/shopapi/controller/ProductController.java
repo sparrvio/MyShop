@@ -11,10 +11,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,5 +55,25 @@ public class ProductController {
             return new ResponseEntity<>("No products found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Create new product")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "222", description = "Product created successfully"),
+            @ApiResponse(responseCode = "404", description = "Bad request - invalid product data or category"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PostMapping("/product/create") // для отправки данных через HTML форму в теле запроса (POST)
+    public ResponseEntity<?> createProduct(@RequestParam String name, @RequestParam String category,
+                                          @RequestParam Double price, @RequestParam Integer available_stock) {
+        System.out.println("createProduct");
+        ProductDTO productDTO = ProductDTO.builder()
+                .name(name)
+                .category(category)
+                .price(price)
+                .available_stock(available_stock)
+                .build();
+        productService.save(productDTO);
+        return new ResponseEntity<>("Product created successfully", HttpStatus.OK);
     }
 }
