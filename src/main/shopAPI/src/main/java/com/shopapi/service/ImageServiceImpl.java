@@ -51,7 +51,7 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public Images saveImages(byte[] image, Long productId) {
+    public Images saveImagesByProductID(byte[] image, Long productId) {
         Images images = new Images();
         images.setBytes(image);
         Optional <ProductDTO> productDTO = productService.getById(productId);

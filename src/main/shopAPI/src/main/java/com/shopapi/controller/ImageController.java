@@ -47,8 +47,8 @@ public class ImageController {
             @ApiResponse(responseCode = "404", description = "Bad request - invalid client data or gender"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PostMapping("/image/create") // для отправки данных через HTML форму в теле запроса (POST)
-    public ResponseEntity<String> saveImage(@RequestParam("product_id") Long product_id,
+    @PostMapping("/image/createByIdProduct")
+    public ResponseEntity<String> saveImagesByProductID(@RequestParam("product_id") Long product_id,
                                             @RequestParam("imageFile") MultipartFile file) {
         String contentType = file.getContentType();
 
@@ -61,12 +61,39 @@ public class ImageController {
             return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
         }
         try {
-            imageService.saveImages(file.getBytes(), product_id);
+            imageService.saveImagesByProductID(file.getBytes(), product_id);
         } catch (IOException e) {
             throw new RuntimeException("Error uploading image", e);
         }
         return new ResponseEntity<>("Image created successfully", HttpStatus.OK);
     }
+
+//    @Operation(summary = "Create new image", description = "This endpoint allows creating a new image associated with a specific product.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "222", description = "Client created successfully"),
+//            @ApiResponse(responseCode = "404", description = "Bad request - invalid client data or gender"),
+//            @ApiResponse(responseCode = "500", description = "Internal server error")
+//    })
+//    @PostMapping("/image/createByIdProduct")
+//    public ResponseEntity<String> saveImage(@RequestParam("image_id") Long image_id,
+//                                            @RequestParam("imageFile") MultipartFile file) {
+//        String contentType = file.getContentType();
+//
+//        assert contentType != null;
+//        if (!contentType.startsWith("image/")) {
+//            return new ResponseEntity<>("Invalid image type", HttpStatus.BAD_REQUEST);
+//        }
+//        Optional<ImagesDTO> imagesOptional = imageService.getImages(image_id);
+//        if (imagesOptional.isEmpty()) {
+//            return new ResponseEntity<>("Image not found", HttpStatus.NOT_FOUND);
+//        }
+//        try {
+//            imageService.saveImages(file.getBytes(), product_id);
+//        } catch (IOException e) {
+//            throw new RuntimeException("Error uploading image", e);
+//        }
+//        return new ResponseEntity<>("Image created successfully", HttpStatus.OK);
+//    }
 
     @Operation(summary = "Get picture by ID image")
     @ApiResponses(value = {
@@ -113,7 +140,6 @@ public class ImageController {
         }
         Optional<ProductDTO> productDTOOptional = productService.getById(productID);
         if (productDTOOptional.isEmpty()) {
-            System.out.println("if (productDTOOptional.isEmpty())");
             return ResponseEntity.notFound().build();
         } else {
             ProductDTO productDTO = productDTOOptional.get();

@@ -19,7 +19,7 @@
 
 <div class="container">
     <h1>Добавить/изменить изображение</h1>
-    <form action="http://localhost:8080/api/v1/image/create" method="post" enctype="multipart/form-data">
+    <form action="http://localhost:8080/api/v1/image/createByIdProduct" method="post" enctype="multipart/form-data">
         <label for="product_id">Идентификатор товара:</label>
         <input type="number" min="1" id="product_id" name="product_id" required>
         <label for="imageFile">Выберите файл изображения:</label>
@@ -28,7 +28,7 @@
     </form>
 
 
-    <form action="http://localhost:8080/api/v1/" method="post" enctype="multipart/form-data">
+    <form action="http://localhost:8080/api/v1/image/createByIdImage" method="post" enctype="multipart/form-data">
         <label for="IDImage">Идентификатор изображения:</label>
         <input type="number" min="1" id="IDImage" name="IDImage" required>
         <label for="FileImage">Выберите файл изображения:</label>
