@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @Builder
@@ -23,4 +26,11 @@ public class Supplier {
     private Address address_id;
     @Column(name = "phone_number", nullable  = false, columnDefinition  =  "VARCHAR(255) DEFAULT 'default_value'")
     private String phone_number;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "product_supplier",
+            joinColumns = @JoinColumn(name = "supplier_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
+    private Set<Product> products = new HashSet<>();
 }

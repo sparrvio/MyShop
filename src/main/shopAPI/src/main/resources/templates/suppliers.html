@@ -21,7 +21,7 @@
     <div class="row">
         <div class="content">
             <h1>Список всех поставщиков</h1>
-            <form action="http://localhost:8080/api/v1/supliers/getAll" method="get" class="searchForm">
+            <form action="http://localhost:8080/api/v1/supplier/getAll" method="get" class="searchForm">
                 <br>
                 <div class="inputBox"> </div>
                 <button type="submit">Все поставщики</button>
@@ -30,11 +30,11 @@
         <div class="content">
             <h1>Поиск поставщика по идентификатору</h1>
             <div class="row">
-                <form action="http://localhost:8080/api/v1/supliers/geyById" method="get">
+                <form action="http://localhost:8080/api/v1/supplier/supplierId" method="get">
                     <div class="inputBox">
-                        <label for="clientID">по идентификатору:</label>
+                        <label for="supplierId">по идентификатору:</label>
                         <br>
-                        <input type="number" min="1" id="clientID" name="clientID">
+                        <input type="number" min="1" id="supplierId" name="supplierId">
                     </div>
                     <br>
                     <button type="submit">Поиск</button>
@@ -45,14 +45,14 @@
     <div class="row">
         <div class="content">
             <h1>Создать поставщика</h1>
-            <form action="http://localhost:8080/api/v1/supliers/create" method="post">
+            <form action="http://localhost:8080/api/v1/supplier/create" method="post">
                 <div class="inputBox">
                     <label for="name">Имя:</label>
                     <br>
                     <input type="text" id="name" name="name">
                 </div>
                 <div class="inputBox">
-                    <label for="phone">Телефон:</label>
+                    <label for="phone">Телефон: +79998887766 или +7-999-888-77-66</label>
                     <br>
                     <input type="text" id="phone" name="phone">
                 </div>
@@ -64,7 +64,7 @@
         </div>
         <div class="content">
             <h1>Удалить поставщика</h1>
-            <form action="http://localhost:8080/api/v1/supliers/delete" method="get">
+            <form action="http://localhost:8080/api/v1/supplier/delete" method="get">
                 <div class="inputBox">
                     <label for="idDelete">ID поставщика:</label>
                     <br>
@@ -79,7 +79,7 @@
         </div>
         <div class="content">
             <h1>Изменить адрес</h1>
-            <form action="http://localhost:8080/api/v1/supliers/updateAddress" method="get">
+            <form action="http://localhost:8080/api/v1/supplier/updateAddress" method="get">
                 <div class="inputBox">
                     <label for="id">ID поставщика:</label><br>
                     <input type="number" min="1" id="id" name="id">
