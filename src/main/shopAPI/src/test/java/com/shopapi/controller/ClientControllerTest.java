@@ -133,11 +133,13 @@ public class ClientControllerTest {
     }
 
     @Test
-    void getClientByFullNameIsFalseTest() throws Exception  {
+    void getClientByFullNameIsFalseTest() throws Exception {
         when(clientService.getClientByNameAndSurname("Name Surname")).thenReturn(Collections.emptyList());
+
         mockMvc.perform(get("/api/v1/client/search?fullName=Name Surname"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
     }
+
 
     @Test
     void createClientIsTrueTest() throws Exception {
