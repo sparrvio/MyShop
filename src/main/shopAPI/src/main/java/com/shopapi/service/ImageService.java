@@ -11,6 +11,7 @@ public interface ImageService {
     Optional<ImagesDTO> getImagesByProductID(Long productId);
     void deleteImage(Long imageId);
     Images saveImagesByProductID(byte[] image, Long productId);
-//    Images saveImagesByImageID(byte[] image, Long productId);
+
+    void saveImagesByImageID(byte[] image, Long productId);
 
 }

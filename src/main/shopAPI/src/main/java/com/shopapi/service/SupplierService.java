@@ -1,6 +1,7 @@
 package com.shopapi.service;
 
 import com.shopapi.dto.AddressDTO;
+import com.shopapi.dto.ProductDTO;
 import com.shopapi.dto.SupplierDTO;
 import com.shopapi.model.Supplier;
 
@@ -13,4 +14,5 @@ public interface SupplierService {
     void deleteById(Long id);
     void updateAddress(Long id, AddressDTO addressDTO);
     Supplier save(SupplierDTO supplierDTO);
+    void updateProduct(Long id, ProductDTO productDTO);
 }

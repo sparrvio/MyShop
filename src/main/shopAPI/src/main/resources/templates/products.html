@@ -18,44 +18,44 @@
 </header>
 
 <div class="container">
-    <h1>Получение всех доступных товаров</h1>
-    <form action="http://localhost:8080/api/v1/product/all" method="get">
-        <button type="submit">Получить список всех товаров</button>
-    </form>
+        <h1>Получение всех доступных товаров</h1>
+        <form action="http://localhost:8080/api/v1/product/all" method="get">
+            <button type="submit">Получить список всех товаров</button>
+        </form>
 
-    <h1>Получить товар по идентификатору</h1>
-    <form action="http://localhost:8080/api/v1/product/id" method="get">
-        <label for="productID">Идентификатор товара:</label>
-        <br>
-        <input type="number" min="1" id="productID" name="productID">
-        <br>
-        <button type="submit">Поиск</button>
-    </form>
+        <h1>Получить товар по идентификатору</h1>
+        <form action="http://localhost:8080/api/v1/product/id" method="get">
+            <label for="productID">Идентификатор товара:</label>
+            <br>
+            <input type="number" min="1" id="productID" name="productID">
+            <br>
+            <button type="submit">Поиск</button>
+        </form>
 
-    <h1>Добавить товар/Удалить товар</h1>
-    <form action="http://localhost:8080/api/v1/product/create" method="post">
-        <label for="name">Наименование:</label><br>
-        <input type="text" id="name" name="name"><br>
-        <label for="category">Категория:</label><br>
-        <input type="text" id="category" name="category"><br>
-        <label for="price">Цена:</label><br>
-        <input type="number" step="any" min="0" id="price" name="price"><br>
-        <label for="available_stock">Количество товара:</label><br>
-        <input type="number" id="available_stock" step="1" min="0" name="available_stock"><br>
-        <button type="submit">Добавить</button>
-    </form>
+        <h1>Добавить товар/Удалить товар</h1>
+        <form action="http://localhost:8080/api/v1/product/create" method="post">
+            <label for="name">Наименование:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="category">Категория:</label><br>
+            <input type="text" id="category" name="category"><br>
+            <label for="price">Цена:</label><br>
+            <input type="number" step="any" min="0" id="price" name="price"><br>
+            <label for="available_stock">Количество товара:</label><br>
+            <input type="number" id="available_stock" step="1" min="0" name="available_stock"><br>
+            <button type="submit">Добавить</button>
+        </form>
 
-    <form action="http://localhost:8080/api/v1/product/delete" method="get">
-        <label for="idDelete">ID товара для удаления</label>
-        <br>
-        <input type="number" min="1" id="idDelete" name="idDelete">
-        <br>
-        <button type="submit">Удалить</button>
-    </form>
+        <form action="http://localhost:8080/api/v1/product/deleteProductById" method="get">
+            <label for="idDelete">ID товара для удаления</label>
+            <br>
+            <input type="number" min="1" id="idDelete" name="idDelete">
+            <br>
+            <button type="submit">Удалить</button>
+        </form>
 
 
     <h1>Уменьшить количество товара</h1>
-    <form action="http://localhost:8080/api/v1/client/updateAddressForHtml" method="get">
+    <form action="http://localhost:8080/api/v1/product/updateQuantity" method="post">
         <label for="id">Идентификатор товара:</label><br>
         <input type="number" min="1" id="id" name="id"><br>
         <label for="quantity">На сколько уменьшить:</label><br>

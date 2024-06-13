@@ -27,8 +27,8 @@ public class Product {
     private String category;
     @Column(name = "price", nullable = false, columnDefinition = "DOUBLE PRECISION")
     private Double price;
-    @Column(name = "available_stock", nullable = false, columnDefinition = "INTEGER")
-    private Integer available_stock;
+    @Column(name = "available_stock", nullable = false, columnDefinition = "BIGINT")
+    private Long available_stock;
     @Column(name = "last_update_date", columnDefinition = "DATE")
     @ColumnDefault(value = "CURRENT_DATE")
     private LocalDate last_update_date;

@@ -62,4 +62,9 @@ public class ImageServiceImpl implements ImageService{
         images.setProduct_id(product);
         return imagesRepository.save(images);
     }
+
+    @Override
+    public void saveImagesByImageID(byte[] image, Long image_id)  {
+        imagesRepository.findById(image_id).orElseThrow().setBytes(image);
+    }
 }

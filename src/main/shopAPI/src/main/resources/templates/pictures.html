@@ -29,8 +29,8 @@
 
 
     <form action="http://localhost:8080/api/v1/image/createByIdImage" method="post" enctype="multipart/form-data">
-        <label for="IDImage">Идентификатор изображения:</label>
-        <input type="number" min="1" id="IDImage" name="IDImage" required>
+        <label for="image_id">Идентификатор изображения:</label>
+        <input type="number" min="1" id="image_id" name="image_id" required>
         <label for="FileImage">Выберите файл изображения:</label>
         <input type="file" id="FileImage" name="FileImage" accept="image/*" required>
         <button type="submit">Добавить</button>
