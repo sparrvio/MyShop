@@ -27,7 +27,7 @@ public class ProductDTO {
     @Schema(description = "Price of the product", example =  "10.0")
     private Double price;
     @Schema(description = "Available stock of the product", example  = "10")
-    private Integer available_stock;
+    private Long available_stock;
     @Schema(description = "Date of the last update of the product", example =  "2020-01-01")
     private LocalDate last_update_date;
     @Schema(description  =  "Supplier ID of the product", example  =  "1")

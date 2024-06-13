@@ -7,6 +7,8 @@ import com.shopapi.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,4 +55,22 @@ public class ProductServiceImpl implements ProductService{
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void updateQuantity(long id, long quantity) {
+        Optional<ProductDTO> productDTOOptional = getById(id);
+        Product product = productMapper.toEntity(productDTOOptional.get());
+        product.setAvailable_stock(product.getAvailable_stock() - quantity);
+        productRepository.save(product);
+    }
+
+    @Override
+    public void delete(long id) {
+        Optional<ProductDTO> productDTOOptional  = getById(id);
+        if (productDTOOptional.isPresent())   {
+            Product product = productMapper.toEntity(productDTOOptional.get());
+            productRepository.delete(product);
+        } else  {
+            throw new RuntimeException("Product not found");
+        }
+    }
 }

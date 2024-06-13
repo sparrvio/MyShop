@@ -1,12 +1,18 @@
 package com.shopapi.controller;
 
+import com.shopapi.dto.AddressDTO;
+import com.shopapi.dto.ClientDTO;
 import com.shopapi.dto.ProductDTO;
+import com.shopapi.dto.SupplierDTO;
+import com.shopapi.mapper.ProductMapper;
+import com.shopapi.model.Product;
 import com.shopapi.service.ProductService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +28,10 @@ import java.util.Optional;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductMapper productMapper;
+
 
     @Operation(summary = "Get product by ID")
     @ApiResponses(value = {
@@ -42,9 +52,9 @@ public class ProductController {
     }
 
 
-    @Operation(summary = "Retrieve all clients with pagination parameters")
+    @Operation(summary = "Get all products")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of clients"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of products"),
             @ApiResponse(responseCode = "400", description = "Bad request - invalid page or size parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -65,7 +75,7 @@ public class ProductController {
     })
     @PostMapping("/product/create") // для отправки данных через HTML форму в теле запроса (POST)
     public ResponseEntity<?> createProduct(@RequestParam String name, @RequestParam String category,
-                                          @RequestParam Double price, @RequestParam Integer available_stock) {
+                                           @RequestParam Double price, @RequestParam Long available_stock) {
         System.out.println("createProduct");
         ProductDTO productDTO = ProductDTO.builder()
                 .name(name)
@@ -75,5 +85,47 @@ public class ProductController {
                 .build();
         productService.save(productDTO);
         return new ResponseEntity<>("Product created successfully", HttpStatus.OK);
+    }
+
+    @Operation(summary = "Update quantity")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Quantity updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @PostMapping("/product/updateQuantity")
+    public ResponseEntity<String> updateQuantity(
+            @RequestParam("id") long id,
+            @RequestParam("quantity") long quantity) {
+        Optional<ProductDTO> productDTOOptional = productService.getById(id);
+        if (productDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+        }
+        Product product = productMapper.toEntity(productDTOOptional.get());
+
+        if (product.getAvailable_stock() < quantity) {
+            return new ResponseEntity<>("Not enough stock", HttpStatus.NOT_FOUND);
+        }
+        productService.updateQuantity(id, quantity);
+
+        return new ResponseEntity<>("Quantity updated successfully", HttpStatus.OK);
+    }
+
+    @Operation(summary = "Delete product")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @GetMapping(value = "/product/deleteProductById")
+    public ResponseEntity<?> deleteProductById(@RequestParam Long idDelete)  {
+        Optional<ProductDTO> productDTOOptional = productService.getById(idDelete);
+        if (productDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
+        }
+        try {
+            productService.delete(idDelete);
+        } catch (RuntimeException ex)  {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
     }
 }
