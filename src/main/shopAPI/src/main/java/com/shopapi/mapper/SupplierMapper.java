@@ -1,14 +1,9 @@
 package com.shopapi.mapper;
 
-import com.shopapi.dto.AddressDTO;
-import com.shopapi.dto.ProductDTO;
 import com.shopapi.dto.SupplierDTO;
 import com.shopapi.model.Supplier;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
-import java.util.Set;
 
 @Mapper(componentModel = "spring", uses = {AddressMapper.class, ProductMapper.class})
 public interface SupplierMapper {

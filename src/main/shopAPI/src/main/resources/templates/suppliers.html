@@ -28,7 +28,7 @@
             </form>
         </div>
         <div class="content">
-            <h1>Поиск поставщика по идентификатору</h1>
+            <h1>Поиск по ID</h1>
             <div class="row">
                 <form action="http://localhost:8080/api/v1/supplier/supplierId" method="get">
                     <div class="inputBox">
@@ -40,6 +40,18 @@
                     <button type="submit">Поиск</button>
                 </form>
             </div>
+        </div>
+        <div class="content">
+            <h1>Удалить по ID</h1>
+            <form action="http://localhost:8080/api/v1/supplier/deleteSupplierById" method="get">
+                <div class="inputBox">
+                    <label for="idDelete">ID поставщика:</label>
+                    <br>
+                    <input type="number" min="1" id="idDelete" name="idDelete">
+                </div>
+                <br>
+                <button type="submit">Удалить</button>
+            </form>
         </div>
     </div>
     <div class="row">
@@ -63,18 +75,22 @@
             </form>
         </div>
         <div class="content">
-            <h1>Удалить поставщика</h1>
-            <form action="http://localhost:8080/api/v1/supplier/delete" method="get">
+            <h1>Добавить товар</h1>
+            <form action="http://localhost:8080/api/v1/supplier/addProduct" method="get">
                 <div class="inputBox">
-                    <label for="idDelete">ID поставщика:</label>
+                    <label for="idSupplier">ID поставщика:</label>
                     <br>
-                    <input type="number" min="1" id="idDelete" name="idDelete">
+                    <input type="number" min="1" id="idSupplier" name="idSupplier">
+                </div>
+                <div class="inputBox">
+                    <label for="idProduct">ID товара:</label>
+                    <br>
+                    <input type="number" min="1" id="idProduct" name="idProduct">
                 </div>
                 <div class="inputBox"> </div>
                 <div class="inputBox"> </div>
-                <div class="inputBox"> </div>
                 <br>
-                <button type="submit">Удалить</button>
+                <button type="submit">Добавить</button>
             </form>
         </div>
         <div class="content">

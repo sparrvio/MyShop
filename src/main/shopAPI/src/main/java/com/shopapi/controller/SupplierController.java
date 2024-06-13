@@ -2,8 +2,10 @@ package com.shopapi.controller;
 
 import com.shopapi.dto.AddressDTO;
 import com.shopapi.dto.ClientDTO;
+import com.shopapi.dto.ProductDTO;
 import com.shopapi.dto.SupplierDTO;
 import com.shopapi.model.Supplier;
+import com.shopapi.service.ProductService;
 import com.shopapi.service.SupplierService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @OpenAPIDefinition(info = @Info(title = "Supplier API", version = "v1"))
@@ -27,6 +30,9 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
+    @Autowired
+    private ProductService productService;
+
 
     @Operation(summary = "Get supplier by ID")
     @ApiResponses(value = {
@@ -36,10 +42,10 @@ public class SupplierController {
     })
     @GetMapping("/supplier/supplierId")
     public ResponseEntity<?> getClient(@RequestParam(required = false) Long supplierId) {
-        if(supplierId < 1 || supplierId == null){
+        if (supplierId < 1 || supplierId == null) {
             return new ResponseEntity<>("Invalid ID", HttpStatus.BAD_REQUEST);
         }
-        Optional<SupplierDTO> supplierDtoOpt  = supplierService.findById(supplierId);
+        Optional<SupplierDTO> supplierDtoOpt = supplierService.findById(supplierId);
         if (supplierDtoOpt.isEmpty()) {
             return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
         }
@@ -47,14 +53,14 @@ public class SupplierController {
     }
 
 
-    @Operation(summary  = "Get all suppliers")
-    @ApiResponses(value  = {
+    @Operation(summary = "Get all suppliers")
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Suppliers fetched successfully"),
             @ApiResponse(responseCode = "404", description = "Bad request - invalid client data or gender"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping("supplier/getAll")
-    public ResponseEntity<?> getAllSuppliers()  {
+    public ResponseEntity<?> getAllSuppliers() {
         List<SupplierDTO> suppliers = supplierService.findAll();
         return new ResponseEntity<>(suppliers, HttpStatus.OK);
     }
@@ -68,7 +74,7 @@ public class SupplierController {
     @PostMapping("/supplier/create")
     public ResponseEntity<?> createSupplier(@RequestParam String name, @RequestParam String phone) {
 
-        if (!phone.matches("^\\+7[-.\\s]*(\\d{3})[-.\\s]*(\\d{3})[-.\\s]*(\\d{2})[-.\\s]*(\\d{2})$")){
+        if (!phone.matches("^\\+7[-.\\s]*(\\d{3})[-.\\s]*(\\d{3})[-.\\s]*(\\d{2})[-.\\s]*(\\d{2})$")) {
             return new ResponseEntity<>("Bad request - invalid format of phone number", HttpStatus.BAD_REQUEST);
         }
         SupplierDTO supplierDTO = SupplierDTO.builder()
@@ -79,7 +85,7 @@ public class SupplierController {
         return new ResponseEntity<>("Supplier created successfully", HttpStatus.CREATED);
     }
 
-    @Operation(summary  =  "Update address")
+    @Operation(summary = "Update address")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Address updated successfully"),
             @ApiResponse(responseCode = "404", description = "Client not found")
@@ -99,18 +105,40 @@ public class SupplierController {
         return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
     }
 
-    @Operation(summary  =  "Delete supplier by id")
+    @Operation(summary = "Delete supplier by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Supplier deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Supplier not found")
     })
-    @GetMapping(value = "/supplier/delete")
-    public ResponseEntity<?> delete(@RequestParam @Valid Long idDelete) {
+    @GetMapping(value = "/supplier/deleteSupplierById")
+    public ResponseEntity<?> deleteSupplierById(@RequestParam @Valid Long idDelete) {
         Optional<SupplierDTO> supplierDTOOptional = supplierService.findById(idDelete);
         if (supplierDTOOptional.isEmpty()) {
             return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
         }
         supplierService.deleteById(idDelete);
         return new ResponseEntity<>("Supplier deleted successfully", HttpStatus.OK);
+    }
+
+    @Operation(summary = "Add product")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product added successfully"),
+            @ApiResponse(responseCode = "404", description = "Product or supplier not found")
+    })
+    @GetMapping("/supplier/addProduct")
+    public ResponseEntity<?> addProduct(@RequestParam Long idProduct, @RequestParam Long idSupplier) {
+        Optional<SupplierDTO> supplierDTOOptional = supplierService.findById(idSupplier);
+        Optional<ProductDTO> productDTOOptional = productService.getById(idProduct);
+        if (supplierDTOOptional.isEmpty() || productDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Supplier or Product not found", HttpStatus.NOT_FOUND);
+        }
+        try {
+            System.out.println("updating product");
+            supplierService.updateProduct(idSupplier, productDTOOptional.get());
+        } catch (NoSuchElementException ex)  {
+            return new ResponseEntity<>("This product  already exists with this supplier", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Product added successfully", HttpStatus.OK);
     }
 }
