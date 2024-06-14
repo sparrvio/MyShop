@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ImageMapper {
-    Images toModel(ImagesDTO imageDTO);
+    Images toEntity(ImagesDTO imageDTO);
 
 default ImagesDTO toDTO(Images image) {
         ImagesDTO dto = new ImagesDTO();

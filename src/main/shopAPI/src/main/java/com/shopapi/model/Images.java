@@ -7,9 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.awt.*;
-import java.util.UUID;
-
 @Entity
 @Data
 @Builder
@@ -21,10 +18,9 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,  optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private Product product_id;
-
 
     @Column(name = "image", nullable = false)
     private byte[] bytes;
