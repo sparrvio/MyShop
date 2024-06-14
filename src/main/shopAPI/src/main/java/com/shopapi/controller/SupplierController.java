@@ -1,10 +1,8 @@
 package com.shopapi.controller;
 
 import com.shopapi.dto.AddressDTO;
-import com.shopapi.dto.ClientDTO;
 import com.shopapi.dto.ProductDTO;
 import com.shopapi.dto.SupplierDTO;
-import com.shopapi.model.Supplier;
 import com.shopapi.service.ProductService;
 import com.shopapi.service.SupplierService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -126,15 +124,14 @@ public class SupplierController {
             @ApiResponse(responseCode = "404", description = "Product or supplier not found")
     })
     @GetMapping("/supplier/addProduct")
-    public ResponseEntity<?> addProduct(@RequestParam Long idProduct, @RequestParam Long idSupplier) {
+    public ResponseEntity<?> addProduct(@RequestParam Long idSupplier, @RequestParam Long idProduct) {
         Optional<SupplierDTO> supplierDTOOptional = supplierService.findById(idSupplier);
         Optional<ProductDTO> productDTOOptional = productService.getById(idProduct);
         if (supplierDTOOptional.isEmpty() || productDTOOptional.isEmpty()) {
             return new ResponseEntity<>("Supplier or Product not found", HttpStatus.NOT_FOUND);
         }
         try {
-            System.out.println("updating product");
-            supplierService.updateProduct(idSupplier, productDTOOptional.get());
+            supplierService.updateProductInSupplier(idSupplier, productDTOOptional.get());
         } catch (NoSuchElementException ex)  {
             return new ResponseEntity<>("This product  already exists with this supplier", HttpStatus.BAD_REQUEST);
         }

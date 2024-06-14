@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Data
 @Component
 @Service
-public class SupplierServiceImpl implements SupplierService{
+public class SupplierServiceImpl implements SupplierService {
 
     private SupplierRepository supplierRepository;
     private final AddressRepository addressRepository;
@@ -37,8 +37,6 @@ public class SupplierServiceImpl implements SupplierService{
 
     public Supplier save(SupplierDTO supplierDTO) {
         Supplier supplier = supplierMapper.toSupplier(supplierDTO);
-        System.out.println(supplierDTO);
-        System.out.println(supplier);
         Address address = new Address();
         supplier.setAddress_id(address);
         addressRepository.save(address);
@@ -56,21 +54,22 @@ public class SupplierServiceImpl implements SupplierService{
     @Override
     public Optional<SupplierDTO> findById(Long id) {
         Optional<Supplier> supplier = supplierRepository.findById(id);
-        if(supplier.isEmpty()){
+        if (supplier.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(supplierMapper.toDTO(supplier.get()));
     }
+
     @Override
-    public void updateProduct(Long id, ProductDTO productDTO)  {
+    public void updateProductInSupplier(Long id, ProductDTO productDTO) {
         Supplier supplier = supplierMapper.toSupplier(findById(id).get());
-        if(supplier.getProducts().contains(productMapper.toEntity(productDTO))){
-            throw new NoSuchElementException("Product with id  "  + productDTO.getId()  +  " already exists");
-        }
-        if(supplier.getProducts() == null){
+        if (supplier.getProducts() == null) {
             supplier.setProducts(new HashSet<>());
         }
-        supplier.getProducts().add(productMapper.toEntity(productDTO));
+        if (supplier.getProducts().contains(productMapper.toEntity(productDTO))) {
+            throw new NoSuchElementException("Product with id  "  + productDTO.getId()  +  " already exists");
+        }
+            supplier.getProducts().add(productMapper.toEntity(productDTO));
         supplierRepository.save(supplier);
     }
 
@@ -81,7 +80,7 @@ public class SupplierServiceImpl implements SupplierService{
 
     @Override
     public void updateAddress(Long id, AddressDTO addressDTO) {
-        long addressId  = supplierRepository.findById(id)
+        long addressId = supplierRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Supplier with id " + id + " not found"))
                 .getAddress_id()
                 .getId();
