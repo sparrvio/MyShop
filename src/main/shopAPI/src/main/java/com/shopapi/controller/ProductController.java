@@ -1,9 +1,6 @@
 package com.shopapi.controller;
 
-import com.shopapi.dto.AddressDTO;
-import com.shopapi.dto.ClientDTO;
 import com.shopapi.dto.ProductDTO;
-import com.shopapi.dto.SupplierDTO;
 import com.shopapi.mapper.ProductMapper;
 import com.shopapi.model.Product;
 import com.shopapi.service.ProductService;
@@ -12,8 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,7 +100,11 @@ public class ProductController {
         if (product.getAvailable_stock() < quantity) {
             return new ResponseEntity<>("Not enough stock", HttpStatus.NOT_FOUND);
         }
-        productService.updateQuantity(id, quantity);
+        try {
+            productService.updateQuantity(id, quantity);
+        } catch  (RuntimeException ex)  {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
 
         return new ResponseEntity<>("Quantity updated successfully", HttpStatus.OK);
     }
@@ -116,14 +115,14 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Product not found")
     })
     @GetMapping(value = "/product/deleteProductById")
-    public ResponseEntity<?> deleteProductById(@RequestParam Long idDelete)  {
+    public ResponseEntity<?> deleteProductById(@RequestParam Long idDelete) {
         Optional<ProductDTO> productDTOOptional = productService.getById(idDelete);
         if (productDTOOptional.isEmpty()) {
             return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
         }
         try {
             productService.delete(idDelete);
-        } catch (RuntimeException ex)  {
+        } catch (RuntimeException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
