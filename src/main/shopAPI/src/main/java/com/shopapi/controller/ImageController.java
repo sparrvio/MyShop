@@ -3,8 +3,6 @@ package com.shopapi.controller;
 import com.shopapi.dto.ImagesDTO;
 import com.shopapi.dto.ProductDTO;
 import com.shopapi.mapper.ProductMapper;
-import com.shopapi.model.Images;
-import com.shopapi.model.Product;
 import com.shopapi.service.ImageService;
 import com.shopapi.service.ProductService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Optional;
@@ -144,9 +141,8 @@ public class ImageController {
             return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
         } else {
             ProductDTO productDTO = productDTOOptional.get();
-            Product product = productMapper.toEntity(productDTO);
-            Set<Images> images = product.getImages();
-            return new ResponseEntity<>(images, HttpStatus.OK);
+            Set<ImagesDTO> imagesDTO  = productDTO.getImages();
+            return new ResponseEntity<>(imagesDTO, HttpStatus.OK);
         }
     }
 

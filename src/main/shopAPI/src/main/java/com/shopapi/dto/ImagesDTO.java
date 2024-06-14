@@ -19,4 +19,8 @@ public class ImagesDTO {
     private Long productId;
     @Schema(description = "Image bytes", example = "image1.jpg")
     private byte[] imageBytes;
+
+//    public Long getId() {
+//        return id;
+//    }
 }

@@ -14,5 +14,5 @@ public interface SupplierService {
     void deleteById(Long id);
     void updateAddress(Long id, AddressDTO addressDTO);
     Supplier save(SupplierDTO supplierDTO);
-    void updateProduct(Long id, ProductDTO productDTO);
+    void updateProductInSupplier(Long id, ProductDTO productDTO);
 }

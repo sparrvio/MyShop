@@ -2,27 +2,23 @@ package com.shopapi;
 
 import com.shopapi.config.OpenApiConfig;
 import com.shopapi.dto.ClientDTO;
-import com.shopapi.dto.ImagesDTO;
 import com.shopapi.dto.ProductDTO;
-
 import com.shopapi.mapper.ProductMapper;
+import com.shopapi.mapper.SupplierMapper;
+import com.shopapi.mapper.SupplierMapperImpl;
 import com.shopapi.model.Address;
-import com.shopapi.model.Images;
-import com.shopapi.model.Product;
 import com.shopapi.model.Supplier;
-import com.shopapi.repository.ProductRepository;
-import com.shopapi.repository.SupplierRepository;
 import com.shopapi.service.ClientService;
+import com.shopapi.service.ProductService;
 import com.shopapi.service.ProductServiceImpl;
+import com.shopapi.service.SupplierService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
-//@Sql(scripts = "/schema.sql")
+
 
 @SpringBootApplication
 public class ShopApiApplication {
@@ -32,12 +28,16 @@ public class ShopApiApplication {
         openApiConfig.publicApi();
 
         ProductMapper productMapper  = context.getBean(ProductMapper.class);
+        ProductService productService   = context.getBean(ProductServiceImpl.class);
         ClientService clientService = context.getBean(ClientService.class);
+        SupplierMapper supplierMapper= context.getBean(SupplierMapperImpl.class);
+        SupplierService supplierService = context.getBean(SupplierService.class);
+
         clientService.deleteClientById(22L);
 
         ClientDTO client1 = ClientDTO.builder()
-                .clientName("John")
-                .clientSurname("Doe")
+                .clientName("Иван")
+                .clientSurname("Петров")
                 .birthday(LocalDate.of(1985, 2, 15))
                 .gender('M')
                 .registrationDate(LocalDate.of(2002, 10, 15))
@@ -45,16 +45,16 @@ public class ShopApiApplication {
         clientService.save(client1);
 
         ClientDTO client2 = ClientDTO.builder()
-                .clientName("Jane")
-                .clientSurname("Smith")
+                .clientName("Ирина")
+                .clientSurname("Смирнова")
                 .birthday(LocalDate.of(1990, 6, 20))
                 .gender('F')
                 .registrationDate(LocalDate.of(2010, 7, 30))
                 .build();
 
         ClientDTO client3 = ClientDTO.builder()
-                .clientName("Michael")
-                .clientSurname("Johnson")
+                .clientName("Петр")
+                .clientSurname("Сергеев")
                 .birthday(LocalDate.of(1987, 11, 25))
                 .gender('M')
                 .registrationDate(LocalDate.of(2006, 12, 15))
@@ -66,45 +66,56 @@ public class ShopApiApplication {
         clientService.save(client3);
 
         Address address = Address.builder()
-                        .country("Russia")
-                        .city("Klin")
-                        .street("Lenina")
+                        .country("Россия")
+                        .city("Клин")
+                        .street("Московская")
                         .build();
 
         Address address2 = Address.builder()
-                .country("Russia")
-                .city("Klin")
-                .street("Lenina")
+                .country("Россия")
+                .city("Звенигород")
+                .street("Ленина")
                 .build();
 
         Supplier supplier1 = Supplier.builder()
-                .name("Mango")
+                .name("ФруктОпт")
                 .address_id(address)
                 .phone_number("+7(999)999-99-99")
                 .build();
 
         Supplier supplier2  = Supplier.builder()
-                .name("Banana")
+                .name("ОвощиСейл")
                 .address_id(address2)
                 .phone_number("+7(999)999-99-99")
                 .build();
 
 
+        supplierService.save(supplierMapper.toDTO(supplier1));
+        supplierService.save(supplierMapper.toDTO(supplier2));
+
         ProductDTO productDTO1  = ProductDTO.builder()
-                .name("Apple")
-                .category("Fruits")
+                .name("Яблоко")
+                .category("Фрукты")
                 .price(1090.0)
                 .available_stock(100L)
                 .build();
 
-
         ProductDTO productDTO2   = ProductDTO.builder()
-                .name("Banana")
-                .category("Fruit")
+                .name("Бананы")
+                .category("Фрукты")
                 .price(10.0)
-                .available_stock(1L)
+                .available_stock(200L)
                 .build();
 
+        ProductDTO productDTO3   = ProductDTO.builder()
+                .name("Картофель")
+                .category("Овощи")
+                .price(22.7)
+                .available_stock(300L)
+                .build();
+        productService.save(productDTO1);
+        productService.save(productDTO2);
+        productService.save(productDTO3);
     }
 }
 

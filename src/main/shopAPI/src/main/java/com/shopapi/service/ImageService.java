@@ -3,7 +3,6 @@ package com.shopapi.service;
 import com.shopapi.dto.ImagesDTO;
 import com.shopapi.model.Images;
 
-import java.awt.*;
 import java.util.Optional;
 
 public interface ImageService {

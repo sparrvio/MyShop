@@ -3,12 +3,10 @@ package com.shopapi.service;
 import com.shopapi.dto.ProductDTO;
 import com.shopapi.mapper.ProductMapper;
 import com.shopapi.model.Product;
+import com.shopapi.repository.ImageRepository;
 import com.shopapi.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +24,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService{
     private ProductRepository productRepository;
     private ProductMapper productMapper;
+    private ImageRepository imagesRepository;
 
     @Override
     public Optional<ProductDTO> getById(long id) {
@@ -55,19 +54,25 @@ public class ProductServiceImpl implements ProductService{
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void updateQuantity(long id, long quantity) {
-        Optional<ProductDTO> productDTOOptional = getById(id);
-        Product product = productMapper.toEntity(productDTOOptional.get());
+@Override
+public void updateQuantity(long id, long quantity) {
+    Optional<Product> productOptional = productRepository.findById(id);
+    if (productOptional.isPresent()) {
+        Product product = productOptional.get();
         product.setAvailable_stock(product.getAvailable_stock() - quantity);
         productRepository.save(product);
+    } else {
+        throw new RuntimeException("Product not found");
     }
+}
+
 
     @Override
     public void delete(long id) {
         Optional<ProductDTO> productDTOOptional  = getById(id);
         if (productDTOOptional.isPresent())   {
             Product product = productMapper.toEntity(productDTOOptional.get());
+            product.getImages().clear();
             productRepository.delete(product);
         } else  {
             throw new RuntimeException("Product not found");
