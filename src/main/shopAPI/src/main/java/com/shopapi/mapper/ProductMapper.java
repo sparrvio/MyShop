@@ -9,13 +9,6 @@ import org.mapstruct.Mapper;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-//@Mapper(componentModel = "spring")
-//public interface ProductMapper {
-//    ProductDTO toDto(Product product);
-//    Product toEntity(ProductDTO productDto);
-//}
-
-
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     Product toEntity(ProductDTO productDto);
