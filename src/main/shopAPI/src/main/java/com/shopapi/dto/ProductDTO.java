@@ -1,6 +1,5 @@
 package com.shopapi.dto;
 
-import com.shopapi.model.Images;
 import com.shopapi.model.Supplier;
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
