@@ -44,7 +44,12 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
+    @Transactional
     public void deleteImage(Long imageId) {
+        Images image  = imagesRepository.findById(imageId).get();
+        Product product = productMapper.toEntity(productService.getById(image.getProduct_id().getId()).get());
+        product.getImages().removeIf(images -> images.getId().equals(imageId));
+        productService.save(productMapper.toDto(product));
         imagesRepository.deleteById(imageId);
     }
 

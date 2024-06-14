@@ -72,6 +72,7 @@ public void updateQuantity(long id, long quantity) {
         Optional<ProductDTO> productDTOOptional  = getById(id);
         if (productDTOOptional.isPresent())   {
             Product product = productMapper.toEntity(productDTOOptional.get());
+            product.getImages().clear();
             productRepository.delete(product);
         } else  {
             throw new RuntimeException("Product not found");
