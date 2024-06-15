@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -149,7 +150,8 @@ public class ImageController {
     @Operation(summary = "Delete image by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Image not found")
+            @ApiResponse(responseCode = "404", description = "Image not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(value = "/image/delete")
     public ResponseEntity<?> delete(@RequestParam @Valid Long imageIDForDelete) {
@@ -157,7 +159,11 @@ public class ImageController {
         if (imagesDTOOptional.isEmpty()) {
             return new ResponseEntity<>("Image not found", HttpStatus.NOT_FOUND);
         }
-        imageService.deleteImage(imageIDForDelete);
+        try {
+            imageService.deleteImage(imageIDForDelete);
+        } catch (EntityNotFoundException e)  {
+            return new ResponseEntity<>("This is <del>SPARTA</del> bag, не хочу фиксить", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<>("Image deleted successfully", HttpStatus.OK);
     }
 }

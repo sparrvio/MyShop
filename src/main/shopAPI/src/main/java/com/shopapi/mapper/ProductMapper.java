@@ -6,7 +6,6 @@ import com.shopapi.model.Images;
 import com.shopapi.model.Product;
 import org.mapstruct.Mapper;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -14,17 +13,18 @@ public interface ProductMapper {
     Product toEntity(ProductDTO productDto);
 
     default ProductDTO toDto(Product product) {
-        ProductDTO dto = new ProductDTO();
-        dto.setId(product.getId());
-        dto.setName(product.getName());
-        dto.setCategory(product.getCategory());
-        dto.setPrice(product.getPrice());
-        dto.setAvailable_stock(product.getAvailable_stock());
-        dto.setLast_update_date(product.getLast_update_date());
-        Set<ImagesDTO> imagesDto = product.getImages().stream()
-                .map(this::toDto)
-                .collect(Collectors.toSet());
-        dto.setImages(imagesDto);
+        ProductDTO dto = ProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .category(product.getCategory())
+                .price(product.getPrice())
+                .available_stock(product.getAvailable_stock())
+                .last_update_date(product.getLast_update_date())
+                .images(product.getImages().stream()
+                        .map(this::toDto)
+                        .collect(Collectors.toSet()))
+                .build();
+
         return dto;
     }
 

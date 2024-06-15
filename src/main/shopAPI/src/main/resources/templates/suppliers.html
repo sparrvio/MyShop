@@ -8,12 +8,13 @@
 <body>
 <header>
     <div class="container">
-        <nav>
-            <ul class="menu">
-                <li><a href="index.html">Главная страница</a></li>
-                <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
-            </ul>
-        </nav>
+        <ul class="menu">
+            <li><a href="index.html">Главная страница</a></li>
+            <li><a href="client.html">Клиенты</a></li>
+            <li><a href="products.html">Товары</a></li>
+            <li><a href="pictures.html">Изображения</a></li>
+            <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
+        </ul>
     </div>
 </header>
 
@@ -23,7 +24,7 @@
             <h1>Список поставщиков</h1>
             <form action="http://localhost:8080/api/v1/supplier/getAll" method="get" class="searchForm">
                 <br>
-                <div class="inputBox"> </div>
+                <div class="inputBox"></div>
                 <button type="submit">Все поставщики</button>
             </form>
         </div>
@@ -69,8 +70,8 @@
                     <input type="text" id="phone" name="phone">
                 </div>
                 <br>
-                <div class="inputBox"> </div>
-                <div class="inputBox"> </div>
+                <div class="inputBox"></div>
+                <div class="inputBox"></div>
                 <button type="submit">Создать</button>
             </form>
         </div>
@@ -87,8 +88,8 @@
                     <br>
                     <input type="number" min="1" id="idProduct" name="idProduct">
                 </div>
-                <div class="inputBox"> </div>
-                <div class="inputBox"> </div>
+                <div class="inputBox"></div>
+                <div class="inputBox"></div>
                 <br>
                 <button type="submit">Добавить</button>
             </form>
