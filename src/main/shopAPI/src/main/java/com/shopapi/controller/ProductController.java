@@ -71,13 +71,28 @@ public class ProductController {
     @PostMapping("/product/create") // для отправки данных через HTML форму в теле запроса (POST)
     public ResponseEntity<?> createProduct(@RequestParam String name, @RequestParam String category,
                                            @RequestParam Double price, @RequestParam Long available_stock) {
-        System.out.println("createProduct");
         ProductDTO productDTO = ProductDTO.builder()
                 .name(name)
                 .category(category)
                 .price(price)
                 .available_stock(available_stock)
                 .build();
+        productService.save(productDTO);
+        return new ResponseEntity<>("Product created successfully", HttpStatus.OK);
+    }
+
+    @Operation(summary = "Create new product")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "222", description = "Product created successfully"),
+            @ApiResponse(responseCode = "404", description = "Bad request - invalid product data or category"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PostMapping("/product/createProductForPostman") // для отправки данных через json for Postman (POST)
+    public ResponseEntity<?> createProductForPostman(@RequestBody ProductDTO productDTO)  {
+        if(productDTO  == null || productDTO.getName()  == null || productDTO.getPrice() == null
+        || productDTO.getAvailable_stock() == null)  {
+            return  new ResponseEntity<>("Invalid product", HttpStatus.BAD_REQUEST);
+        }
         productService.save(productDTO);
         return new ResponseEntity<>("Product created successfully", HttpStatus.OK);
     }
