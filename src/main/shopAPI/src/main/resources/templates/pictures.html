@@ -11,6 +11,9 @@
         <nav>
             <ul class="menu">
                 <li><a href="index.html">Главная страница</a></li>
+                <li><a href="client.html">Клиенты</a></li>
+                <li><a href="suppliers.html">Поставщики</a></li>
+                <li><a href="products.html">Товары</a></li>
                 <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
             </ul>
         </nav>
@@ -18,52 +21,64 @@
 </header>
 
 <div class="container">
-    <h1>Добавить/изменить изображение</h1>
-    <form action="http://localhost:8080/api/v1/image/createByIdProduct" method="post" enctype="multipart/form-data">
-        <label for="product_id">Идентификатор товара:</label>
-        <input type="number" min="1" id="product_id" name="product_id" required>
-        <label for="imageFile">Выберите файл изображения:</label>
-        <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
-        <button type="submit">Добавить</button>
-    </form>
+    <div class="row">
+        <div class="content">
+            <h1>Добавить изображение</h1>
+            <form action="http://localhost:8080/api/v1/image/createByIdProduct" method="post"
+                  enctype="multipart/form-data">
+                <label for="product_id">Идентификатор товара:</label>
+                <br>
+                <input type="number" min="1" id="product_id" name="product_id" required>
+                <br>
+                <label for="imageFile">Выберите файл изображения:</label>
+                <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+                <button type="submit">Добавить</button>
+            </form>
+
+            <h1>Изменить изображение</h1>
+            <form action="http://localhost:8080/api/v1/image/createByIdImage" method="post"
+                  enctype="multipart/form-data">
+                <label for="image_id">Идентификатор изображения:</label>
+                <input type="number" min="1" id="image_id" name="image_id" required>
+                <br>
+                <label for="FileImage">Выберите файл изображения:</label>
+                <input type="file" id="FileImage" name="FileImage" accept="image/*" required>
+                <button type="submit">Добавить</button>
+            </form>
+        </div>
 
 
-    <form action="http://localhost:8080/api/v1/image/createByIdImage" method="post" enctype="multipart/form-data">
-        <label for="image_id">Идентификатор изображения:</label>
-        <input type="number" min="1" id="image_id" name="image_id" required>
-        <label for="FileImage">Выберите файл изображения:</label>
-        <input type="file" id="FileImage" name="FileImage" accept="image/*" required>
-        <button type="submit">Добавить</button>
-    </form>
+        <div class="content">
+            <h1>Поиск по ID</h1>
+            <form action="http://localhost:8080/api/v1/image/productID" method="get">
+                <label for="productID">Идентификатор товара:</label>
+                <br>
+                <input type="number" min="1" id="productID" name="productID" required>
+                <br><br><br>
+                <button type="submit">Поиск</button>
+                <br>
+            </form>
 
-    <h1>Получить изображение по идентификатору</h1>
-    <form action="http://localhost:8080/api/v1/image/productID" method="get">
-        <label for="productID">Идентификатор товара:</label>
-        <br>
-        <input type="number" min="1" id="productID" name="productID" required>
-        <br>
-        <button type="submit">Поиск</button>
-        <br>
-    </form>
+            <form action="http://localhost:8080/api/v1/image/ImageId" method="get">
+                <h1></h1><br>
+                <label for="ImageId">Идентификатор изображения:</label>
 
-    <form action="http://localhost:8080/api/v1/image/ImageId" method="get">
-        <label for="ImageId">Идентификатор изображения:</label>
-        <br>
-        <input type="number" min="1" id="ImageId" name="ImageId" required>
-        <br>
-        <button type="submit">Поиск</button>
-    </form>
-
-    <h1>Удалить изображение по идентификатору</h1>
-    <form action="http://localhost:8080/api/v1/image/delete" method="get">
-        <label for="imageIDForDelete">Идентификатор изображения:</label>
-        <br>
-        <input type="number" min="1" id="imageIDForDelete" name="imageIDForDelete" required>
-        <br>
-        <button type="submit">Удалить</button>
-    </form>
-
-
+                <input type="number" min="1" id="ImageId" name="ImageId" required>
+                <h1></h1><br>
+                <button type="submit">Поиск</button>
+            </form>
+        </div>
+        <div class="content">
+            <h1>Удалить по ID</h1>
+            <form action="http://localhost:8080/api/v1/image/delete" method="get">
+                <label for="imageIDForDelete">Идентификатор изображения:</label>
+                <br>
+                <input type="number" min="1" id="imageIDForDelete" name="imageIDForDelete" required>
+                <br><br><br>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
