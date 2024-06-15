@@ -21,7 +21,7 @@ import java.util.Optional;
 @Data
 @Component
 @Service
-public class ImageServiceImpl implements ImageService{
+public class ImageServiceImpl implements ImageService {
     private ImageRepository imagesRepository;
     private ImageMapper imageMapper;
     private ProductService productService;
@@ -30,7 +30,7 @@ public class ImageServiceImpl implements ImageService{
     @Override
     public Optional<ImagesDTO> getImages(Long imageId) {
         Optional<Images> imageOptional = imagesRepository.findById(imageId);
-        if(imageOptional.isEmpty()){
+        if (imageOptional.isEmpty()) {
             return Optional.empty();
         }
         Images images = imageOptional.get();
@@ -46,10 +46,14 @@ public class ImageServiceImpl implements ImageService{
     @Override
     @Transactional
     public void deleteImage(Long imageId) {
-        Images image  = imagesRepository.findById(imageId).get();
+        Images image = imagesRepository.findById(imageId).get();
         Product product = productMapper.toEntity(productService.getById(image.getProduct_id().getId()).get());
         product.getImages().removeIf(images -> images.getId().equals(imageId));
-        productService.save(productMapper.toDto(product));
+        try {
+            productService.save(productMapper.toDto(product));
+        } catch (NullPointerException e) {
+            throw new EntityNotFoundException("This is bag");
+        }
         imagesRepository.deleteById(imageId);
     }
 
@@ -57,17 +61,17 @@ public class ImageServiceImpl implements ImageService{
     public Images saveImagesByProductID(byte[] image, Long productId) {
         Images images = new Images();
         images.setBytes(image);
-        Optional <ProductDTO> productDTO = productService.getById(productId);
-        if(productDTO.isEmpty()){
+        Optional<ProductDTO> productDTO = productService.getById(productId);
+        if (productDTO.isEmpty()) {
             throw new EntityNotFoundException("Product not found");
         }
-        Product product  = productMapper.toEntity(productDTO.get());
+        Product product = productMapper.toEntity(productDTO.get());
         images.setProduct_id(product);
         return imagesRepository.save(images);
     }
 
     @Override
-    public void saveImagesByImageID(byte[] image, Long image_id)  {
+    public void saveImagesByImageID(byte[] image, Long image_id) {
         imagesRepository.findById(image_id).orElseThrow().setBytes(image);
     }
 }
