@@ -14,7 +14,7 @@
                 <li><a href="client.html">Клиенты</a></li>
                 <li><a href="suppliers.html">Поставщики</a></li>
                 <li><a href="pictures.html">Изображения</a></li>
-                <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
+                <li><a href="http://localhost:8081/swagger/swagger-ui/index.html">Swagger UI</a></li>
             </ul>
         </nav>
     </div>
@@ -24,10 +24,10 @@
     <div class="row">
         <div class="content">
             <h1>Поиск</h1>
-            <form action="http://localhost:8080/api/v1/product/all" method="get">
+            <form action="http://localhost:8081/api/v1/product/all" method="get">
                 <button type="submit">Все товары</button>
             </form>
-            <form action="http://localhost:8080/api/v1/product/id" method="get">
+            <form action="http://localhost:8081/api/v1/product/id" method="get">
                 <label for="productID">Идентификатор товара:</label>
                 <br>
                 <input type="number" min="1" id="productID" name="productID">
@@ -36,7 +36,7 @@
             </form>
             <br>
             <h1>Удалить товар</h1>
-            <form action="http://localhost:8080/api/v1/product/deleteProductById" method="get">
+            <form action="http://localhost:8081/api/v1/product/deleteProductById" method="get">
                 <label for="idDelete">ID товара для удаления</label>
                 <br>
                 <input type="number" min="1" id="idDelete" name="idDelete">
@@ -48,7 +48,7 @@
         <div class="content">
             <h1>Добавить товар</h1>
             <br><br>
-            <form action="http://localhost:8080/api/v1/product/create" method="post">
+            <form action="http://localhost:8081/api/v1/product/create" method="post">
                 <label for="name">Наименование:</label><br>
                 <input type="text" id="name" name="name"><br>
                 <label for="category">Категория:</label><br>
@@ -65,7 +65,7 @@
         <div class="content">
             <h1>Уменьшить количество</h1>
             <br><br>
-            <form action="http://localhost:8080/api/v1/product/updateQuantity" method="post">
+            <form action="http://localhost:8081/api/v1/product/updateQuantity" method="post">
                 <label for="id">Идентификатор товара:</label><br>
                 <input type="number" min="1" id="id" name="id"><br>
                 <label for="quantity">На сколько уменьшить:</label><br>

@@ -5,11 +5,12 @@ CREATE TABLE IF NOT EXISTS client (
     birthday DATE DEFAULT '1900-01-01',
     gender CHAR(1) CHECK (gender IN ('M', 'F')),
     registration_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    address_id BIGINT NOT NULL
+    address_id BIGINT NOT NULL,
+    FOREIGN KEY (address_id) REFERENCES address(id)
     );
 
 
-INSERT INTO client (client_name, client_surname, birthday, gender, address_id) VALUES
-    ('John', 'Doe', '1980-05-15', 'M', 1),
-    ('Jane', 'Smith', '1990-07-20', 'F', 2),
-    ('Alice', 'Johnson', '2000-09-25', 'F', 3);
+-- INSERT INTO client (client_name, client_surname, birthday, gender, address_id) VALUES
+--     ('John', 'Doe', '1980-05-15', 'M', 1),
+--     ('Jane', 'Smith', '1990-07-20', 'F', 2),
+--     ('Alice', 'Johnson', '2000-09-25', 'F', 3);

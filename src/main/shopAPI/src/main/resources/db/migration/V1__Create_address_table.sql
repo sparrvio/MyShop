@@ -3,9 +3,9 @@ GRANT ALL ON ALL TABLES IN SCHEMA public TO postgres;
 CREATE TABLE IF NOT EXISTS address
 (
     id      SERIAL PRIMARY KEY,
-    country VARCHAR(255) NOT NULL,
-    city    VARCHAR(255) NOT NULL,
-    street  VARCHAR(255) NOT NULL
+    country VARCHAR(255),
+    city    VARCHAR(255),
+    street  VARCHAR(255)
 );
 
 INSERT INTO address (country, city, street)

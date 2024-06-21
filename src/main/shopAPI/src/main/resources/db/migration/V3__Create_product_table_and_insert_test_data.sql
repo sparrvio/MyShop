@@ -4,8 +4,17 @@ CREATE TABLE IF NOT EXISTS product (
     category VARCHAR(255),
     price DOUBLE PRECISION NOT NULL,
     available_stock BIGINT NOT NULL,
-    last_update_date DATE DEFAULT CURRENT_DATE
+    last_update_date DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (id) REFERENCES product(id)
 );
+
+-- CREATE TABLE IF NOT EXISTS product_supplier (
+--     product_id BIGINT NOT NULL,
+--     supplier_id BIGINT NOT NULL,
+--     PRIMARY KEY (product_id, supplier_id),
+--     FOREIGN KEY (product_id) REFERENCES product(id),
+--     FOREIGN KEY (supplier_id) REFERENCES supplier(id)
+-- );
 
 
 INSERT INTO product (name, category, price, available_stock) VALUES
