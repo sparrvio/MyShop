@@ -4,6 +4,16 @@
 
 Для запуска через терминал нужна запущенная СУБД Postgress c DB lightShopAPI.
 
+CREATE DATABASE "lightShopApi"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.UTF-8'
+    LC_CTYPE = 'en_US.UTF-8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
 Приложение будет доступно по адресу http://localhost:63342/shopAPI/templates/index.html. 
 
 ## Реализация модели онлайн магазина на основе Spring Boot  
