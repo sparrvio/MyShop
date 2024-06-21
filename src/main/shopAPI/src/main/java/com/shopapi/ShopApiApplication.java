@@ -5,9 +5,11 @@ import org.flywaydb.core.Flyway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.PropertySource;
 
 
 @SpringBootApplication
+@PropertySource(value = "classpath:application.properties")
 public class ShopApiApplication {
     public static void main(String[] args) {
         try {
@@ -30,11 +32,12 @@ public class ShopApiApplication {
         OpenApiConfig openApiConfig = context.getBean(OpenApiConfig.class);
         openApiConfig.publicApi();
     }
+
 //    public static void main(String[] args) {
 //        ApplicationContext context = SpringApplication.run(ShopApiApplication.class, args);
 //        OpenApiConfig openApiConfig  = context.getBean(OpenApiConfig.class);
 //        openApiConfig.publicApi();
-
+//
 //        ProductMapper productMapper  = context.getBean(ProductMapper.class);
 //        ProductService productService   = context.getBean(ProductServiceImpl.class);
 //        ClientService clientService = context.getBean(ClientService.class);

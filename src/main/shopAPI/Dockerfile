@@ -4,4 +4,6 @@ WORKDIR /app
 
 COPY target/shopAPI-0.0.1-SNAPSHOT.jar /app/shopAPI-0.0.1-SNAPSHOT.jar
 
+RUN chmod +x shopAPI-0.0.1-SNAPSHOT.jar
+
 CMD ["java", "-jar", "/app/shopAPI-0.0.1-SNAPSHOT.jar"]
