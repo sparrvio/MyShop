@@ -83,7 +83,7 @@ public class SupplierController {
         return new ResponseEntity<>("Supplier created successfully", HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update address")
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Address updated successfully"),
             @ApiResponse(responseCode = "404", description = "Client not found")
@@ -103,7 +103,36 @@ public class SupplierController {
         return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
     }
 
+    @Operation(summary = "Update address")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Address updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Client not found")
+    })
+    @PutMapping("/supplier/{id}/updateAddress")
+    public ResponseEntity<?> updateAddressForPostman(@PathVariable Long id, @RequestBody AddressDTO newAddress) {
+        Optional<SupplierDTO> supplierDTOOptional = supplierService.findById(id);
+        if (supplierDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
+        }
+        supplierService.updateAddress(id, newAddress);
+        return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
+    }
+
     @Operation(summary = "Delete supplier by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Supplier deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Supplier not found")
+    })
+    @DeleteMapping(value = "/supplier/deleteSupplierById/{idDelete}")
+    public ResponseEntity<?> deleteSupplierByIdForPostman(@PathVariable Long idDelete)  {
+        Optional<SupplierDTO> supplierDTOOptional = supplierService.findById(idDelete);
+        if (supplierDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
+        }
+        supplierService.deleteById(idDelete);
+        return new ResponseEntity<>("Supplier deleted successfully", HttpStatus.OK);
+    }
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Supplier deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Supplier not found")
@@ -118,7 +147,28 @@ public class SupplierController {
         return new ResponseEntity<>("Supplier deleted successfully", HttpStatus.OK);
     }
 
-    @Operation(summary = "Add product")
+    @Operation(summary = "Add product for supplier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product added successfully"),
+            @ApiResponse(responseCode = "404", description = "Product or supplier not found")
+    })
+    @PutMapping("/supplier/{idSupplier}/addProduct")
+    public ResponseEntity<?> addProductForPostman(@PathVariable Long idSupplier, @RequestBody() Object body)  {
+        long idProduct = (Long) body;
+        Optional<SupplierDTO> supplierDTOOptional = supplierService.findById(idSupplier);
+        Optional<ProductDTO> productDTOOptional = productService.getById(idProduct);
+        if (supplierDTOOptional.isEmpty() || productDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Supplier or Product not found", HttpStatus.NOT_FOUND);
+        }
+        try {
+            supplierService.updateProductInSupplier(idSupplier, productDTOOptional.get());
+        } catch (NoSuchElementException ex)  {
+            return new ResponseEntity<>("This product  already exists with this supplier", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Product added successfully", HttpStatus.OK);
+    }
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product added successfully"),
             @ApiResponse(responseCode = "404", description = "Product or supplier not found")

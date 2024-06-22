@@ -31,7 +31,7 @@ public class Client {
     private LocalDate birthday; // Default to 1900-01-01
 
     @Column(name = "gender", length = 1, columnDefinition = "CHAR(1)")
-    @Check(constraints = "gender in ('M', 'F')")
+    @Check(constraints = "gender in ('M', 'F', 'm', 'f')")
     private char gender;
 
     @Column(name = "registration_date", nullable = false, columnDefinition = "DATE")
