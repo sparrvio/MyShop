@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -85,7 +86,7 @@ public class ClientController {
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
     }
 
-    @Operation(summary = "Create new client")
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "222", description = "Client created successfully"),
             @ApiResponse(responseCode = "404", description = "Bad request - invalid client data or gender"),
@@ -117,7 +118,7 @@ public class ClientController {
         return new ResponseEntity<>("Data received successfully", HttpStatus.OK);
     }
 
-    @Operation(summary =  "Create new client for postman")
+    @Operation(summary =  "Create new client")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "222", description = "Client created successfully"),
             @ApiResponse(responseCode = "404", description = "Bad request - invalid client data or gender"),
@@ -146,11 +147,12 @@ public class ClientController {
     }
 
 
-    @Operation(summary  =  "Update address")
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Address updated successfully"),
             @ApiResponse(responseCode = "404", description = "Client not found")
     })
+    @ApiIgnore
     @GetMapping("/client/updateAddressForHtml") // PUT через GET для отправки данных через HTML форму в теле запроса
     public ResponseEntity<?> updateAddressForHtml(@RequestParam Long id, @RequestParam String country, @RequestParam String city, @RequestParam String street) {
         Optional<ClientDTO> client = clientService.getClientById(id);
@@ -181,7 +183,7 @@ public class ClientController {
         return new ResponseEntity<>("Address updated successfully", HttpStatus.OK);
     }
 
-    @Operation(summary  =  "Delete client by id")
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Client deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Client not found")
@@ -197,7 +199,7 @@ public class ClientController {
         return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete for Postman client by id")
+    @Operation(summary = "Delete client by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Client deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Client not found")

@@ -2,18 +2,16 @@ package com.shopapi.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+@ApiModel(description = "Supplier details")
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@ApiModel(description = "Supplier details")
+//@AllArgsConstructor
+//@NoArgsConstructor
 public class SupplierDTO {
     @Schema(description = "Unique identifier of the supplier", example = "1")
     private Long id;

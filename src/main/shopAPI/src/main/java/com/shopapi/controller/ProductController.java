@@ -62,7 +62,7 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @Operation(summary = "Create new product")
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "222", description = "Product created successfully"),
             @ApiResponse(responseCode = "404", description = "Bad request - invalid product data or category"),
@@ -97,7 +97,7 @@ public class ProductController {
         return new ResponseEntity<>("Product created successfully", HttpStatus.OK);
     }
 
-    @Operation(summary = "Update quantity")
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Quantity updated successfully"),
             @ApiResponse(responseCode = "404", description = "Product not found")
@@ -124,7 +124,53 @@ public class ProductController {
         return new ResponseEntity<>("Quantity updated successfully", HttpStatus.OK);
     }
 
+    @Operation(summary = "Quantity updated")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Quantity updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @PutMapping("/product/{id}/updateQuantityForPostman/")
+    public ResponseEntity<String> updateQuantityForPostman(
+            @PathVariable("id") long id,
+            @RequestBody() Object body)  {
+        long quantity = (Long) body;
+        Optional<ProductDTO> productDTOOptional = productService.getById(id);
+        if (productDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+        }
+        Product product = productMapper.toEntity(productDTOOptional.get());
+
+        if (product.getAvailable_stock() < quantity) {
+            return new ResponseEntity<>("Not enough stock", HttpStatus.NOT_FOUND);
+        }
+        try {
+            productService.updateQuantity(id, quantity);
+        } catch  (RuntimeException ex)  {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>("Quantity updated successfully", HttpStatus.OK);
+    }
+
     @Operation(summary = "Delete product")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @DeleteMapping("/product/deleteProductForPostman/{idDelete}")
+    public ResponseEntity<?> deleteProductByIdForPostman(@PathVariable Long idDelete)  {
+        Optional<ProductDTO> productDTOOptional = productService.getById(idDelete);
+        if (productDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Supplier not found", HttpStatus.NOT_FOUND);
+        }
+        try {
+            productService.delete(idDelete);
+        } catch (RuntimeException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>("Product deleted successfully", HttpStatus.OK);
+    }
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Product not found")

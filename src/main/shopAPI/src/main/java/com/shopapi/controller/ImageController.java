@@ -142,12 +142,12 @@ public class ImageController {
             return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
         } else {
             ProductDTO productDTO = productDTOOptional.get();
-            Set<ImagesDTO> imagesDTO  = productDTO.getImages();
+            Set<ImagesDTO> imagesDTO = productDTO.getImages();
             return new ResponseEntity<>(imagesDTO, HttpStatus.OK);
         }
     }
 
-    @Operation(summary = "Delete image by id")
+    @Operation(hidden = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image deleted successfully"),
             @ApiResponse(responseCode = "404", description = "Image not found"),
@@ -161,7 +161,27 @@ public class ImageController {
         }
         try {
             imageService.deleteImage(imageIDForDelete);
-        } catch (EntityNotFoundException e)  {
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>("This is <del>SPARTA</del> bag, не хочу фиксить", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>("Image deleted successfully", HttpStatus.OK);
+    }
+
+    @Operation(summary = "Delete image by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Image deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Image not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @DeleteMapping(value = "/image/delete{imageIDForDelete}")
+    public ResponseEntity<?> deleteForPostman(@PathVariable Long imageIDForDelete) {
+        Optional<ImagesDTO> imagesDTOOptional = imageService.getImages(imageIDForDelete);
+        if (imagesDTOOptional.isEmpty()) {
+            return new ResponseEntity<>("Image not found", HttpStatus.NOT_FOUND);
+        }
+        try {
+            imageService.deleteImage(imageIDForDelete);
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>("This is <del>SPARTA</del> bag, не хочу фиксить", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>("Image deleted successfully", HttpStatus.OK);

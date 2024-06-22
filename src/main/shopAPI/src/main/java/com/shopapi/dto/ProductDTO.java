@@ -12,8 +12,6 @@ import java.util.Set;
 @ApiModel(description = "Product details")
 @Data
 @Builder
-//@AllArgsConstructor
-//@NoArgsConstructor
 public class ProductDTO {
     @Schema(description = "Unique identifier of the product", example = "1")
     private Long id;
