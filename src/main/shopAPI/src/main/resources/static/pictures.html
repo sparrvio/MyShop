@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>REST Controller</title>
-    <link rel="stylesheet" href="../static/css/client.css">
+    <link rel="stylesheet" href="client.css">
 </head>
 <body>
 <header>
@@ -14,7 +14,7 @@
                 <li><a href="client.html">Клиенты</a></li>
                 <li><a href="suppliers.html">Поставщики</a></li>
                 <li><a href="products.html">Товары</a></li>
-                <li><a href="http://localhost:8081/swagger/swagger-ui/index.html">Swagger UI</a></li>
+                <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
             </ul>
         </nav>
     </div>
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="content">
             <h1>Добавить изображение</h1>
-            <form action="http://localhost:8081/api/v1/image/createByIdProduct" method="post"
+            <form action="http://localhost:8080/api/v1/image/createByIdProduct" method="post"
                   enctype="multipart/form-data">
                 <label for="product_id">Идентификатор товара:</label>
                 <br>
@@ -36,7 +36,7 @@
             </form>
 
             <h1>Изменить изображение</h1>
-            <form action="http://localhost:8081/api/v1/image/createByIdImage" method="post"
+            <form action="http://localhost:8080/api/v1/image/createByIdImage" method="post"
                   enctype="multipart/form-data">
                 <label for="image_id">Идентификатор изображения:</label>
                 <input type="number" min="1" id="image_id" name="image_id" required>
@@ -50,7 +50,7 @@
 
         <div class="content">
             <h1>Поиск по ID</h1>
-            <form action="http://localhost:8081/api/v1/image/productID" method="get">
+            <form action="http://localhost:8080/api/v1/image/productID" method="get">
                 <label for="productID">Идентификатор товара:</label>
                 <br>
                 <input type="number" min="1" id="productID" name="productID" required>
@@ -59,7 +59,7 @@
                 <br>
             </form>
 
-            <form action="http://localhost:8081/api/v1/image/ImageId" method="get">
+            <form action="http://localhost:8080/api/v1/image/ImageId" method="get">
                 <h1></h1><br>
                 <label for="ImageId">Идентификатор изображения:</label>
 
@@ -70,7 +70,7 @@
         </div>
         <div class="content">
             <h1>Удалить по ID</h1>
-            <form action="http://localhost:8081/api/v1/image/delete" method="get">
+            <form action="http://localhost:8080/api/v1/image/delete" method="get">
                 <label for="imageIDForDelete">Идентификатор изображения:</label>
                 <br>
                 <input type="number" min="1" id="imageIDForDelete" name="imageIDForDelete" required>
