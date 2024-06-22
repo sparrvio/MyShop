@@ -1,6 +1,6 @@
 # Проект "MyShop"
 
-Для запуска приложения через Docker нужно скопировать docker-compose.yml из корневой дирректории проекта и выполнить команду docker-compose up --build.
+Для запуска приложения через Docker нужно скопировать docker-compose.yml из корневой директории проекта и выполнить команду docker-compose up --build.
 
 Для запуска через терминал нужна запущенная СУБД Postgress c DB lightShopAPI.
 
