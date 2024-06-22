@@ -14,7 +14,7 @@ CREATE DATABASE "lightShopApi"
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
-Приложение будет доступно по адресу http://localhost:63342/shopAPI/templates/index.html. 
+Приложение будет доступно по адресу http://localhost:8080/index.html. 
 
 ## Реализация модели онлайн магазина на основе Spring Boot  
 
@@ -28,7 +28,7 @@ CREATE DATABASE "lightShopApi"
 - Lombok
 
 ### API Documentation
-Документация API доступна по адресу http://localhost:8081/swagger/swagger-ui/index.html
+Документация API доступна по адресу http://localhost:8080/swagger/swagger-ui/index.html
 
 Таблицы
 ```
