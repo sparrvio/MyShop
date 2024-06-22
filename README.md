@@ -5,14 +5,14 @@
 Для запуска через терминал нужна запущенная СУБД Postgress c DB lightShopAPI.
 
 CREATE DATABASE "lightShopApi"
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.UTF-8'
-    LC_CTYPE = 'en_US.UTF-8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+    WITH  
+    OWNER = postgres  
+    ENCODING = 'UTF8'  
+    LC_COLLATE = 'en_US.UTF-8'  
+    LC_CTYPE = 'en_US.UTF-8'  
+    TABLESPACE = pg_default  
+    CONNECTION LIMIT = -1  
+    IS_TEMPLATE = False;  
 
 Приложение будет доступно по адресу http://localhost:8080/index.html. 
 
@@ -28,7 +28,7 @@ CREATE DATABASE "lightShopApi"
 - Lombok
 
 ### API Documentation
-Документация API доступна по адресу http://localhost:8080/swagger/swagger-ui/index.html
+Документация API доступна по адресу http://localhost:8080/swagger-ui/index.html
 
 Таблицы
 ```
