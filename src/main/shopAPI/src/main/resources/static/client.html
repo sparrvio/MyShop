@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>REST Controller</title>
-    <link rel="stylesheet" href="../static/css/client.css">
+    <link rel="stylesheet" href="client.css">
 </head>
 <body>
 <header>
@@ -14,7 +14,7 @@
                 <li><a href="suppliers.html">Поставщики</a></li>
                 <li><a href="products.html">Товары</a></li>
                 <li><a href="pictures.html">Изображения</a></li>
-                <li><a href="http://localhost:8081/swagger/swagger-ui/index.html">Swagger UI</a></li>
+                <li><a href="http://localhost:8080/swagger/swagger-ui/index.html">Swagger UI</a></li>
             </ul>
         </nav>
     </div>
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="content">
             <h1>Список клиентов</h1>
-            <form action="http://localhost:8081/api/v1/client/allClients" method="get" class="searchForm">
+            <form action="http://localhost:8080/api/v1/client/allClients" method="get" class="searchForm">
                 <div class="inputBox">
                     <label for="limit">Номер страницы</label>
                     <br>
@@ -42,7 +42,7 @@
         <div class="content">
             <h1>Поиск клиента</h1>
             <div class="row">
-                <form action="http://localhost:8081/api/v1/client/search" method="get">
+                <form action="http://localhost:8080/api/v1/client/search" method="get">
                     <div class="inputBox">
                         <label for="fullName">по имени и фамилии:</label>
                         <br>
@@ -52,7 +52,7 @@
                     <br>
                     <button type="submit">Поиск</button>
                 </form>
-                <form action="http://localhost:8081/api/v1/client/id" method="get">
+                <form action="http://localhost:8080/api/v1/client/id" method="get">
                     <div class="inputBox">
                         <label for="clientID">по идентификатору:</label>
                         <br>
@@ -68,7 +68,7 @@
     <div class="row">
         <div class="content">
             <h1>Создать клиента</h1>
-            <form action="http://localhost:8081/api/v1/client/create" method="post">
+            <form action="http://localhost:8080/api/v1/client/create" method="post">
                 <div class="inputBox">
                     <label for="name">Имя:</label>
                     <br>
@@ -95,7 +95,7 @@
         </div>
         <div class="content">
             <h1>Удалить клиента</h1>
-            <form action="http://localhost:8081/api/v1/client/delete" method="get">
+            <form action="http://localhost:8080/api/v1/client/delete" method="get">
                 <div class="inputBox">
                     <label for="idDelete">ID клиента для удаления</label>
                     <br>
@@ -110,7 +110,7 @@
         </div>
         <div class="content">
             <h1>Изменить адрес</h1>
-            <form action="http://localhost:8081/api/v1/client/updateAddressForHtml" method="get">
+            <form action="http://localhost:8080/api/v1/client/updateAddressForHtml" method="get">
                 <div class="inputBox">
                     <label for="id">ID клиента:</label><br>
                     <input type="number" min="1" id="id" name="id">

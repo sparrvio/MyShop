@@ -3,7 +3,7 @@ services:
   app:
     image: sparrvio/myshop:latest
     ports:
-      - 8081:8081
+      - "8080:8080"
     depends_on:
       - db
     environment:
@@ -25,7 +25,7 @@ services:
 #    volumes:
 #      - postgres-data:/var/lib/postgresql/data # Для сохранения данных
     ports:
-      - 5436:5432
+      - "5436:5432"
 
 volumes:
   postgres-data:
