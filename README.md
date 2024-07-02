@@ -1,10 +1,10 @@
 # Проект "MyShop"
 
-Для запуска приложения через Docker нужно скопировать docker-compose.yml из корневой директории проекта и выполнить команду docker-compose up --build.
+Для запуска приложения через Docker скопировать docker-compose.yml из корневой директории проекта и выполнить команду `docker-compose up --build`.
 
-Для запуска через терминал нужна запущенная СУБД Postgress c DB lightShopAPI.
+Для запуска через терминал создать DB lightShopAPI в Postgress.
 
-CREATE DATABASE "lightShopApi"
+`CREATE DATABASE "lightShopApi"   
     WITH  
     OWNER = postgres  
     ENCODING = 'UTF8'  
@@ -12,7 +12,9 @@ CREATE DATABASE "lightShopApi"
     LC_CTYPE = 'en_US.UTF-8'  
     TABLESPACE = pg_default  
     CONNECTION LIMIT = -1  
-    IS_TEMPLATE = False;  
+    IS_TEMPLATE = False;`
+
+выполнить команду `mvn spring-boot:run`
 
 Приложение будет доступно по адресу http://localhost:8080/index.html. 
 
@@ -24,6 +26,8 @@ CREATE DATABASE "lightShopApi"
 - Spring Data JPA
 - Spring Web
 - Springdoc OpenAPI
+- REST
+- Swagger
 - MapStruct
 - Lombok
 
@@ -33,6 +37,7 @@ CREATE DATABASE "lightShopApi"
 Таблицы
 ```
 // Клиент
+
 client
 {
     id
@@ -46,6 +51,7 @@ client
 ```
 ```
 // Товар
+
 product
 {
     id
@@ -60,6 +66,7 @@ product
 ```
 ```
 // Поставщики
+
 supplier
 {
     id
@@ -70,13 +77,13 @@ supplier
 ```
 ```
 // Изображения товаров
+
 images
 {
     id : UUID
     image: bytea
 }
 ```
-
 ```
 // Адреса
 
